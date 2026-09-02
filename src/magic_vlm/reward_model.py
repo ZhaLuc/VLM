@@ -580,8 +580,9 @@ def train_bradley_terry_reward_model(
         raise RewardModelError("Empty training split after filtering")
 
     run_id = config.run_id or f"bt_rm_{utc_now_iso().replace(':', '').replace('+', '_')}"
-    run_dir = Path(config.output_dir) / run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
+    from magic_vlm.utils import allocate_run_directory
+
+    run_dir = allocate_run_directory(config.output_dir, run_id, overwrite=False)
 
     corpus = []
     for ex in train_ex:

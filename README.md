@@ -149,6 +149,13 @@ See `docs/TEMPORAL_SHUFFLE.md`. This is a temporal-order diagnostic, **not**
 proof of causal reasoning, and must not be used for training.
 
 ```bash
+magic-vlm-run --config configs/baseline_stub.yaml --run-id baseline-dispatch-1
+magic-vlm-run --list-types
+```
+
+See `docs/EXPERIMENT_RUNNER.md` for the common config-driven dispatcher.
+
+```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```
 

@@ -1,6 +1,7 @@
 # Temporal-order diagnostic (not training; not causal-reasoning proof).
 # Same sampled frames, question, model, generation, and evaluation.
 
+experiment_type: temporal_shuffle
 name: temporal_shuffle_stub
 stage: diagnostic
 training_method: none

@@ -1,4 +1,5 @@
 # Stub zero-shot baseline smoke (no weight downloads).
+experiment_type: baseline
 name: baseline_stub
 stage: baseline
 training_method: none

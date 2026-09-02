@@ -29,6 +29,41 @@ def make_run_id(name: str) -> str:
     return f"{stamp}_{safe or 'run'}"
 
 
+class RunDirectoryError(FileExistsError):
+    """Raised when a run directory already exists and overwrite is forbidden."""
+
+
+def allocate_run_directory(
+    output_dir: str | Path,
+    run_id: str,
+    *,
+    overwrite: bool = False,
+) -> Path:
+    """Create a unique run directory. Refuses to overwrite by default."""
+    run_dir = assert_run_directory_available(output_dir, run_id, overwrite=overwrite)
+    if not run_dir.exists():
+        run_dir.mkdir(parents=True, exist_ok=False)
+    return run_dir
+
+
+def assert_run_directory_available(
+    output_dir: str | Path,
+    run_id: str,
+    *,
+    overwrite: bool = False,
+) -> Path:
+    """Return the intended run path; raise if it already exists (unless overwrite)."""
+    if not str(run_id).strip():
+        raise ValueError("run_id must be non-empty")
+    run_dir = Path(output_dir) / run_id
+    if run_dir.exists() and not overwrite:
+        raise RunDirectoryError(
+            f"Run directory already exists (refusing overwrite): {run_dir}. "
+            "Choose a new --run-id or output_dir so prior results stay intact."
+        )
+    return run_dir
+
+
 def git_commit_sha() -> str | None:
     try:
         completed = subprocess.run(

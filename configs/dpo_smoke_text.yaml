@@ -1,6 +1,7 @@
 # Text-only DPO smoke (tiny local LM). Not a Qwen2.5-VL experiment.
 # Proves dataset adapter + TRL/PEFT plumbing without touching baseline weights.
 
+experiment_type: dpo
 prefs_path: tests/fixtures/reward_model/synthetic_bt_prefs.jsonl
 output_dir: runs/dpo
 run_id: dpo_text_smoke

@@ -1,6 +1,7 @@
 # Small Bradley-Terry reward model for explanation preferences.
 # Preference agreement is NOT ground-truth reasoning accuracy.
 
+experiment_type: reward_model
 prefs_path: tests/fixtures/reward_model/synthetic_bt_prefs.jsonl
 output_dir: runs/reward_model
 run_id: bt_rm_synthetic_smoke

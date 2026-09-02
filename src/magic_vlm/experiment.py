@@ -21,6 +21,8 @@ from magic_vlm.runtime import (
     set_seed,
 )
 from magic_vlm.utils import (
+    RunDirectoryError,
+    allocate_run_directory,
     config_fingerprint,
     git_commit_sha,
     make_run_id,
@@ -109,6 +111,7 @@ class ExperimentConfig:
     allow_model_download: bool = False
     notes: str = ""
     extras: dict[str, Any] = field(default_factory=dict)
+    experiment_type: str | None = None
 
     def __post_init__(self) -> None:
         if self.allow_held_out_in_training:
@@ -163,6 +166,7 @@ class ExperimentConfig:
             "is_zero_shot_baseline": self.is_zero_shot_baseline,
             "notes": self.notes,
             "extras": dict(self.extras),
+            "experiment_type": self.experiment_type,
         }
 
     def to_yaml(self) -> str:
@@ -274,6 +278,11 @@ def experiment_config_from_dict(raw: dict[str, Any]) -> ExperimentConfig:
         allow_model_download=bool(raw.get("allow_model_download", False)),
         notes=str(raw.get("notes", "")),
         extras=dict(raw.get("extras") or {}),
+        experiment_type=(
+            None
+            if raw.get("experiment_type") in (None, "", "null")
+            else str(raw.get("experiment_type"))
+        ),
     )
 
 
@@ -308,6 +317,7 @@ def build_identity_block(config: ExperimentConfig) -> dict[str, Any]:
         "generation": config.generation.to_dict(),
         "seed": config.seed,
         "stage": config.stage,
+        "experiment_type": config.experiment_type,
         "is_zero_shot_baseline": config.is_zero_shot_baseline,
         "baseline_immutable": config.baseline_immutable,
     }
@@ -318,10 +328,19 @@ def initialize_experiment(
     *,
     run_id: str | None = None,
     apply_seeds: bool = True,
+    overwrite: bool = False,
 ) -> ExperimentContext:
-    """Create output dirs and write reproducibility metadata without loading a VLM."""
+    """Create output dirs and write reproducibility metadata without loading a VLM.
+
+    By default refuses to reuse an existing run directory so prior results are
+    not silently overwritten.
+    """
     rid = run_id or make_run_id(config.name)
-    run_dir = Path(config.output_dir) / rid
+    try:
+        run_dir = allocate_run_directory(config.output_dir, rid, overwrite=overwrite)
+    except RunDirectoryError:
+        raise
+    # If overwrite=True and the directory already existed, ensure it is present.
     run_dir.mkdir(parents=True, exist_ok=True)
 
     device = resolve_device(config.device)

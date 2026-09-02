@@ -698,6 +698,60 @@ def baseline_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def run_main(argv: list[str] | None = None) -> int:
+    """Dispatch a config-driven experiment through the common runner."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Common experiment runner. Validates config, allocates a unique run "
+            "directory, dispatches to an existing experiment implementation, and "
+            "records status/metadata. Does not overwrite prior runs or silently retry."
+        )
+    )
+    parser.add_argument("--config", type=Path, default=None)
+    parser.add_argument("--run-id", type=str, default=None)
+    parser.add_argument(
+        "--experiment-type",
+        type=str,
+        default=None,
+        choices=["baseline", "temporal_shuffle", "dpo", "reward_model"],
+        help="Override experiment_type from the YAML.",
+    )
+    parser.add_argument("--load-frames", action="store_true")
+    parser.add_argument("--allow-download", action="store_true")
+    parser.add_argument("--shuffle-seed", type=int, default=None)
+    parser.add_argument(
+        "--list-types",
+        action="store_true",
+        help="Print supported experiment types and exit.",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.runner import list_supported_experiments, run_experiment
+
+    if args.list_types:
+        for key, desc in list_supported_experiments().items():
+            print(f"{key}: {desc}")
+        return 0
+    if args.config is None:
+        raise SystemExit("--config is required unless --list-types is set")
+
+    result = run_experiment(
+        args.config,
+        run_id=args.run_id,
+        experiment_type=args.experiment_type,
+        load_frames=args.load_frames,
+        allow_download=True if args.allow_download else None,
+        shuffle_seed=args.shuffle_seed,
+        propagate_errors=True,
+    )
+    print(
+        f"run ok type={result.experiment_type} run_id={result.run_id} "
+        f"status={result.status} dir={result.run_dir} "
+        f"config_hash={result.config_hash}"
+    )
+    return 0
+
+
 def temporal_shuffle_main(argv: list[str] | None = None) -> int:
     """Paired ordered vs shuffled diagnostic (same sampled frames; not training)."""
     parser = argparse.ArgumentParser(

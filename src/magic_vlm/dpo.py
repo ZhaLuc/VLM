@@ -306,9 +306,10 @@ class DPOTrainResult:
 
 
 def _resolve_run_dir(config: DPOConfigSpec) -> Path:
+    from magic_vlm.utils import allocate_run_directory, utc_now_iso
+
     run_id = config.run_id or f"dpo_{utc_now_iso().replace(':', '').replace('+', '_')}"
-    run_dir = Path(config.output_dir) / run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
+    run_dir = allocate_run_directory(config.output_dir, run_id, overwrite=False)
     assert_baseline_not_overwritten(config.baseline_run_dir, run_dir)
     return run_dir
 

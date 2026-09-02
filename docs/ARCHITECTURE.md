@@ -32,6 +32,8 @@ move examples into/out of `held_out` after baseline numbers are published.
 - Prefer `initialize_experiment`, which writes `metadata.json`,
   `environment.json`, `determinism.json`, serialized config, and
   `run_manifest.json`. See `docs/REPRODUCIBILITY.md`.
+- Common dispatcher: `magic-vlm-run` / `docs/EXPERIMENT_RUNNER.md` (baseline,
+  temporal_shuffle, dpo, reward_model only; no overwrite; failures recorded).
 
 ## Baseline immutability
 
