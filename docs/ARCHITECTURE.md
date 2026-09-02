@@ -50,8 +50,9 @@ move examples into/out of `held_out` after baseline numbers are published.
 
 - Pairwise judgments use `PreferencePair` with nested `generation_meta` and
   `annotation` objects; raw `response_a` / `response_b` are never normalized.
-- See `docs/PREFERENCE_SCHEMA.md`. DPO / Bradley-Terry training are not
-  implemented in this stage.
+- See `docs/PREFERENCE_SCHEMA.md`. DPO of the VLM is not implemented yet.
+- A small Bradley-Terry **text** reward model can be fit on preferences
+  (`docs/REWARD_MODEL.md`). Preference agreement ≠ reasoning accuracy; no GRPO.
 
 ## Framework compatibility
 

@@ -113,6 +113,15 @@ magic-vlm-analyze-preferences --prefs data/examples/toy_annotated_preferences.js
 See `docs/PREFERENCE_QUALITY.md`.
 
 ```bash
+magic-vlm-train-reward --config configs/reward_model_bt_synthetic.yaml
+magic-vlm-score-reward --prefs tests/fixtures/reward_model/synthetic_bt_prefs.jsonl \
+  --checkpoint runs/reward_model/bt_rm_synthetic_smoke/checkpoint_best.pt \
+  --out runs/reward_model/scored.jsonl
+```
+
+See `docs/REWARD_MODEL.md`. Preference agreement is **not** reasoning accuracy.
+
+```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```
 

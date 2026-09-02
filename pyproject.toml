@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "magic-vlm"
-version = "0.1.10"
+version = "0.1.11"
 description = "Research code for visual reasoning on magic/mentalism demonstrations with VLMs"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -34,6 +34,8 @@ magic-vlm-analyze-baseline = "magic_vlm.cli:analyze_main"
 magic-vlm-validate-preferences = "magic_vlm.cli:validate_preferences_main"
 magic-vlm-annotate = "magic_vlm.cli:annotate_main"
 magic-vlm-analyze-preferences = "magic_vlm.cli:analyze_preferences_main"
+magic-vlm-train-reward = "magic_vlm.cli:train_reward_main"
+magic-vlm-score-reward = "magic_vlm.cli:score_reward_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

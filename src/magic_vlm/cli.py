@@ -411,6 +411,64 @@ def annotate_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def train_reward_main(argv: list[str] | None = None) -> int:
+    """Train a small Bradley-Terry preference reward model (no GRPO/DPO)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Fit a small text Bradley-Terry reward model on preference pairs. "
+            "Validates with preference agreement (not reasoning accuracy). "
+            "Refuses held_out preferences. Does not train the VLM."
+        )
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/reward_model_bt_synthetic.yaml"),
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.reward_model import RewardModelConfig, train_bradley_terry_reward_model
+
+    config = RewardModelConfig.from_yaml(args.config)
+    result = train_bradley_terry_reward_model(config)
+    print(
+        f"reward-train ok run_dir={result.run_dir} "
+        f"best_val_pref_acc={result.best_val_preference_accuracy} "
+        f"checkpoint={result.checkpoint_path}"
+    )
+    print(result.disclaimer)
+    return 0
+
+
+def score_reward_main(argv: list[str] | None = None) -> int:
+    """Score preference pairs with a trained reward checkpoint (inference only)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Reward-model inference only. Writes per-example chosen/rejected "
+            "scores. Preference agreement is not factual correctness."
+        )
+    )
+    parser.add_argument("--prefs", type=Path, required=True)
+    parser.add_argument("--checkpoint", type=Path, required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--device", type=str, default="cpu")
+    args = parser.parse_args(argv)
+
+    from magic_vlm.reward_model import INTEGRITY_DISCLAIMER, score_preference_file
+
+    rows = score_preference_file(
+        args.prefs,
+        args.checkpoint,
+        out_path=args.out,
+        device=args.device,
+    )
+    n_ok = sum(1 for r in rows if r.get("correct_order"))
+    acc = (n_ok / len(rows)) if rows else float("nan")
+    print(f"reward-score ok n={len(rows)} preference_accuracy={acc} out={args.out}")
+    print(INTEGRITY_DISCLAIMER)
+    return 0
+
+
 def analyze_main(argv: list[str] | None = None) -> int:
     """Analyze a baseline run: metrics, report, and inspectable error exports."""
     parser = argparse.ArgumentParser(

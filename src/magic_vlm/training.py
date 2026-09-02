@@ -1,8 +1,8 @@
-"""Training stage placeholders.
+"""Training stage placeholders for VLM post-training algorithms.
 
-DPO, GRPO, and PPO are intentionally unimplemented. This module only defines
-configuration surfaces and boundary checks so later stages can plug in without
-rewiring model loading or rewards.
+DPO, GRPO, and PPO on the VLM are intentionally unimplemented here.
+A separate Bradley-Terry **preference reward model** lives in
+``magic_vlm.reward_model`` and does not update VLM weights.
 """
 
 from __future__ import annotations

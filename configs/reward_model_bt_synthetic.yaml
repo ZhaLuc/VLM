@@ -1,0 +1,19 @@
+# Small Bradley-Terry reward model for explanation preferences.
+# Preference agreement is NOT ground-truth reasoning accuracy.
+
+prefs_path: tests/fixtures/reward_model/synthetic_bt_prefs.jsonl
+output_dir: runs/reward_model
+run_id: bt_rm_synthetic_smoke
+dataset_version: synthetic-bt-v0
+seed: 0
+embedding_dim: 64
+hidden_dim: 64
+max_length: 128
+learning_rate: 0.01
+epochs: 25
+batch_size: 4
+val_fraction: 0.25
+device: cpu
+notes: >
+  Small text BT reward model conditioned on task/clip/instruction/response.
+  No video pixels; no GRPO; refuses held_out preferences.
