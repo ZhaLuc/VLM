@@ -57,7 +57,14 @@ magic-vlm-init --config configs/baseline_stub.yaml
 # or: python scripts/init_experiment.py --config configs/baseline_stub.yaml
 ```
 
-## Smoke test (stub model only; no weight download)
+## Dataset validation (before model runs)
+
+```bash
+magic-vlm-validate --manifest data/examples/toy_manifest.jsonl --json-out runs/validation.json
+# media files may be missing for the toy manifest; use --no-media-check while scaffolding
+```
+
+See `docs/DATASET_VALIDATION.md`.
 
 ```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml

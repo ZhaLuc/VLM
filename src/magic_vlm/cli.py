@@ -89,5 +89,78 @@ def smoke_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def validate_main(argv: list[str] | None = None) -> int:
+    """Validate a dataset manifest for quality and train/held-out leakage."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Validate dataset manifests. Fails on hard errors and scientific "
+            "leakage by default. Does not repair or rewrite data."
+        )
+    )
+    parser.add_argument("--manifest", type=Path, required=True, help="JSONL manifest path.")
+    parser.add_argument(
+        "--json-out",
+        type=Path,
+        default=None,
+        help="Optional path for machine-readable ValidationReport JSON.",
+    )
+    parser.add_argument(
+        "--no-media-check",
+        action="store_true",
+        help="Skip video existence/readability checks.",
+    )
+    parser.add_argument(
+        "--allow-leakage",
+        action="store_true",
+        help="Do not fail the process on leakage findings (still reported).",
+    )
+    parser.add_argument(
+        "--answer-vocab",
+        type=Path,
+        default=None,
+        help="Optional text file of allowed ground_truth strings (exact match).",
+    )
+    parser.add_argument(
+        "--expected-fps",
+        type=float,
+        default=None,
+        help="Optional expected FPS for review warnings.",
+    )
+    parser.add_argument(
+        "--root",
+        type=Path,
+        default=None,
+        help="Repo/data root used to resolve relative video paths.",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.validate import ValidatorConfig, validate_dataset, write_report
+
+    allowed = None
+    if args.answer_vocab is not None:
+        # Exact stored strings; blank lines ignored; no case-folding.
+        allowed = frozenset(
+            line
+            for line in args.answer_vocab.read_text(encoding="utf-8").splitlines()
+            if line != ""
+        )
+
+    report = validate_dataset(
+        args.manifest,
+        config=ValidatorConfig(
+            root=args.root,
+            check_media=not args.no_media_check,
+            fail_on_leakage=not args.allow_leakage,
+            allowed_answers=allowed,
+            expected_fps=args.expected_fps,
+        ),
+    )
+    print(report.format_human(), end="")
+    if args.json_out is not None:
+        write_report(report, args.json_out)
+        print(f"Wrote JSON report: {args.json_out}")
+    return 0 if report.passed else 1
+
+
 if __name__ == "__main__":
     raise SystemExit(smoke_main())
