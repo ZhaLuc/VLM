@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magic-vlm"
+version = "0.1.0"
+description = "Research code for visual reasoning on magic/mentalism demonstrations with VLMs"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Lucas", email = "lucaszhang1118@gmail.com" }]
+dependencies = [
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Optional stacks for later stages. Not required to validate architecture.
+video = ["opencv-python-headless>=4.8", "numpy>=1.24"]
+models = ["torch", "transformers>=4.45", "accelerate", "pillow"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+magic-vlm-smoke = "magic_vlm.cli:smoke_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

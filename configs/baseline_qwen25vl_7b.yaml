@@ -1,0 +1,28 @@
+# Template for the first real zero-shot baseline (Qwen2.5-VL).
+# Do not use this config in CI/smoke tests: it may download large weights.
+name: baseline_qwen25vl_7b
+stage: baseline
+dataset_manifest: data/examples/toy_manifest.jsonl
+output_dir: runs
+preserve_raw_outputs: true
+baseline_immutable: true
+allow_held_out_in_training: false
+allow_model_download: false
+seed: 0
+notes: >
+  Recommended first real experiment once Dataset B exists.
+  Keep allow_model_download false until weights are intentionally fetched
+  or a local checkpoint path is supplied.
+
+model:
+  model_id: Qwen/Qwen2.5-VL-7B-Instruct
+  revision: null
+  torch_dtype: bfloat16
+  device_map: auto
+  trust_remote_code: true
+
+video:
+  max_frames: 8
+  sample_strategy: uniform
+  temporal_shuffle: false
+  shuffle_seed: 0

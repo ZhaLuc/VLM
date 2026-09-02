@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local experiment artifacts (keep schemas in-repo; keep large outputs out)
+artifacts/
+runs/
+outputs/
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+*.gguf
+
+# Local data (manifests may be committed; raw media stays local)
+data/raw/
+data/videos/*
+!data/videos/.gitkeep
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Env / secrets
+.env
+.env.*
+!.env.example

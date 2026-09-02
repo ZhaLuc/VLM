@@ -1,0 +1,24 @@
+# Stub baseline used for architecture smoke tests (no weight downloads).
+name: baseline_stub
+stage: baseline
+dataset_manifest: data/examples/toy_manifest.jsonl
+output_dir: runs
+preserve_raw_outputs: true
+baseline_immutable: true
+allow_held_out_in_training: false
+allow_model_download: false
+seed: 0
+notes: "Architecture smoke config. Replace model_id for real zero-shot baselines."
+
+model:
+  model_id: stub/echo
+  revision: null
+  torch_dtype: bfloat16
+  device_map: auto
+  trust_remote_code: true
+
+video:
+  max_frames: 4
+  sample_strategy: uniform
+  temporal_shuffle: false
+  shuffle_seed: 0
