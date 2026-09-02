@@ -1,8 +1,8 @@
-"""Training stage placeholders for VLM post-training algorithms.
+"""Training stage dispatch for VLM post-training algorithms.
 
-DPO, GRPO, and PPO on the VLM are intentionally unimplemented here.
-A separate Bradley-Terry **preference reward model** lives in
-``magic_vlm.reward_model`` and does not update VLM weights.
+GRPO and PPO on the VLM remain unimplemented here.
+DPO lives in ``magic_vlm.dpo`` (TRL + optional PEFT). A separate Bradley-Terry
+preference reward model lives in ``magic_vlm.reward_model``.
 """
 
 from __future__ import annotations
@@ -21,6 +21,8 @@ class TrainingConfig:
     """Declarative training request.
 
     ``algorithm='none'`` is the baseline/no-op path used by early stages.
+    ``algorithm='dpo'`` delegates to ``magic_vlm.dpo`` (requires a DPO config path
+    in ``extras['dpo_config']``).
     """
 
     algorithm: AlgorithmName = "none"
@@ -51,9 +53,11 @@ def validate_training_split(examples: Sequence[ExampleRecord]) -> None:
 def run_training(config: TrainingConfig, examples: Sequence[ExampleRecord]) -> TrainingResult:
     """Dispatch training.
 
-    Only ``algorithm='none'`` is supported in this architecture stage.
+    ``none`` skips. ``dpo`` requires ``extras['dpo_config']`` and ignores the
+    ExampleRecord list (DPO uses preference JSONL). GRPO/PPO remain unimplemented.
     """
-    validate_training_split(examples)
+    if config.algorithm != "dpo":
+        validate_training_split(examples)
     if config.algorithm == "none":
         return TrainingResult(
             status="skipped",
@@ -61,7 +65,20 @@ def run_training(config: TrainingConfig, examples: Sequence[ExampleRecord]) -> T
             message="No training requested (baseline architecture stage).",
             metrics={"n_examples": len(examples)},
         )
+    if config.algorithm == "dpo":
+        from magic_vlm.dpo import DPOConfigSpec, train_dpo
+
+        dpo_cfg_path = config.extras.get("dpo_config")
+        if not dpo_cfg_path:
+            raise ValueError("DPO requires extras['dpo_config'] path to a YAML config")
+        result = train_dpo(DPOConfigSpec.from_yaml(dpo_cfg_path))
+        return TrainingResult(
+            status=result.status,
+            algorithm="dpo",
+            message=f"DPO finished; checkpoint={result.checkpoint_dir}",
+            metrics=result.metrics,
+        )
     raise NotImplementedError(
         f"Training algorithm {config.algorithm!r} is not implemented yet. "
-        "Model loading and reward functions remain usable independently."
+        "Use magic_vlm.dpo for DPO; GRPO/PPO are not available."
     )

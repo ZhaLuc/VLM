@@ -122,6 +122,13 @@ magic-vlm-score-reward --prefs tests/fixtures/reward_model/synthetic_bt_prefs.js
 See `docs/REWARD_MODEL.md`. Preference agreement is **not** reasoning accuracy.
 
 ```bash
+magic-vlm-train-dpo --probe-only
+magic-vlm-train-dpo --config configs/dpo_smoke_text.yaml --smoke-local-lm
+```
+
+See `docs/DPO.md`. DPO loss reduction is **not** reasoning improvement.
+
+```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```
 

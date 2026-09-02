@@ -53,6 +53,8 @@ move examples into/out of `held_out` after baseline numbers are published.
 - See `docs/PREFERENCE_SCHEMA.md`. DPO of the VLM is not implemented yet.
 - A small Bradley-Terry **text** reward model can be fit on preferences
   (`docs/REWARD_MODEL.md`). Preference agreement ≠ reasoning accuracy; no GRPO.
+- DPO for explanation preferences: `docs/DPO.md` (TRL + PEFT). Probe the stack
+  before claiming VLM readiness. Never overwrite immutable baselines.
 
 ## Framework compatibility
 

@@ -1,0 +1,35 @@
+# Real Qwen2.5-VL DPO experiment template (not runnable on CPU-only hosts).
+# Copy and point model_id at a *local* Qwen2.5-VL checkpoint. Never overwrite baseline.
+
+prefs_path: data/examples/toy_annotated_preferences.jsonl
+output_dir: runs/dpo
+run_id: dpo_qwen25vl_7b
+model_id: Qwen/Qwen2.5-VL-7B-Instruct
+reference_model_id: null
+baseline_run_dir: runs/baseline-stub-heldout-v1
+dataset_version: toy-annotated-v0
+beta: 0.1
+learning_rate: 1.0e-5
+max_steps: 50
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+logging_steps: 1
+save_steps: 25
+seed: 0
+max_length: null
+use_peft: true
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - v_proj
+allow_download: false
+modality: vision
+require_vlm_ready: true
+checkpoint_selection: last_train_step
+notes: >
+  Requires CUDA + local weights + ready_for_vlm_dpo from magic_vlm.dpo.probe_dpo_stack.
+  Image/video columns must be added to the dataset adapter before claiming multimodal
+  conditioning; current PreferencePair adapter is text prompt/chosen/rejected.
+  Do not select checkpoints using held_out test scores.

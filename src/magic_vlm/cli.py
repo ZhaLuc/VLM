@@ -411,6 +411,87 @@ def annotate_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def train_dpo_main(argv: list[str] | None = None) -> int:
+    """DPO post-training on explanation preferences (does not overwrite baseline)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Train DPO (TRL + optional PEFT/LoRA) on preference pairs. "
+            "Never overwrites immutable baseline runs. Loss reduction is not "
+            "reasoning improvement. Refuses held_out preferences."
+        )
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/dpo_smoke_text.yaml"),
+    )
+    parser.add_argument(
+        "--smoke-local-lm",
+        action="store_true",
+        help="Build a tiny local causal LM for plumbing smoke (no Hub download).",
+    )
+    parser.add_argument(
+        "--probe-only",
+        action="store_true",
+        help="Print stack compatibility probe and exit.",
+    )
+    parser.add_argument("--allow-download", action="store_true")
+    args = parser.parse_args(argv)
+
+    from magic_vlm.dpo import (
+        DPOConfigSpec,
+        compare_base_vs_dpo_metadata,
+        create_tiny_local_causal_lm,
+        load_dpo_checkpoint_dir,
+        probe_dpo_stack,
+        preferences_to_dpo_records,
+        train_dpo,
+    )
+    from magic_vlm.preferences import load_preference_pairs
+    import json
+
+    stack = probe_dpo_stack()
+    if args.probe_only:
+        print(json.dumps(stack.to_dict(), indent=2))
+        return 0
+
+    config = DPOConfigSpec.from_yaml(args.config)
+    if args.allow_download:
+        payload = config.to_dict()
+        payload["allow_download"] = True
+        config = DPOConfigSpec.from_dict(payload)
+
+    if args.smoke_local_lm:
+        pairs = load_preference_pairs(config.prefs_path)
+        records = preferences_to_dpo_records(pairs)
+        texts = []
+        for r in records:
+            texts.extend([r["prompt"], r["chosen"], r["rejected"]])
+        tiny_dir = Path(config.output_dir) / "_smoke_local_lm"
+        model_dir = create_tiny_local_causal_lm(texts, tiny_dir, seed=config.seed)
+        payload = config.to_dict()
+        payload["model_id"] = model_dir
+        payload["allow_download"] = False
+        payload["modality"] = "text"
+        payload["require_vlm_ready"] = False
+        # GPT-2-style tiny model
+        payload["lora_target_modules"] = ["c_attn"]
+        config = DPOConfigSpec.from_dict(payload)
+
+    result = train_dpo(config)
+    load_dpo_checkpoint_dir(result.checkpoint_dir)
+    compare_base_vs_dpo_metadata(
+        baseline_run_dir=config.baseline_run_dir,
+        dpo_run_dir=result.run_dir,
+    )
+    print(
+        f"dpo ok status={result.status} run_dir={result.run_dir} "
+        f"checkpoint={result.checkpoint_dir}"
+    )
+    print(result.disclaimer)
+    return 0
+
+
 def train_reward_main(argv: list[str] | None = None) -> int:
     """Train a small Bradley-Terry preference reward model (no GRPO/DPO)."""
     parser = argparse.ArgumentParser(

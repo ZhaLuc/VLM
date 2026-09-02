@@ -5,3 +5,9 @@ torch
 transformers>=4.45
 accelerate
 pillow
+
+# Optional DPO stack (also: pip install -e ".[dpo]")
+# peft
+# trl
+# datasets
+# tokenizers
