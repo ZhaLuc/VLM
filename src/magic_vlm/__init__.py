@@ -5,8 +5,9 @@ model loading, inference (with raw-output preservation), evaluation, preference
 records, standalone rewards, experiment configuration, and reproducibility
 metadata.
 
-Training algorithms GRPO/PPO are intentionally not implemented in this stage.
-DPO (TRL) and a Bradley-Terry preference reward model are available as separate modules.
+Training algorithms: DPO (``magic_vlm.dpo``) and GRPO on modular objective
+rewards (``magic_vlm.grpo``, TRL + optional PEFT). PPO on the VLM is not
+implemented. A Bradley-Terry preference reward model is separate.
 """
 
 from magic_vlm.schemas import ExampleRecord, Split, TaskType, VideoRef
@@ -22,4 +23,4 @@ __all__ = [
     "initialize_experiment",
 ]
 
-__version__ = "0.1.16"
+__version__ = "0.1.17"

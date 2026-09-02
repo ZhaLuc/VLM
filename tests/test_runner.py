@@ -22,7 +22,7 @@ from magic_vlm.utils import RunDirectoryError, allocate_run_directory
 
 def test_supported_types() -> None:
     types = list_supported_experiments()
-    assert set(types) == {"baseline", "temporal_shuffle", "dpo", "reward_model"}
+    assert set(types) == {"baseline", "temporal_shuffle", "dpo", "grpo", "reward_model"}
 
 
 def test_valid_config_load_and_resolve() -> None:
@@ -43,7 +43,13 @@ def test_invalid_config_missing_fields() -> None:
 
 def test_invalid_experiment_type() -> None:
     with pytest.raises(ExperimentDispatchError, match="Unsupported"):
-        resolve_experiment_type({"experiment_type": "grpo"})
+        resolve_experiment_type({"experiment_type": "ppo"})
+
+
+def test_grpo_config_resolves() -> None:
+    raw = load_raw_config("configs/grpo_smoke_text.yaml")
+    assert resolve_experiment_type(raw) == "grpo"
+    validate_dispatch_config(raw, experiment_type="grpo")
 
 
 def test_dpo_rejects_held_out_checkpoint_selection() -> None:
@@ -51,6 +57,13 @@ def test_dpo_rejects_held_out_checkpoint_selection() -> None:
     raw["checkpoint_selection"] = "held_out_best"
     with pytest.raises(ExperimentDispatchError, match="held-out"):
         validate_dispatch_config(raw, experiment_type="dpo")
+
+
+def test_grpo_rejects_held_out_checkpoint_selection() -> None:
+    raw = load_raw_config("configs/grpo_smoke_text.yaml")
+    raw["checkpoint_selection"] = "held_out_best"
+    with pytest.raises(ExperimentDispatchError, match="held-out"):
+        validate_dispatch_config(raw, experiment_type="grpo")
 
 
 def test_unique_run_directory(tmp_path: Path) -> None:

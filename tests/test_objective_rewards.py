@@ -1,4 +1,4 @@
-"""Tests for modular objective rewards (GRPO interface; no GRPO trainer)."""
+"""Tests for modular objective rewards (used by GRPO; reward logic stays here)."""
 
 from __future__ import annotations
 

@@ -32,12 +32,13 @@ from magic_vlm.utils import (
     write_json,
 )
 
-ExperimentType = Literal["baseline", "temporal_shuffle", "dpo", "reward_model"]
+ExperimentType = Literal["baseline", "temporal_shuffle", "dpo", "grpo", "reward_model"]
 
 SUPPORTED_EXPERIMENT_TYPES: tuple[str, ...] = (
     "baseline",
     "temporal_shuffle",
     "dpo",
+    "grpo",
     "reward_model",
 )
 
@@ -79,6 +80,7 @@ def list_supported_experiments() -> dict[str, str]:
         "baseline": "Zero-shot immutable baseline (ExperimentConfig)",
         "temporal_shuffle": "Temporal-order diagnostic (ExperimentConfig)",
         "dpo": "DPO post-training (DPOConfigSpec)",
+        "grpo": "GRPO post-training on objective reward (GRPOConfigSpec)",
         "reward_model": "Bradley-Terry text reward model (RewardModelConfig)",
     }
 
@@ -104,6 +106,13 @@ def resolve_experiment_type(raw: dict[str, Any]) -> ExperimentType:
 
     if "prefs_path" in raw and "beta" in raw and "model_id" in raw:
         return "dpo"
+    if (
+        raw.get("reward_id")
+        and "num_generations" in raw
+        and "model_id" in raw
+        and "manifest" in raw
+    ):
+        return "grpo"
     if "prefs_path" in raw and "embedding_dim" in raw:
         return "reward_model"
     stage = str(raw.get("stage") or "")
@@ -153,6 +162,21 @@ def validate_dispatch_config(raw: dict[str, Any], *, experiment_type: str) -> No
             )
         return
 
+    if experiment_type == "grpo":
+        for key in ("manifest", "model_id", "output_dir", "reward_id", "num_generations"):
+            if key not in raw:
+                raise ExperimentDispatchError(f"grpo config missing {key}")
+        if int(raw["num_generations"]) < 2:
+            raise ExperimentDispatchError("grpo num_generations (group size) must be >= 2")
+        selection = str(raw.get("checkpoint_selection") or "last_train_step")
+        lowered = selection.lower()
+        if "held_out" in lowered or lowered in {"test", "final_test", "heldout"}:
+            raise ExperimentDispatchError(
+                "checkpoint_selection must not use final held-out/test performance "
+                f"(got {selection!r})"
+            )
+        return
+
     if experiment_type == "reward_model":
         for key in ("prefs_path", "output_dir"):
             if key not in raw:
@@ -176,6 +200,8 @@ def _output_dir_for(raw: dict[str, Any], experiment_type: str) -> str:
         return str(raw["output_dir"])
     if experiment_type == "dpo":
         return "runs/dpo"
+    if experiment_type == "grpo":
+        return "runs/grpo"
     if experiment_type == "reward_model":
         return "runs/reward_model"
     return "runs"
@@ -306,6 +332,25 @@ def _run_dpo(raw: dict[str, Any], *, run_id: str) -> tuple[str, dict[str, Any], 
     return result.run_dir, metrics, artifacts
 
 
+def _run_grpo(raw: dict[str, Any], *, run_id: str) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    from magic_vlm.grpo import GRPOConfigSpec, train_grpo
+
+    payload = dict(raw)
+    payload["run_id"] = run_id
+    config = GRPOConfigSpec.from_dict(payload)
+    result = train_grpo(config)
+    metrics = dict(result.metrics)
+    artifacts = {
+        "checkpoint_dir": result.checkpoint_dir,
+        "result": "result.json",
+        "train_metadata": "train_metadata.json",
+        "raw_completions": "raw_completions.jsonl",
+        "reward_stats": "reward_stats.json",
+        "held_out_eval": "held_out_eval.json",
+    }
+    return result.run_dir, metrics, artifacts
+
+
 def _run_reward_model(
     raw: dict[str, Any], *, run_id: str
 ) -> tuple[str, dict[str, Any], dict[str, Any]]:
@@ -387,6 +432,8 @@ def run_experiment(
             )
         elif etype == "dpo":
             out_path, metrics, artifacts = _run_dpo(raw, run_id=rid)
+        elif etype == "grpo":
+            out_path, metrics, artifacts = _run_grpo(raw, run_id=rid)
         elif etype == "reward_model":
             out_path, metrics, artifacts = _run_reward_model(raw, run_id=rid)
         else:  # pragma: no cover

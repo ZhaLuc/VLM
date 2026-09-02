@@ -53,15 +53,17 @@ move examples into/out of `held_out` after baseline numbers are published.
 
 - Pairwise judgments use `PreferencePair` with nested `generation_meta` and
   `annotation` objects; raw `response_a` / `response_b` are never normalized.
-- See `docs/PREFERENCE_SCHEMA.md`. DPO of the VLM is not implemented yet.
+- See `docs/PREFERENCE_SCHEMA.md`.
 - A small Bradley-Terry **text** reward model can be fit on preferences
-  (`docs/REWARD_MODEL.md`). Preference agreement ≠ reasoning accuracy; no GRPO.
+  (`docs/REWARD_MODEL.md`). Preference agreement ≠ reasoning accuracy.
 - DPO for explanation preferences: `docs/DPO.md` (TRL + PEFT). Probe the stack
   before claiming VLM readiness. Never overwrite immutable baselines.
-- Objective rewards for future GRPO: `docs/OBJECTIVE_REWARDS.md`
+- GRPO on modular objective rewards: `docs/GRPO.md` (TRL + PEFT; default
+  `hidden_state_exact_match`). Reward gains ≠ reasoning improvement.
+- Objective rewards: `docs/OBJECTIVE_REWARDS.md`
   (`hidden_state_exact_match` and `temporal_iou` v1.0.0). Not reasoning metrics;
-  no hybrid weighting; GRPO not implemented. Causal annotation status is exposed
-  in reports (`docs/TEMPORAL_CAUSAL_REWARD.md`).
+  no hybrid weighting. Causal annotation status is exposed in reports
+  (`docs/TEMPORAL_CAUSAL_REWARD.md`).
 
 ## Framework compatibility
 

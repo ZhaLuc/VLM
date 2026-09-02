@@ -1,8 +1,8 @@
 """Training stage dispatch for VLM post-training algorithms.
 
-GRPO and PPO on the VLM remain unimplemented here.
-DPO lives in ``magic_vlm.dpo`` (TRL + optional PEFT). A separate Bradley-Terry
-preference reward model lives in ``magic_vlm.reward_model``.
+PPO on the VLM remains unimplemented here.
+DPO lives in ``magic_vlm.dpo``; GRPO in ``magic_vlm.grpo`` (TRL + optional PEFT).
+A separate Bradley-Terry preference reward model lives in ``magic_vlm.reward_model``.
 """
 
 from __future__ import annotations
@@ -23,6 +23,7 @@ class TrainingConfig:
     ``algorithm='none'`` is the baseline/no-op path used by early stages.
     ``algorithm='dpo'`` delegates to ``magic_vlm.dpo`` (requires a DPO config path
     in ``extras['dpo_config']``).
+    ``algorithm='grpo'`` delegates to ``magic_vlm.grpo`` (requires ``extras['grpo_config']``).
     """
 
     algorithm: AlgorithmName = "none"
@@ -53,10 +54,11 @@ def validate_training_split(examples: Sequence[ExampleRecord]) -> None:
 def run_training(config: TrainingConfig, examples: Sequence[ExampleRecord]) -> TrainingResult:
     """Dispatch training.
 
-    ``none`` skips. ``dpo`` requires ``extras['dpo_config']`` and ignores the
-    ExampleRecord list (DPO uses preference JSONL). GRPO/PPO remain unimplemented.
+    ``none`` skips. ``dpo`` / ``grpo`` require config paths in extras and may ignore
+    the ExampleRecord list (they load from their own manifests/prefs). PPO remains
+    unimplemented.
     """
-    if config.algorithm != "dpo":
+    if config.algorithm not in {"dpo", "grpo"}:
         validate_training_split(examples)
     if config.algorithm == "none":
         return TrainingResult(
@@ -78,7 +80,20 @@ def run_training(config: TrainingConfig, examples: Sequence[ExampleRecord]) -> T
             message=f"DPO finished; checkpoint={result.checkpoint_dir}",
             metrics=result.metrics,
         )
+    if config.algorithm == "grpo":
+        from magic_vlm.grpo import GRPOConfigSpec, train_grpo
+
+        grpo_cfg_path = config.extras.get("grpo_config")
+        if not grpo_cfg_path:
+            raise ValueError("GRPO requires extras['grpo_config'] path to a YAML config")
+        result = train_grpo(GRPOConfigSpec.from_yaml(grpo_cfg_path))
+        return TrainingResult(
+            status=result.status,
+            algorithm="grpo",
+            message=f"GRPO finished; checkpoint={result.checkpoint_dir}",
+            metrics=result.metrics,
+        )
     raise NotImplementedError(
         f"Training algorithm {config.algorithm!r} is not implemented yet. "
-        "Use magic_vlm.dpo for DPO; GRPO/PPO are not available."
+        "Use magic_vlm.dpo for DPO or magic_vlm.grpo for GRPO; PPO is not available."
     )

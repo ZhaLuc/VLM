@@ -1,7 +1,8 @@
 # Objective rewards (GRPO-ready interface)
 
-Modular rewards for a **future** GRPO trainer. GRPO itself is **not** implemented
-here. Preference reward-model training is separate (`docs/REWARD_MODEL.md`).
+Modular rewards used by GRPO (`docs/GRPO.md`) and by independent evaluation.
+Preference reward-model training is separate (`docs/REWARD_MODEL.md`).
+Reward values are **not** reasoning-quality metrics.
 
 ## API
 

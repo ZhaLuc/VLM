@@ -411,6 +411,86 @@ def annotate_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def train_grpo_main(argv: list[str] | None = None) -> int:
+    """GRPO post-training on modular objective rewards (does not overwrite baseline)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Train GRPO (TRL + optional PEFT/LoRA) with an external objective reward "
+            "(default: hidden_state_exact_match). Never overwrites immutable baseline "
+            "runs. Reward gain is not reasoning improvement. Refuses held_out training."
+        )
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/grpo_smoke_text.yaml"),
+    )
+    parser.add_argument(
+        "--smoke-local-lm",
+        action="store_true",
+        help="Build a tiny local causal LM for plumbing smoke (no Hub download).",
+    )
+    parser.add_argument(
+        "--probe-only",
+        action="store_true",
+        help="Print GRPO stack compatibility probe and exit.",
+    )
+    parser.add_argument("--allow-download", action="store_true")
+    args = parser.parse_args(argv)
+
+    from magic_vlm.grpo import (
+        GRPOConfigSpec,
+        examples_to_grpo_records,
+        load_grpo_checkpoint_dir,
+        probe_grpo_stack,
+        train_grpo,
+    )
+    from magic_vlm.dataset import filter_split, filter_task, load_manifest
+    from magic_vlm.dpo import create_tiny_local_causal_lm
+    from magic_vlm.schemas import Split, TaskType
+    import json
+
+    stack = probe_grpo_stack()
+    if args.probe_only:
+        print(json.dumps(stack.to_dict(), indent=2))
+        return 0
+
+    config = GRPOConfigSpec.from_yaml(args.config)
+    if args.allow_download:
+        payload = config.to_dict()
+        payload["allow_download"] = True
+        config = GRPOConfigSpec.from_dict(payload)
+
+    if args.smoke_local_lm:
+        examples = filter_task(
+            filter_split(load_manifest(config.manifest), Split.TRAIN),
+            TaskType.HIDDEN_STATE,
+        )
+        records = examples_to_grpo_records(examples)
+        texts: list[str] = []
+        for row in records:
+            texts.extend([row["prompt"], str(row["ground_truth"]), "left right center"])
+        tiny_dir = Path(config.output_dir) / "_smoke_local_lm"
+        model_dir = create_tiny_local_causal_lm(texts, tiny_dir, seed=config.seed)
+        payload = config.to_dict()
+        payload["model_id"] = model_dir
+        payload["allow_download"] = False
+        payload["modality"] = "text"
+        payload["require_vlm_ready"] = False
+        payload["lora_target_modules"] = ["c_attn"]
+        config = GRPOConfigSpec.from_dict(payload)
+
+    result = train_grpo(config)
+    load_grpo_checkpoint_dir(result.checkpoint_dir)
+    print(
+        f"grpo ok status={result.status} run_dir={result.run_dir} "
+        f"checkpoint={result.checkpoint_dir} "
+        f"mean_reward={result.metrics.get('reward_stats', {}).get('mean_reward')}"
+    )
+    print(result.disclaimer)
+    return 0
+
+
 def train_dpo_main(argv: list[str] | None = None) -> int:
     """DPO post-training on explanation preferences (does not overwrite baseline)."""
     parser = argparse.ArgumentParser(

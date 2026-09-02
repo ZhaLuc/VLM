@@ -18,10 +18,10 @@ This repository currently provides a **minimal research architecture** only:
 - experiment configuration / run manifests
 - preference-pair schema I/O
 
-**Not implemented yet:** Dataset B collection, real Qwen baseline runs, GRPO,
-PPO. DPO, a Bradley-Terry text reward model, and a temporal-order diagnostic
-(ordered vs shuffled presentation of the same sampled frames) are implemented
-as separate modules.
+**Not implemented yet:** Dataset B collection, real Qwen baseline runs, PPO.
+DPO, GRPO (objective hidden-state reward via TRL + PEFT), a Bradley-Terry text
+reward model, and a temporal-order diagnostic (ordered vs shuffled presentation
+of the same sampled frames) are implemented as separate modules.
 
 See `docs/ARCHITECTURE.md` and `magic-vlm-research-plan-v2.md`.
 
@@ -129,10 +129,15 @@ magic-vlm-train-dpo --config configs/dpo_smoke_text.yaml --smoke-local-lm
 
 See `docs/DPO.md`. DPO loss reduction is **not** reasoning improvement.
 
-Objective rewards for a future GRPO trainer (not implemented): see
-`docs/OBJECTIVE_REWARDS.md`, including `temporal_iou` /
-`docs/TEMPORAL_CAUSAL_REWARD.md` (independent of hidden-state exact match; no
-hybrid weighting).
+```bash
+magic-vlm-train-grpo --probe-only
+magic-vlm-train-grpo --config configs/grpo_smoke_text.yaml --smoke-local-lm
+```
+
+See `docs/GRPO.md`. GRPO reward gains are **not** reasoning improvement.
+Objective reward interfaces: `docs/OBJECTIVE_REWARDS.md`, including
+`temporal_iou` / `docs/TEMPORAL_CAUSAL_REWARD.md` (independent of hidden-state
+exact match; no hybrid weighting).
 
 ```bash
 magic-vlm-compare-objective \
