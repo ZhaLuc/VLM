@@ -92,6 +92,12 @@ magic-vlm-validate --manifest data/examples/toy_manifest.jsonl --json-out runs/v
 See `docs/DATASET_VALIDATION.md`.
 
 ```bash
+magic-vlm-validate-preferences --prefs data/examples/toy_preferences.jsonl
+```
+
+See `docs/PREFERENCE_SCHEMA.md`.
+
+```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```
 

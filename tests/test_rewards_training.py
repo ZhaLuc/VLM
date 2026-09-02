@@ -4,7 +4,6 @@ from magic_vlm.rewards import ExactMatchReward, LengthPenaltyReward, score_batch
 from magic_vlm.schemas import (
     ExampleRecord,
     InferenceArtifact,
-    PreferencePair,
     Provenance,
     Split,
     TaskType,
@@ -55,18 +54,31 @@ def test_rewards_independent_of_trainer() -> None:
 
 
 def test_preference_roundtrip(tmp_path) -> None:
-    pair = PreferencePair(
-        pair_id="p1",
+    from magic_vlm.preferences import build_preference_pair
+    from magic_vlm.schemas import PreferenceGenerationMeta
+
+    pair = build_preference_pair(
+        clip_id="clip_e1",
         example_id="e1",
+        instruction="Explain the mechanism.",
         response_a="a",
         response_b="b",
         winner="a",
+        annotator_id="ann_1",
+        timestamp="2026-09-02T12:00:00+00:00",
+        provenance=Provenance(source="unit_test"),
+        generation_meta=PreferenceGenerationMeta(
+            model_id_a="stub",
+            model_id_b="stub",
+        ),
         split=Split.TRAIN,
     )
     path = tmp_path / "prefs.jsonl"
     write_preference_pairs(path, [pair])
     loaded = load_preference_pairs(path)
     assert loaded[0].winner == "a"
+    assert loaded[0].response_a == "a"
+    assert loaded[0].pair_id == pair.pair_id
 
 
 def test_training_refuses_held_out_and_algorithms() -> None:

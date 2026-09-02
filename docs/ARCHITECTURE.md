@@ -46,6 +46,13 @@ move examples into/out of `held_out` after baseline numbers are published.
 - Temporal-shuffle sensitivity is a diagnostic of order dependence, not proof
   of causal reasoning.
 
+## Preference records
+
+- Pairwise judgments use `PreferencePair` with nested `generation_meta` and
+  `annotation` objects; raw `response_a` / `response_b` are never normalized.
+- See `docs/PREFERENCE_SCHEMA.md`. DPO / Bradley-Terry training are not
+  implemented in this stage.
+
 ## Framework compatibility
 
 - This project defaults to **project-sampled frames** for Qwen2.5-VL, not

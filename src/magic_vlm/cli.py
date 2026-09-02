@@ -243,6 +243,62 @@ def validate_main(argv: list[str] | None = None) -> int:
     return 0 if report.passed else 1
 
 
+def validate_preferences_main(argv: list[str] | None = None) -> int:
+    """Validate pairwise preference JSONL (no training / no AI labels)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Validate preference judgments. Checks identity, winners, identical "
+            "responses, and multi-annotation policy. Does not train or rewrite text."
+        )
+    )
+    parser.add_argument("--prefs", type=Path, required=True, help="Preference JSONL path.")
+    parser.add_argument("--json-out", type=Path, default=None)
+    parser.add_argument(
+        "--allow-ties",
+        action="store_true",
+        help="Permit winner=tie when records also set allow_ties.",
+    )
+    parser.add_argument(
+        "--allow-identical",
+        action="store_true",
+        help="Downgrade identical A/B responses to review (default: error).",
+    )
+    parser.add_argument(
+        "--forbid-multi-annotation",
+        action="store_true",
+        help="Error when multiple judgments share the same content pair_id.",
+    )
+    parser.add_argument(
+        "--require-rationale",
+        action="store_true",
+        help="Require non-empty rationale on every judgment.",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.preferences import (
+        PreferenceValidationConfig,
+        load_preference_pairs,
+        validate_preference_pairs,
+        write_preference_validation_report,
+    )
+
+    pairs = load_preference_pairs(args.prefs)
+    report = validate_preference_pairs(
+        pairs,
+        config=PreferenceValidationConfig(
+            allow_ties=args.allow_ties,
+            allow_identical_responses=args.allow_identical,
+            allow_multiple_annotations_per_pair=not args.forbid_multi_annotation,
+            require_rationale=args.require_rationale,
+        ),
+    )
+    print(report.format_human(), end="")
+    if args.json_out is not None:
+        write_preference_validation_report(report, args.json_out)
+        print(f"Wrote JSON report: {args.json_out}")
+    return 0 if report.passed else 1
+
+
 def analyze_main(argv: list[str] | None = None) -> int:
     """Analyze a baseline run: metrics, report, and inspectable error exports."""
     parser = argparse.ArgumentParser(
