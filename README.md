@@ -57,7 +57,13 @@ magic-vlm-init --config configs/baseline_stub.yaml
 # or: python scripts/init_experiment.py --config configs/baseline_stub.yaml
 ```
 
-## Single-example inference (stub; no downloads)
+## Zero-shot baseline (immutable reference)
+
+```bash
+magic-vlm-baseline --config configs/baseline_stub.yaml --run-id baseline-stub-heldout
+```
+
+Default split is `held_out`. See `docs/BASELINE.md`.
 
 ```bash
 magic-vlm-infer --config configs/baseline_stub.yaml

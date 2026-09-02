@@ -89,11 +89,21 @@ def build_prompt(example: ExampleRecord) -> str:
 
 
 def parse_answer(raw_text: str) -> str:
-    """Lightweight parse that does not discard the raw string elsewhere."""
+    """Lightweight parse that does not discard the raw string elsewhere.
+
+    Heuristics (compare-time only; never written back to the dataset):
+    - Prefer a trailing ``Answer:`` / ``Final answer:`` line when present
+    - Otherwise use the last non-empty line
+    """
     text = raw_text.strip()
     if not text:
         return ""
     lines = [line.strip() for line in text.splitlines() if line.strip()]
+    for line in reversed(lines):
+        lower = line.lower()
+        for prefix in ("final answer:", "answer:"):
+            if lower.startswith(prefix):
+                return line[len(prefix) :].strip()
     return lines[-1] if lines else text
 
 

@@ -1,5 +1,5 @@
-# Template for the first real zero-shot baseline (Qwen2.5-VL).
-# Do not use this config in CI/smoke tests: it may download large weights.
+# Zero-shot baseline: untouched Qwen2.5-VL-7B-Instruct on held_out.
+# Does not download weights unless allow_model_download is enabled intentionally.
 name: baseline_qwen25vl_7b
 stage: baseline
 training_method: none
@@ -11,9 +11,8 @@ allow_held_out_in_training: false
 allow_model_download: false
 seed: 0
 notes: >
-  Recommended first real experiment once Dataset B exists.
-  Keep allow_model_download false until weights are intentionally fetched
-  or a local checkpoint path is supplied.
+  Immutable zero-shot reference on the fixed held_out split.
+  Requires a local checkpoint or an intentional download.
 
 model:
   model_id: Qwen/Qwen2.5-VL-7B-Instruct
@@ -30,8 +29,8 @@ checkpoint:
 
 dataset:
   manifest: data/examples/toy_manifest.jsonl
-  version: unspecified
-  split: null
+  version: toy-v0
+  split: held_out
   task: hidden_state
 
 generation:

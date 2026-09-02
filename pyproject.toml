@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "magic-vlm"
-version = "0.1.5"
+version = "0.1.6"
 description = "Research code for visual reasoning on magic/mentalism demonstrations with VLMs"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -29,6 +29,7 @@ magic-vlm-init = "magic_vlm.cli:init_main"
 magic-vlm-validate = "magic_vlm.cli:validate_main"
 magic-vlm-sample-frames = "magic_vlm.cli:sample_main"
 magic-vlm-infer = "magic_vlm.cli:infer_main"
+magic-vlm-baseline = "magic_vlm.cli:baseline_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

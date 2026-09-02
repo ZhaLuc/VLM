@@ -1,5 +1,5 @@
-# Stub zero-shot baseline smoke (no weight downloads).
-name: baseline_stub
+# Compute-constrained fallback: untouched Qwen2.5-VL-3B-Instruct on held_out.
+name: baseline_qwen25vl_3b
 stage: baseline
 training_method: none
 reward_function: exact_match
@@ -10,21 +10,21 @@ allow_held_out_in_training: false
 allow_model_download: false
 seed: 0
 notes: >
-  Immutable zero-shot baseline smoke on the fixed held_out toy split.
-  Stub model only.
+  3B fallback when 7B does not fit. Still an untouched base checkpoint;
+  still evaluates the fixed held_out split only.
 
 model:
-  model_id: stub/echo
+  model_id: Qwen/Qwen2.5-VL-3B-Instruct
   revision: null
   torch_dtype: bfloat16
   device_map: auto
   trust_remote_code: true
 
 checkpoint:
-  kind: stub
+  kind: base
   path: null
   parent_run_id: null
-  label: architecture_stub
+  label: untouched_base_3b
 
 dataset:
   manifest: data/examples/toy_manifest.jsonl
@@ -33,14 +33,14 @@ dataset:
   task: hidden_state
 
 generation:
-  max_new_tokens: 64
+  max_new_tokens: 128
   temperature: 0.0
   top_p: 1.0
   top_k: 0
   do_sample: false
 
 device:
-  preference: cpu
+  preference: auto
   cuda_index: null
 
 seed_config:
@@ -50,7 +50,7 @@ seed_config:
   cudnn_benchmark: false
 
 video:
-  max_frames: 4
+  max_frames: 8
   sample_strategy: uniform
   temporal_shuffle: false
   shuffle_seed: 0

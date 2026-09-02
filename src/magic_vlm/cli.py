@@ -243,6 +243,57 @@ def validate_main(argv: list[str] | None = None) -> int:
     return 0 if report.passed else 1
 
 
+    return 0 if report.passed else 1
+
+
+def baseline_main(argv: list[str] | None = None) -> int:
+    """Run the immutable zero-shot baseline on a fixed split (default: held_out)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Zero-shot baseline: untouched checkpoint, deterministic decoding, "
+            "raw responses preserved. No fine-tuning / LoRA / DPO / GRPO."
+        )
+    )
+    parser.add_argument("--config", type=Path, default=Path("configs/baseline_stub.yaml"))
+    parser.add_argument(
+        "--split",
+        type=str,
+        default=None,
+        help="Evaluation split (default: config.dataset.split or held_out).",
+    )
+    parser.add_argument("--run-id", type=str, default=None)
+    parser.add_argument("--allow-download", action="store_true")
+    parser.add_argument(
+        "--load-frames",
+        action="store_true",
+        help="Decode video frames when media files exist (requires OpenCV).",
+    )
+    parser.add_argument(
+        "--continue-on-error",
+        action="store_true",
+        help="Record per-example inference errors instead of aborting.",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.baseline import run_zero_shot_baseline
+
+    config = load_experiment_config(args.config)
+    result = run_zero_shot_baseline(
+        config,
+        split=args.split,
+        run_id=args.run_id,
+        allow_download=args.allow_download or None,
+        load_frames=args.load_frames,
+        continue_on_error=args.continue_on_error,
+    )
+    print(
+        f"baseline ok run_id={result.run_id} split={result.split} "
+        f"n={result.summary.n_examples} accuracy={result.summary.overall_accuracy} "
+        f"parse_failures={result.summary.n_parse_failures} dir={result.run_dir}"
+    )
+    return 0
+
+
 def infer_main(argv: list[str] | None = None) -> int:
     """Run inference for one example (stub by default; no weight download)."""
     parser = argparse.ArgumentParser(
