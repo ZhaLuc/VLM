@@ -1,0 +1,11 @@
+# Objective reward for future GRPO (trainer not implemented here).
+# This is a binary label-correctness signal — not a reasoning metric.
+
+reward:
+  reward_id: hidden_state_exact_match
+  version: "1.0.0"
+
+notes: >
+  Malformed responses score 0. Parsing, canonicalization, and scoring are separate.
+  Shortcut risks: answer-frequency exploitation, parser exploitation, camera leakage.
+  Do not combine with other rewards in this stage.

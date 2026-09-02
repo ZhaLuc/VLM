@@ -128,6 +128,9 @@ magic-vlm-train-dpo --config configs/dpo_smoke_text.yaml --smoke-local-lm
 
 See `docs/DPO.md`. DPO loss reduction is **not** reasoning improvement.
 
+Objective rewards for a future GRPO trainer (not implemented): see
+`docs/OBJECTIVE_REWARDS.md` and `configs/reward_hidden_state_exact_match.yaml`.
+
 ```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```

@@ -55,6 +55,8 @@ move examples into/out of `held_out` after baseline numbers are published.
   (`docs/REWARD_MODEL.md`). Preference agreement ≠ reasoning accuracy; no GRPO.
 - DPO for explanation preferences: `docs/DPO.md` (TRL + PEFT). Probe the stack
   before claiming VLM readiness. Never overwrite immutable baselines.
+- Objective rewards for future GRPO: `docs/OBJECTIVE_REWARDS.md`
+  (`hidden_state_exact_match` v1.0.0). Not a reasoning metric; GRPO not implemented.
 
 ## Framework compatibility
 
