@@ -41,11 +41,10 @@ move examples into/out of `held_out` after baseline numbers are published.
 
 ## Future temporal shuffling
 
-- `VideoPreprocessConfig.temporal_shuffle` exists as a preprocessing flag.
-- Default is `false`. Enabling shuffle changes frame **order only** and must
-  not rewrite source media.
-- Shuffle diagnostics belong to a later experiment stage; this architecture
-  only guarantees a deterministic, seed-stable hook.
+- Sampling is independent of shuffle; see `docs/VIDEO_PREPROCESSING.md`.
+- `ordered_and_shuffled_pair` builds both views from one sample plan.
+- Temporal-shuffle sensitivity is a diagnostic of order dependence, not proof
+  of causal reasoning.
 
 ## Framework compatibility
 

@@ -57,7 +57,13 @@ magic-vlm-init --config configs/baseline_stub.yaml
 # or: python scripts/init_experiment.py --config configs/baseline_stub.yaml
 ```
 
-## Dataset validation (before model runs)
+## Frame sampling (ordered / shuffled)
+
+```bash
+magic-vlm-sample-frames --video path/to/clip.mp4 --max-frames 8 --also-shuffled --json-out runs/sample.json
+```
+
+See `docs/VIDEO_PREPROCESSING.md`.
 
 ```bash
 magic-vlm-validate --manifest data/examples/toy_manifest.jsonl --json-out runs/validation.json

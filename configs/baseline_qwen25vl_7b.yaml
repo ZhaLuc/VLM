@@ -56,3 +56,4 @@ video:
   sample_strategy: uniform
   temporal_shuffle: false
   shuffle_seed: 0
+  resize: null
