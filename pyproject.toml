@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "magic-vlm"
-version = "0.1.14"
+version = "0.1.15"
 description = "Research code for visual reasoning on magic/mentalism demonstrations with VLMs"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -40,6 +40,7 @@ magic-vlm-train-reward = "magic_vlm.cli:train_reward_main"
 magic-vlm-score-reward = "magic_vlm.cli:score_reward_main"
 magic-vlm-train-dpo = "magic_vlm.cli:train_dpo_main"
 magic-vlm-temporal-shuffle = "magic_vlm.cli:temporal_shuffle_main"
+magic-vlm-compare-objective = "magic_vlm.cli:compare_objective_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

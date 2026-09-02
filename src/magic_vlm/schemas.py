@@ -120,37 +120,132 @@ class TemporalSpan:
         return cls(**dict(data))
 
 
-@dataclass(frozen=True)
-class CausalAnnotation:
-    """Optional future temporal/causal annotation.
+class AnnotationStatus(str, Enum):
+    """How defensible a causal/temporal label is.
 
-    Not required for hidden-state examples. Present so later Dataset C-style
-    labels can attach without breaking existing records.
+    - ``known``: objectively established (e.g. synthetic construction, filmed
+      with known placement). Alias label: "objectively established".
+    - ``researcher_annotated``: human judgment of a moment; not proof of a
+      unique causal mechanism.
+    - ``ambiguous``: multiple plausible moments / simultaneous actions; must not
+      be treated as gold for scoring.
     """
 
+    KNOWN = "known"
+    RESEARCHER_ANNOTATED = "researcher_annotated"
+    AMBIGUOUS = "ambiguous"
+
+
+@dataclass(frozen=True)
+class CausalAnnotation:
+    """Optional Dataset-C-style temporal/causal annotation.
+
+    Not required for hidden-state examples. Clip-level ``ExampleRecord.temporal``
+    is **not** a causal moment and must not be used as gold.
+
+    Research integrity
+    ------------------
+    Every causal label retains its own ``provenance`` and an explicit ``status``.
+    Ambiguous labels are retained and exposed, never silently treated as gold.
+    A salient action is not automatically a proven causal action
+    (``unique_cause`` defaults to unset / false).
+    """
+
+    status: AnnotationStatus
+    provenance: Provenance
     causal_moment: TemporalSpan | None = None
     cause_description: str | None = None
     effect_description: str | None = None
+    unique_cause: bool | None = None
+    annotator_notes: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.status, AnnotationStatus):
+            raise SchemaError(f"invalid causal.status: {self.status!r}")
+        if not isinstance(self.provenance, Provenance):
+            raise SchemaError("causal.provenance is required")
+
+    @property
+    def is_eligible_gold(self) -> bool:
+        """True only for non-ambiguous statuses with a usable interval."""
+        return self.status is not AnnotationStatus.AMBIGUOUS
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "status": self.status.value,
+            "status_label": (
+                "objectively_established"
+                if self.status is AnnotationStatus.KNOWN
+                else self.status.value
+            ),
+            "provenance": self.provenance.to_dict(),
             "causal_moment": None if self.causal_moment is None else self.causal_moment.to_dict(),
             "cause_description": self.cause_description,
             "effect_description": self.effect_description,
+            "unique_cause": self.unique_cause,
+            "annotator_notes": self.annotator_notes,
             "metadata": dict(self.metadata),
+            "integrity_note": (
+                "A salient action is not a proven causal action. "
+                "Ambiguous annotations must not be scored as gold."
+            ),
         }
 
     @classmethod
     def from_dict(cls, data: dict[str, Any] | None) -> CausalAnnotation | None:
         if data is None:
             return None
+        if not isinstance(data, dict):
+            raise SchemaError("causal must be an object or null")
         payload = dict(data)
+        if "status" not in payload or payload.get("status") in (None, ""):
+            raise SchemaError(
+                "causal.status is required when a causal annotation is present "
+                "(known | researcher_annotated | ambiguous)"
+            )
+        try:
+            status = AnnotationStatus(str(payload["status"]))
+        except ValueError as exc:
+            raise SchemaError(
+                f"invalid causal.status: {payload.get('status')!r} "
+                f"(expected known | researcher_annotated | ambiguous)"
+            ) from exc
+        if "provenance" not in payload or payload.get("provenance") is None:
+            raise SchemaError(
+                "causal.provenance is required so every causal label retains origin"
+            )
+        provenance = Provenance.from_dict(payload.get("provenance"))
         moment = payload.get("causal_moment")
-        if isinstance(moment, dict):
-            payload["causal_moment"] = TemporalSpan.from_dict(moment)
-        payload.setdefault("metadata", {})
-        return cls(**payload)
+        if moment is not None and not isinstance(moment, TemporalSpan):
+            if not isinstance(moment, dict):
+                raise SchemaError("causal.causal_moment must be an object or null")
+            moment = TemporalSpan.from_dict(moment)
+        unique = payload.get("unique_cause")
+        if unique is not None and not isinstance(unique, bool):
+            raise SchemaError("causal.unique_cause must be a boolean or null")
+        return cls(
+            status=status,
+            provenance=provenance,
+            causal_moment=moment,
+            cause_description=(
+                None
+                if payload.get("cause_description") is None
+                else str(payload.get("cause_description"))
+            ),
+            effect_description=(
+                None
+                if payload.get("effect_description") is None
+                else str(payload.get("effect_description"))
+            ),
+            unique_cause=unique,
+            annotator_notes=(
+                None
+                if payload.get("annotator_notes") is None
+                else str(payload.get("annotator_notes"))
+            ),
+            metadata=dict(payload.get("metadata") or {}),
+        )
 
 
 @dataclass(frozen=True)

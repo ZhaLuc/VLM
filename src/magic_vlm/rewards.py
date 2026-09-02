@@ -27,6 +27,11 @@ from typing import Any, Callable, Protocol, runtime_checkable
 from magic_vlm.evaluation import exact_match, is_parse_failure, normalize_label
 from magic_vlm.inference import parse_answer
 from magic_vlm.schemas import ExampleRecord, InferenceArtifact, TaskType
+from magic_vlm.temporal_parse import (
+    interval_iou,
+    parse_interval_text,
+    resolve_gold_interval_object,
+)
 
 # ---------------------------------------------------------------------------
 # Versioned reward identity
@@ -35,9 +40,9 @@ from magic_vlm.schemas import ExampleRecord, InferenceArtifact, TaskType
 HIDDEN_STATE_EXACT_MATCH_ID = "hidden_state_exact_match"
 HIDDEN_STATE_EXACT_MATCH_VERSION = "1.0.0"
 
-# Reserved IDs for future extensions (not implemented).
 TEMPORAL_LOCALIZATION_ID = "temporal_localization_correctness"
 TEMPORAL_IOU_ID = "temporal_iou"
+TEMPORAL_CAUSAL_VERSION = "1.0.0"
 EXPLANATION_REWARD_ID = "explanation_reward"
 HYBRID_REWARD_ID = "hybrid_reward"
 
@@ -45,6 +50,20 @@ SHORTCUT_RISKS = (
     "answer_frequency_exploitation: model may emit majority labels without video reasoning",
     "parser_exploitation: model may format text to satisfy parse_answer heuristics",
     "camera_leakage: cues correlated with camera_id/performer may substitute for mechanism understanding",
+)
+
+TEMPORAL_SHORTCUT_RISKS = (
+    "salient_motion_exploitation: model may point at the most visually salient action "
+    "rather than a causally responsible one",
+    "interval_parser_exploitation: model may emit tagged intervals to satisfy parse heuristics",
+    "ambiguous_cause_collapse: scoring a single span when multiple simultaneous actions exist",
+)
+
+INTEGRITY_NOTE_TEMPORAL = (
+    "Temporal/causal IoU reward requires defensible causal annotations with explicit "
+    "status and provenance. Clip-level temporal spans are not causal gold. "
+    "A salient action is not a proven causal action. Ambiguous labels are exposed "
+    "and not scored as gold. This reward is not a hybrid with hidden-state exact match."
 )
 
 
@@ -304,17 +323,189 @@ class LengthPenaltyReward:
 
 
 # ---------------------------------------------------------------------------
+# Temporal / causal IoU reward (independently callable; no hybrid weighting)
+# ---------------------------------------------------------------------------
+
+
+def compute_temporal_causal_value(
+    *,
+    iou: float | None,
+    mode: str,
+    iou_threshold: float,
+    eligible: bool,
+    parse_failed: bool,
+) -> float:
+    """Map IoU + mode to a scalar. Invalid / ineligible cases score 0.0."""
+    if not eligible or parse_failed or iou is None:
+        return 0.0
+    mode_norm = str(mode).strip().lower()
+    if mode_norm == "partial":
+        return float(max(0.0, min(1.0, iou)))
+    if mode_norm == "binary":
+        return 1.0 if float(iou) >= float(iou_threshold) else 0.0
+    raise RewardError(f"Unsupported temporal reward mode: {mode!r} (use binary|partial)")
+
+
+@dataclass(frozen=True)
+class TemporalCausalReward:
+    """IoU-based temporal/causal localization reward (Dataset C style).
+
+    Independently callable. Comparable with ``HiddenStateExactMatchReward`` but
+    never combined/weighted here. Does not invent causal ground truth.
+    """
+
+    reward_id: str = TEMPORAL_IOU_ID
+    version: str = TEMPORAL_CAUSAL_VERSION
+    name: str = TEMPORAL_IOU_ID
+    mode: str = "binary"  # binary | partial
+    iou_threshold: float = 0.5
+    unit: str = "auto"  # auto | seconds | frames
+
+    def __post_init__(self) -> None:
+        if self.mode not in {"binary", "partial"}:
+            raise RewardError(f"mode must be binary|partial, got {self.mode!r}")
+        if self.unit not in {"auto", "seconds", "frames"}:
+            raise RewardError(f"unit must be auto|seconds|frames, got {self.unit!r}")
+        if not (0.0 <= float(self.iou_threshold) <= 1.0):
+            raise RewardError("iou_threshold must be in [0, 1]")
+
+    def evaluate(
+        self,
+        artifact: InferenceArtifact,
+        example: ExampleRecord,
+        **kwargs: Any,
+    ) -> RewardResult:
+        preferred = self.unit  # type: ignore[assignment]
+        gold_interval, gold_meta = resolve_gold_interval_object(
+            example, preferred_unit=preferred
+        )
+        pred_unit = gold_interval.unit if gold_interval is not None else preferred
+        pred_interval, parse_failed, parse_reason = parse_interval_text(
+            artifact.raw_text,
+            preferred_unit="auto" if pred_unit == "auto" else pred_unit,  # type: ignore[arg-type]
+        )
+
+        eligible = bool(gold_meta.get("eligible"))
+        iou_value: float | None = None
+        notes: str | None = None
+
+        if not eligible:
+            notes = str(gold_meta.get("reason") or "ineligible_annotation")
+            value = 0.0
+            matched = False
+        elif parse_failed or pred_interval is None:
+            notes = parse_reason or "parse_failed"
+            value = 0.0
+            matched = False
+            parse_failed = True
+        elif gold_interval is None:
+            notes = "invalid_gold_interval"
+            value = 0.0
+            matched = False
+        elif pred_interval.unit != gold_interval.unit:
+            notes = "unit_mismatch"
+            value = 0.0
+            matched = False
+            parse_failed = True
+        else:
+            iou_value = interval_iou(pred_interval, gold_interval)
+            value = compute_temporal_causal_value(
+                iou=iou_value,
+                mode=self.mode,
+                iou_threshold=self.iou_threshold,
+                eligible=True,
+                parse_failed=False,
+            )
+            matched = iou_value >= float(self.iou_threshold)
+            if self.mode == "binary" and not matched:
+                notes = "below_iou_threshold"
+            elif self.mode == "partial" and iou_value == 0.0:
+                notes = "no_overlap"
+
+        pred_repr = None if pred_interval is None else (
+            f"{pred_interval.start}-{pred_interval.end}{pred_interval.unit[0]}"
+        )
+        gold_repr = None if gold_interval is None else (
+            f"{gold_interval.start}-{gold_interval.end}{gold_interval.unit[0]}"
+        )
+
+        return RewardResult(
+            value=float(value),
+            reward_id=self.reward_id,
+            version=self.version,
+            parse_failed=bool(parse_failed),
+            prediction=pred_repr,
+            gold=gold_repr,
+            matched=matched,
+            notes=notes,
+            extras={
+                "mode": self.mode,
+                "iou_threshold": float(self.iou_threshold),
+                "iou": iou_value,
+                "predicted_interval": None if pred_interval is None else pred_interval.to_dict(),
+                "gold_interval": gold_meta.get("interval"),
+                "annotation_status": gold_meta.get("annotation_status"),
+                "status_label": gold_meta.get("status_label"),
+                "unique_cause": gold_meta.get("unique_cause"),
+                "causal_provenance": gold_meta.get("provenance"),
+                "eligible": eligible,
+                "used_clip_temporal_as_gold": False,
+                "salient_action_is_not_causal_proof": True,
+                "shortcut_risks": list(TEMPORAL_SHORTCUT_RISKS),
+                "integrity_note": INTEGRITY_NOTE_TEMPORAL,
+                "is_reasoning_metric": False,
+                "is_hybrid": False,
+                "parse_reason": parse_reason,
+            },
+        )
+
+    def score(
+        self,
+        artifact: InferenceArtifact,
+        example: ExampleRecord,
+        **kwargs: Any,
+    ) -> float:
+        return float(self.evaluate(artifact, example, **kwargs).value)
+
+
+def compare_hidden_state_and_temporal(
+    artifact: InferenceArtifact,
+    example: ExampleRecord,
+    *,
+    hidden_state_reward: HiddenStateExactMatchReward | None = None,
+    temporal_reward: TemporalCausalReward | None = None,
+) -> dict[str, Any]:
+    """Score both rewards independently (no weighting / no hybrid)."""
+    hs = hidden_state_reward or HiddenStateExactMatchReward()
+    tc = temporal_reward or TemporalCausalReward()
+    hs_result = hs.evaluate(artifact, example)
+    tc_result = tc.evaluate(artifact, example)
+    return {
+        "example_id": example.example_id,
+        "clip_id": example.clip_id,
+        "hidden_state": hs_result.to_dict(),
+        "temporal_iou": tc_result.to_dict(),
+        "combined": False,
+        "weighted": False,
+        "note": (
+            "Independent objective scores for direct comparison. "
+            "Not a hybrid reward; no weighting applied."
+        ),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Future extension points (stubs)
 # ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True)
-class TemporalLocalizationRewardStub:
-    """Extension point for temporal/causal localization correctness (unimplemented)."""
+class ExplanationRewardStub:
+    """Reserved explanation preference reward (unimplemented)."""
 
-    reward_id: str = TEMPORAL_LOCALIZATION_ID
+    reward_id: str = EXPLANATION_REWARD_ID
     version: str = "0.0.0-stub"
-    name: str = TEMPORAL_LOCALIZATION_ID
+    name: str = EXPLANATION_REWARD_ID
 
     def evaluate(
         self,
@@ -322,10 +513,7 @@ class TemporalLocalizationRewardStub:
         example: ExampleRecord,
         **kwargs: Any,
     ) -> RewardResult:
-        raise NotImplementedError(
-            "temporal_localization_correctness is a reserved extension point; "
-            "not implemented (GRPO trainer also not implemented)."
-        )
+        raise NotImplementedError("explanation_reward is reserved; not implemented.")
 
     def score(
         self,
@@ -333,43 +521,34 @@ class TemporalLocalizationRewardStub:
         example: ExampleRecord,
         **kwargs: Any,
     ) -> float:
-        raise NotImplementedError(self.evaluate.__doc__)
-
-
-@dataclass(frozen=True)
-class TemporalIoURewardStub:
-    """Extension point for temporal IoU reward (unimplemented)."""
-
-    reward_id: str = TEMPORAL_IOU_ID
-    version: str = "0.0.0-stub"
-    name: str = TEMPORAL_IOU_ID
-
-    def evaluate(
-        self,
-        artifact: InferenceArtifact,
-        example: ExampleRecord,
-        **kwargs: Any,
-    ) -> RewardResult:
-        raise NotImplementedError(
-            "temporal_iou is a reserved extension point; not implemented."
-        )
-
-    def score(
-        self,
-        artifact: InferenceArtifact,
-        example: ExampleRecord,
-        **kwargs: Any,
-    ) -> float:
-        raise NotImplementedError("temporal_iou is not implemented")
+        raise NotImplementedError("explanation_reward is reserved; not implemented.")
 
 
 # ---------------------------------------------------------------------------
 # Registry / factory (single reward; no hybrid mixing)
 # ---------------------------------------------------------------------------
 
-_REWARD_BUILDERS: dict[str, Callable[[], ObjectiveReward]] = {
+
+def _build_temporal(**kwargs: Any) -> TemporalCausalReward:
+    allowed = {
+        "mode": kwargs.get("mode", "binary"),
+        "iou_threshold": float(kwargs.get("iou_threshold", 0.5)),
+        "unit": kwargs.get("unit", "auto"),
+        "reward_id": kwargs.get("reward_id", TEMPORAL_IOU_ID),
+    }
+    return TemporalCausalReward(**allowed)  # type: ignore[arg-type]
+
+
+_REWARD_BUILDERS: dict[str, Callable[..., ObjectiveReward]] = {
     HIDDEN_STATE_EXACT_MATCH_ID: HiddenStateExactMatchReward,
     "exact_match": ExactMatchReward,  # legacy config alias
+    TEMPORAL_IOU_ID: lambda **kw: _build_temporal(reward_id=TEMPORAL_IOU_ID, **kw),
+    TEMPORAL_LOCALIZATION_ID: lambda **kw: _build_temporal(
+        reward_id=TEMPORAL_LOCALIZATION_ID,
+        mode=kw.get("mode", "binary"),
+        iou_threshold=kw.get("iou_threshold", 0.5),
+        unit=kw.get("unit", "auto"),
+    ),
 }
 
 
@@ -378,14 +557,14 @@ def list_registered_rewards() -> dict[str, str]:
     return {
         HIDDEN_STATE_EXACT_MATCH_ID: f"implemented@{HIDDEN_STATE_EXACT_MATCH_VERSION}",
         "exact_match": f"legacy_alias->{HIDDEN_STATE_EXACT_MATCH_ID}",
-        TEMPORAL_LOCALIZATION_ID: "stub",
-        TEMPORAL_IOU_ID: "stub",
+        TEMPORAL_IOU_ID: f"implemented@{TEMPORAL_CAUSAL_VERSION}",
+        TEMPORAL_LOCALIZATION_ID: f"alias->{TEMPORAL_IOU_ID}@binary_default",
         EXPLANATION_REWARD_ID: "reserved",
         HYBRID_REWARD_ID: "reserved_not_combined_in_this_stage",
     }
 
 
-def build_reward(reward_id: str) -> ObjectiveReward:
+def build_reward(reward_id: str, **kwargs: Any) -> ObjectiveReward:
     """Construct one registered objective reward (no hybrids)."""
     key = str(reward_id).strip()
     if key in {EXPLANATION_REWARD_ID, HYBRID_REWARD_ID}:
@@ -393,15 +572,13 @@ def build_reward(reward_id: str) -> ObjectiveReward:
             f"Reward {key!r} is reserved and not implemented. "
             "Do not combine rewards in this stage."
         )
-    if key == TEMPORAL_LOCALIZATION_ID:
-        return TemporalLocalizationRewardStub()
-    if key == TEMPORAL_IOU_ID:
-        return TemporalIoURewardStub()
     builder = _REWARD_BUILDERS.get(key)
     if builder is None:
         raise RewardError(
             f"Unknown reward_id {key!r}. Registered: {sorted(_REWARD_BUILDERS)}"
         )
+    if key in {TEMPORAL_IOU_ID, TEMPORAL_LOCALIZATION_ID}:
+        return builder(**kwargs)
     return builder()
 
 
@@ -411,6 +588,10 @@ class RewardConfig:
 
     reward_id: str = HIDDEN_STATE_EXACT_MATCH_ID
     version: str | None = None  # if set, must match implementation version
+    mode: str | None = None  # temporal: binary | partial
+    iou_threshold: float = 0.5
+    unit: str = "auto"
+    extras: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -418,9 +599,16 @@ class RewardConfig:
     @classmethod
     def from_dict(cls, data: dict[str, Any] | None) -> RewardConfig:
         raw = dict(data or {})
+        extras = dict(raw.pop("extras", {}) or {})
+        version_raw = raw.pop("version", None)
+        mode_raw = raw.pop("mode", None)
         return cls(
-            reward_id=str(raw.get("reward_id", HIDDEN_STATE_EXACT_MATCH_ID)),
-            version=None if raw.get("version") is None else str(raw.get("version")),
+            reward_id=str(raw.pop("reward_id", HIDDEN_STATE_EXACT_MATCH_ID)),
+            version=None if version_raw is None else str(version_raw),
+            mode=None if mode_raw is None else str(mode_raw),
+            iou_threshold=float(raw.pop("iou_threshold", 0.5)),
+            unit=str(raw.pop("unit", "auto")),
+            extras={**extras, **raw},
         )
 
     @classmethod
@@ -438,7 +626,12 @@ class RewardConfig:
         return cls.from_dict(payload)
 
     def build(self) -> ObjectiveReward:
-        reward = build_reward(self.reward_id)
+        kwargs: dict[str, Any] = {}
+        if self.reward_id in {TEMPORAL_IOU_ID, TEMPORAL_LOCALIZATION_ID}:
+            kwargs["mode"] = self.mode or "binary"
+            kwargs["iou_threshold"] = self.iou_threshold
+            kwargs["unit"] = self.unit
+        reward = build_reward(self.reward_id, **kwargs)
         if self.version is not None and getattr(reward, "version", None) != self.version:
             raise RewardError(
                 f"Requested version {self.version!r} but {self.reward_id} is "

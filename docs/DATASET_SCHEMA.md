@@ -16,8 +16,8 @@ Each JSONL row is one :class:`magic_vlm.schemas.ExampleRecord`.
 | `question` | yes | |
 | `ground_truth` | yes for `hidden_state` | Canonical stored label; never silently rewritten |
 | `justification` | no | Optional human note, not required for scoring |
-| `temporal` | no | `start_s`/`end_s` and/or frame indices |
-| `causal` | no | Reserved for later temporal/causal labels |
+| `temporal` | no | Clip-level span (`start_s`/`end_s` and/or frames). **Not** causal gold. |
+| `causal` | no | Dataset-C localization label. Requires `status`, `provenance`, optional `causal_moment`. |
 | `split` | yes | `train` \| `val` \| `held_out` |
 | `provenance` | yes | At least `source` |
 | `notes` | no | |
@@ -48,5 +48,10 @@ only.
 
 - `task: explanation` can omit short-label `ground_truth` (validated separately
   when that stage is implemented).
-- Optional `causal` annotations can be added later without changing existing
-  hidden-state rows.
+- Optional `causal` annotations require:
+  - `status`: `known` | `researcher_annotated` | `ambiguous`
+  - `provenance` for the causal label itself
+  - optional `causal_moment`, `unique_cause`, `annotator_notes`
+- Ambiguous causal labels are retained and exposed; they are not scored as gold.
+- Clip-level `temporal` must not be treated as a causal moment.
+- See `docs/TEMPORAL_CAUSAL_REWARD.md`.

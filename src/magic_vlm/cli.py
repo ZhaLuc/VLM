@@ -521,6 +521,61 @@ def train_reward_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def compare_objective_main(argv: list[str] | None = None) -> int:
+    """Compare hidden-state and temporal/causal rewards independently (no hybrid)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Score predictions with hidden_state_exact_match and temporal_iou "
+            "independently. Does not weight or combine rewards. Ambiguous causal "
+            "annotations are exposed and not treated as gold."
+        )
+    )
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--predictions", type=Path, required=True, help="Inference JSONL.")
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--temporal-config",
+        type=Path,
+        default=Path("configs/reward_temporal_iou.yaml"),
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.rewards import (
+        HiddenStateExactMatchReward,
+        RewardConfig,
+        compare_hidden_state_and_temporal,
+    )
+    from magic_vlm.schemas import InferenceArtifact
+    from magic_vlm.utils import read_jsonl, write_jsonl
+
+    examples = {ex.example_id: ex for ex in load_manifest(args.manifest)}
+    temporal = RewardConfig.from_yaml(str(args.temporal_config)).build()
+    hidden = HiddenStateExactMatchReward()
+    rows = []
+    for raw in read_jsonl(args.predictions):
+        example_id = str(raw["example_id"])
+        if example_id not in examples:
+            raise SystemExit(f"prediction example_id not in manifest: {example_id}")
+        artifact = InferenceArtifact(
+            example_id=example_id,
+            model_id=str(raw.get("model_id") or "unknown"),
+            prompt=str(raw.get("prompt") or ""),
+            raw_text=str(raw.get("raw_text") or ""),
+            parsed_answer=raw.get("parsed_answer"),
+        )
+        rows.append(
+            compare_hidden_state_and_temporal(
+                artifact,
+                examples[example_id],
+                hidden_state_reward=hidden,
+                temporal_reward=temporal,  # type: ignore[arg-type]
+            )
+        )
+    write_jsonl(args.out, rows)
+    print(f"compare-objective wrote n={len(rows)} -> {args.out} (no hybrid weighting)")
+    return 0
+
+
 def score_reward_main(argv: list[str] | None = None) -> int:
     """Score preference pairs with a trained reward checkpoint (inference only)."""
     parser = argparse.ArgumentParser(

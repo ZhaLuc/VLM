@@ -1,0 +1,17 @@
+# Temporal/causal IoU reward (independently callable; not a hybrid).
+# Requires defensible causal annotations with status + provenance.
+# Does not invent causal ground truth. GRPO trainer not implemented.
+
+reward:
+  reward_id: temporal_iou
+  version: "1.0.0"
+  mode: binary
+  iou_threshold: 0.5
+  unit: auto
+
+notes: >
+  Binary: 1.0 if IoU >= threshold else 0.0.
+  Partial mode returns the IoU in [0,1].
+  Ambiguous annotations are exposed and score 0 (not treated as gold).
+  Clip-level temporal spans are never used as causal gold.
+  Do not combine with hidden_state_exact_match in this stage.

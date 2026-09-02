@@ -130,7 +130,16 @@ magic-vlm-train-dpo --config configs/dpo_smoke_text.yaml --smoke-local-lm
 See `docs/DPO.md`. DPO loss reduction is **not** reasoning improvement.
 
 Objective rewards for a future GRPO trainer (not implemented): see
-`docs/OBJECTIVE_REWARDS.md` and `configs/reward_hidden_state_exact_match.yaml`.
+`docs/OBJECTIVE_REWARDS.md`, including `temporal_iou` /
+`docs/TEMPORAL_CAUSAL_REWARD.md` (independent of hidden-state exact match; no
+hybrid weighting).
+
+```bash
+magic-vlm-compare-objective \
+  --manifest data/examples/toy_temporal_causal.jsonl \
+  --predictions path/to/predictions.jsonl \
+  --out runs/compare_objective.jsonl
+```
 
 ```bash
 magic-vlm-temporal-shuffle --config configs/temporal_shuffle_stub.yaml --run-id temporal-stub

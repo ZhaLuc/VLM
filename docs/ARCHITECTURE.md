@@ -57,7 +57,9 @@ move examples into/out of `held_out` after baseline numbers are published.
 - DPO for explanation preferences: `docs/DPO.md` (TRL + PEFT). Probe the stack
   before claiming VLM readiness. Never overwrite immutable baselines.
 - Objective rewards for future GRPO: `docs/OBJECTIVE_REWARDS.md`
-  (`hidden_state_exact_match` v1.0.0). Not a reasoning metric; GRPO not implemented.
+  (`hidden_state_exact_match` and `temporal_iou` v1.0.0). Not reasoning metrics;
+  no hybrid weighting; GRPO not implemented. Causal annotation status is exposed
+  in reports (`docs/TEMPORAL_CAUSAL_REWARD.md`).
 
 ## Framework compatibility
 

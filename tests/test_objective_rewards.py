@@ -142,10 +142,12 @@ def test_config_and_registry() -> None:
     assert "temporal_iou" in registered
     with pytest.raises(RewardError):
         build_reward("hybrid_reward")
-    with pytest.raises(NotImplementedError):
-        build_reward("temporal_iou").score(
-            _art(raw="x", parsed="x"), _ex()
-        )
+    temporal = build_reward("temporal_iou")
+    assert temporal.version == "1.0.0"
+    # Without causal annotation, temporal reward scores 0 (does not invent gold).
+    result = temporal.evaluate(_art(raw="start_s=0 end_s=1", parsed="x"), _ex())
+    assert result.value == 0.0
+    assert result.extras.get("eligible") is False
 
 
 def test_shortcut_risks_documented() -> None:

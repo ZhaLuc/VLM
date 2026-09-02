@@ -455,6 +455,67 @@ def _check_temporal_and_fps(
                 )
 
         fps = record.video.fps
+        causal = record.causal
+        if causal is not None:
+            findings.append(
+                Finding(
+                    severity="review",
+                    code="causal_annotation_present",
+                    message=(
+                        f"Causal annotation on {record.example_id!r}: "
+                        f"status={causal.status.value}, unique_cause={causal.unique_cause}"
+                    ),
+                    scientific_meaning=(
+                        "Causal status must be exposed in reports. Ambiguous labels must "
+                        "not be treated as gold. Clip-level temporal is not causal gold."
+                    ),
+                    example_ids=(record.example_id,),
+                    details={
+                        "annotation_status": causal.status.value,
+                        "status_label": (
+                            "objectively_established"
+                            if causal.status.value == "known"
+                            else causal.status.value
+                        ),
+                        "unique_cause": causal.unique_cause,
+                        "provenance": causal.provenance.to_dict(),
+                        "eligible_as_gold": causal.is_eligible_gold
+                        and causal.causal_moment is not None,
+                    },
+                )
+            )
+            if causal.status.value == "ambiguous":
+                findings.append(
+                    Finding(
+                        severity="review",
+                        code="ambiguous_causal_annotation",
+                        message=(
+                            f"Ambiguous causal annotation on {record.example_id!r} "
+                            "(retained; not scorable as gold)"
+                        ),
+                        scientific_meaning=(
+                            "Simultaneous actions can make a single causal moment "
+                            "undefinable. Do not hide or auto-promote ambiguous labels."
+                        ),
+                        example_ids=(record.example_id,),
+                    )
+                )
+            if causal.causal_moment is None and causal.is_eligible_gold:
+                findings.append(
+                    Finding(
+                        severity="error",
+                        code="causal_missing_moment",
+                        message=(
+                            f"Non-ambiguous causal annotation on {record.example_id!r} "
+                            "lacks causal_moment"
+                        ),
+                        scientific_meaning=(
+                            "Eligible causal statuses require an interval to score IoU."
+                        ),
+                        example_ids=(record.example_id,),
+                    )
+                )
+
         if fps is None:
             findings.append(
                 Finding(

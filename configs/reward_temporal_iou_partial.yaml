@@ -1,0 +1,13 @@
+# Temporal/causal IoU reward with partial credit (IoU itself).
+# Independently callable; not weighted with other rewards.
+
+reward:
+  reward_id: temporal_iou
+  version: "1.0.0"
+  mode: partial
+  iou_threshold: 0.5
+  unit: auto
+
+notes: >
+  Partial mode: reward value equals IoU. matched still uses iou_threshold.
+  Ambiguous / missing causal annotations remain unscored as gold.
