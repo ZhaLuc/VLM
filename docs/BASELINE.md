@@ -30,6 +30,8 @@ magic-vlm-baseline --config configs/baseline_qwen25vl_7b.yaml --load-frames --al
 | `prompt_template.txt` | Prompt template used |
 | `BASELINE_IMMUTABLE.json` | Marker that this run is the reference |
 | `metadata.json` / `environment.json` | Reproducibility bundle |
+| `analysis_metrics.json` / `analysis_report.md` | Failure analysis (see `docs/BASELINE_ANALYSIS.md`) |
+| `errors.jsonl` / `successes.jsonl` / `examples_inspectable.jsonl` | Example-level diagnostics |
 
 ## Integrity
 

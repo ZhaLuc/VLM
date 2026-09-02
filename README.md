@@ -66,6 +66,13 @@ magic-vlm-baseline --config configs/baseline_stub.yaml --run-id baseline-stub-he
 Default split is `held_out`. See `docs/BASELINE.md`.
 
 ```bash
+magic-vlm-analyze-baseline --run-dir runs/baseline-stub-heldout-v1
+```
+
+See `docs/BASELINE_ANALYSIS.md` for failure diagnostics (per-trick, answer
+distribution, inspectable error exports).
+
+```bash
 magic-vlm-infer --config configs/baseline_stub.yaml
 ```
 

@@ -360,3 +360,14 @@ def _write_baseline_outputs(
             "config_hash": ctx.record.config_hash,
         },
     )
+    # Post-hoc diagnostics (does not alter scores or protocol).
+    from magic_vlm.analysis import analyze_from_baseline_result, write_analysis_outputs
+
+    examples = filter_split(load_manifest(config.dataset.manifest), Split(result.split))
+    analysis = analyze_from_baseline_result(
+        result.predictions,
+        examples,
+        run_id=result.run_id,
+        split=result.split,
+    )
+    write_analysis_outputs(analysis, ctx.run_dir)

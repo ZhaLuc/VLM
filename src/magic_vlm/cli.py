@@ -243,7 +243,49 @@ def validate_main(argv: list[str] | None = None) -> int:
     return 0 if report.passed else 1
 
 
-    return 0 if report.passed else 1
+def analyze_main(argv: list[str] | None = None) -> int:
+    """Analyze a baseline run: metrics, report, and inspectable error exports."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Baseline failure analysis. Reads predictions.jsonl; writes "
+            "analysis_metrics.json, analysis_report.md, errors.jsonl, "
+            "successes.jsonl, examples_inspectable.jsonl. Does not retune protocol."
+        )
+    )
+    parser.add_argument(
+        "--run-dir",
+        type=Path,
+        required=True,
+        help="Baseline run directory containing predictions.jsonl.",
+    )
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=None,
+        help="Optional dataset manifest for performer/camera/notes join.",
+    )
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=None,
+        help="Output directory (default: same as --run-dir).",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.analysis import analyze_baseline_run
+
+    analysis = analyze_baseline_run(
+        args.run_dir,
+        manifest=args.manifest,
+        write=True,
+        out_dir=args.out_dir,
+    )
+    print(
+        f"analysis ok run_id={analysis.run_id} split={analysis.split} "
+        f"n={analysis.n_examples} accuracy={analysis.overall_accuracy} "
+        f"incorrect={analysis.n_incorrect} parse_failures={analysis.n_parse_failures}"
+    )
+    return 0
 
 
 def baseline_main(argv: list[str] | None = None) -> int:
