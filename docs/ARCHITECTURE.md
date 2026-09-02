@@ -39,12 +39,13 @@ move examples into/out of `held_out` after baseline numbers are published.
 - Treat those metrics as a frozen reference; later training comparisons must
   point at a baseline `run_id` rather than silently re-running and overwriting.
 
-## Future temporal shuffling
+## Temporal-order diagnostic
 
 - Sampling is independent of shuffle; see `docs/VIDEO_PREPROCESSING.md`.
 - `ordered_and_shuffled_pair` builds both views from one sample plan.
+- The paired experiment runner is `magic_vlm.temporal` (`docs/TEMPORAL_SHUFFLE.md`).
 - Temporal-shuffle sensitivity is a diagnostic of order dependence, not proof
-  of causal reasoning.
+  of causal reasoning. Shuffle outputs must not be used for training.
 
 ## Preference records
 

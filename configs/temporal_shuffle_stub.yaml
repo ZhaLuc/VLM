@@ -1,0 +1,59 @@
+# Temporal-order diagnostic (not training; not causal-reasoning proof).
+# Same sampled frames, question, model, generation, and evaluation.
+
+name: temporal_shuffle_stub
+stage: diagnostic
+training_method: none
+reward_function: hidden_state_exact_match
+output_dir: runs
+preserve_raw_outputs: true
+baseline_immutable: false
+allow_held_out_in_training: false
+allow_model_download: false
+seed: 0
+notes: >
+  Paired ordered vs shuffled presentation of identical sampled frames.
+  Shuffle data must not be used for training.
+
+model:
+  model_id: stub/echo
+  revision: null
+  torch_dtype: bfloat16
+  device_map: auto
+  trust_remote_code: true
+
+checkpoint:
+  kind: stub
+  path: null
+  parent_run_id: null
+  label: temporal_shuffle_stub
+
+dataset:
+  manifest: data/examples/toy_manifest.jsonl
+  version: toy-v0
+  split: held_out
+  task: hidden_state
+
+generation:
+  max_new_tokens: 64
+  temperature: 0.0
+  top_p: 1.0
+  top_k: 0
+  do_sample: false
+
+device:
+  preference: cpu
+  cuda_index: null
+
+seed_config:
+  seed: 0
+  deterministic_algorithms: false
+  cudnn_deterministic: false
+  cudnn_benchmark: false
+
+video:
+  max_frames: 4
+  sample_strategy: uniform
+  temporal_shuffle: false
+  shuffle_seed: 7
+  resize: null

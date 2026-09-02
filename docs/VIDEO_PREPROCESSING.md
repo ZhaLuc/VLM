@@ -34,3 +34,6 @@ magic-vlm-sample-frames --video path/to/clip.mp4 --max-frames 8 \
 
 Use `--load-frames` only when OpenCV decode is needed; default writes indices
 and metadata only.
+
+Paired ordered vs shuffled evaluation (same sample set, identical prompts):
+`docs/TEMPORAL_SHUFFLE.md`.

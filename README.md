@@ -18,9 +18,10 @@ This repository currently provides a **minimal research architecture** only:
 - experiment configuration / run manifests
 - preference-pair schema I/O
 
-**Not implemented yet:** Dataset B collection, real Qwen baseline runs, DPO,
-GRPO, PPO, reward-model training, or temporal-shuffle experiments beyond the
-preprocessing flag.
+**Not implemented yet:** Dataset B collection, real Qwen baseline runs, GRPO,
+PPO. DPO, a Bradley-Terry text reward model, and a temporal-order diagnostic
+(ordered vs shuffled presentation of the same sampled frames) are implemented
+as separate modules.
 
 See `docs/ARCHITECTURE.md` and `magic-vlm-research-plan-v2.md`.
 
@@ -130,6 +131,13 @@ See `docs/DPO.md`. DPO loss reduction is **not** reasoning improvement.
 
 Objective rewards for a future GRPO trainer (not implemented): see
 `docs/OBJECTIVE_REWARDS.md` and `configs/reward_hidden_state_exact_match.yaml`.
+
+```bash
+magic-vlm-temporal-shuffle --config configs/temporal_shuffle_stub.yaml --run-id temporal-stub
+```
+
+See `docs/TEMPORAL_SHUFFLE.md`. This is a temporal-order diagnostic, **not**
+proof of causal reasoning, and must not be used for training.
 
 ```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml

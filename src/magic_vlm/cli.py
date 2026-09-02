@@ -643,6 +643,54 @@ def baseline_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def temporal_shuffle_main(argv: list[str] | None = None) -> int:
+    """Paired ordered vs shuffled diagnostic (same sampled frames; not training)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Temporal-order diagnostic: identical sampled frames, question, model, "
+            "and generation under ordered vs shuffled presentation. Not proof of "
+            "causal reasoning. Shuffle outputs must not be used for training."
+        )
+    )
+    parser.add_argument("--config", type=Path, default=Path("configs/temporal_shuffle_stub.yaml"))
+    parser.add_argument(
+        "--split",
+        type=str,
+        default=None,
+        help="Evaluation split (default: config.dataset.split or held_out).",
+    )
+    parser.add_argument("--run-id", type=str, default=None)
+    parser.add_argument("--shuffle-seed", type=int, default=None)
+    parser.add_argument("--allow-download", action="store_true")
+    parser.add_argument(
+        "--load-frames",
+        action="store_true",
+        help="Decode video frames when media files exist (requires OpenCV).",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.temporal import run_temporal_shuffle_experiment
+
+    config = load_experiment_config(args.config)
+    summary, pairs, run_dir = run_temporal_shuffle_experiment(
+        config,
+        split=args.split,
+        run_id=args.run_id,
+        shuffle_seed=args.shuffle_seed,
+        allow_download=args.allow_download or None,
+        load_frames=args.load_frames,
+    )
+    print(
+        f"temporal-order diagnostic n={summary.n_pairs} split={summary.split} "
+        f"ordered_acc={summary.ordered_accuracy} shuffled_acc={summary.shuffled_accuracy} "
+        f"diff={summary.accuracy_difference} seed={summary.shuffle_seed} "
+        f"both_correct={summary.n_both_correct} both_incorrect={summary.n_both_incorrect} "
+        f"ordered_only={summary.n_ordered_only} shuffled_only={summary.n_shuffled_only} "
+        f"pairs={len(pairs)} dir={run_dir}"
+    )
+    return 0
+
+
 def infer_main(argv: list[str] | None = None) -> int:
     """Run inference for one example (stub by default; no weight download)."""
     parser = argparse.ArgumentParser(

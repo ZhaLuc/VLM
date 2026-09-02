@@ -22,4 +22,4 @@ __all__ = [
     "initialize_experiment",
 ]
 
-__version__ = "0.1.13"
+__version__ = "0.1.14"
