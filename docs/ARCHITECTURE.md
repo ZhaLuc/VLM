@@ -48,8 +48,8 @@ move examples into/out of `held_out` after baseline numbers are published.
 
 ## Framework compatibility
 
-- Real Qwen2.5-VL loading goes through Hugging Face Transformers when the
-  optional `models` extra is installed.
+- This project defaults to **project-sampled frames** for Qwen2.5-VL, not
+  processor-internal `fps` resampling. See `docs/INFERENCE.md`.
 - Transformers/TRL/PEFT/vLLM versions are **not** pinned yet; compatibility
   must be verified at the baseline-inference stage before claiming support.
 - Architecture tests use `stub/` model ids and never download weights.

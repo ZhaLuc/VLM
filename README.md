@@ -57,7 +57,13 @@ magic-vlm-init --config configs/baseline_stub.yaml
 # or: python scripts/init_experiment.py --config configs/baseline_stub.yaml
 ```
 
-## Frame sampling (ordered / shuffled)
+## Single-example inference (stub; no downloads)
+
+```bash
+magic-vlm-infer --config configs/baseline_stub.yaml
+```
+
+See `docs/INFERENCE.md`.
 
 ```bash
 magic-vlm-sample-frames --video path/to/clip.mp4 --max-frames 8 --also-shuffled --json-out runs/sample.json

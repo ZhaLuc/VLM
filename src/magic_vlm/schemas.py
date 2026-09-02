@@ -386,6 +386,15 @@ class InferenceArtifact:
     frame_indices: tuple[int, ...] = ()
     generation: dict[str, Any] = field(default_factory=dict)
     extras: dict[str, Any] = field(default_factory=dict)
+    clip_id: str | None = None
+    task: str | None = None
+    question: str | None = None
+    model_revision: str | None = None
+    checkpoint_kind: str | None = None
+    checkpoint_path: str | None = None
+    preprocessing: dict[str, Any] = field(default_factory=dict)
+    device: str | None = None
+    latency_s: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)

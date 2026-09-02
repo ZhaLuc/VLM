@@ -243,5 +243,64 @@ def validate_main(argv: list[str] | None = None) -> int:
     return 0 if report.passed else 1
 
 
+def infer_main(argv: list[str] | None = None) -> int:
+    """Run inference for one example (stub by default; no weight download)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "VLM inference for one dataset example. Does not train or download "
+            "weights unless --allow-download is set."
+        )
+    )
+    parser.add_argument("--config", type=Path, default=Path("configs/baseline_stub.yaml"))
+    parser.add_argument("--example-id", type=str, default=None)
+    parser.add_argument("--json-out", type=Path, default=None)
+    parser.add_argument("--allow-download", action="store_true")
+    parser.add_argument("--run-id", type=str, default=None)
+    args = parser.parse_args(argv)
+
+    config = load_experiment_config(args.config)
+    if (not config.model.model_id.startswith("stub/")) and not args.allow_download:
+        if not Path(config.model.model_id).exists():
+            raise SystemExit(
+                "Refusing to download model weights. Use a stub config, a local "
+                "checkpoint path, or pass --allow-download."
+            )
+    ctx = initialize_experiment(config, run_id=args.run_id)
+    examples = load_manifest(config.dataset.manifest)
+    if args.example_id:
+        examples = [ex for ex in examples if ex.example_id == args.example_id]
+        if not examples:
+            raise SystemExit(f"No example with id {args.example_id!r}")
+    example = examples[0]
+    num_frames = example.video.num_frames or 16
+    preprocessed = preprocess_video_meta(
+        example.video.path,
+        num_frames=num_frames,
+        config=config.video,
+    )
+    model = load_vlm(
+        config.model,
+        allow_download=args.allow_download or config.allow_model_download,
+        device=config.device,
+    )
+    artifact = run_inference(
+        model,
+        example,
+        preprocessed=preprocessed,
+        generation=config.generation,
+        device=ctx.device,
+        checkpoint_kind=config.checkpoint.kind,
+        checkpoint_path=config.checkpoint.path,
+    )
+    write_json(ctx.run_dir / "inference.json", artifact.to_dict())
+    if args.json_out is not None:
+        write_json(args.json_out, artifact.to_dict())
+    print(
+        f"infer ok example_id={artifact.example_id} clip_id={artifact.clip_id} "
+        f"latency_s={artifact.latency_s} raw_chars={len(artifact.raw_text)}"
+    )
+    return 0
+
+
 if __name__ == "__main__":
     raise SystemExit(smoke_main())
