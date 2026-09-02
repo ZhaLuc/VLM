@@ -2,7 +2,8 @@
 # Do not use this config in CI/smoke tests: it may download large weights.
 name: baseline_qwen25vl_7b
 stage: baseline
-dataset_manifest: data/examples/toy_manifest.jsonl
+training_method: none
+reward_function: exact_match
 output_dir: runs
 preserve_raw_outputs: true
 baseline_immutable: true
@@ -20,6 +21,35 @@ model:
   torch_dtype: bfloat16
   device_map: auto
   trust_remote_code: true
+
+checkpoint:
+  kind: base
+  path: null
+  parent_run_id: null
+  label: untouched_base
+
+dataset:
+  manifest: data/examples/toy_manifest.jsonl
+  version: unspecified
+  split: null
+  task: hidden_state
+
+generation:
+  max_new_tokens: 128
+  temperature: 0.0
+  top_p: 1.0
+  top_k: 0
+  do_sample: false
+
+device:
+  preference: auto
+  cuda_index: null
+
+seed_config:
+  seed: 0
+  deterministic_algorithms: false
+  cudnn_deterministic: false
+  cudnn_benchmark: false
 
 video:
   max_frames: 8

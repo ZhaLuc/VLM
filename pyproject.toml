@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "magic-vlm"
-version = "0.1.0"
+version = "0.1.1"
 description = "Research code for visual reasoning on magic/mentalism demonstrations with VLMs"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,11 +17,14 @@ dependencies = [
 [project.optional-dependencies]
 # Optional stacks for later stages. Not required to validate architecture.
 video = ["opencv-python-headless>=4.8", "numpy>=1.24"]
+# Torch is intentionally unpinned here: install a CPU or CUDA wheel that matches
+# the target machine. See requirements/models.txt for a documented starting point.
 models = ["torch", "transformers>=4.45", "accelerate", "pillow"]
 dev = ["pytest>=7.4"]
 
 [project.scripts]
 magic-vlm-smoke = "magic_vlm.cli:smoke_main"
+magic-vlm-init = "magic_vlm.cli:init_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

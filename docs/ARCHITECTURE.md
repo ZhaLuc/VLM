@@ -24,9 +24,9 @@ move examples into/out of `held_out` after baseline numbers are published.
 
 ## Experiment metadata
 
-- Each smoke/run writes `run_manifest.json` with `run_id`, UTC timestamp,
-  full config, `config_hash`, optional `git_commit`, stage, and
-  `baseline_immutable`.
+- Prefer `initialize_experiment`, which writes `metadata.json`,
+  `environment.json`, `determinism.json`, serialized config, and
+  `run_manifest.json`. See `docs/REPRODUCIBILITY.md`.
 
 ## Baseline immutability
 

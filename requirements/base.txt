@@ -1,0 +1,3 @@
+# Core runtime required for config/reproducibility (no VLM weights).
+# Install editable package instead when developing: pip install -e ".[dev]"
+pyyaml>=6.0

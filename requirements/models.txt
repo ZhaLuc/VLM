@@ -1,0 +1,7 @@
+-r base.txt
+# Choose a torch wheel for your platform from https://pytorch.org
+# Example CPU (Windows/Linux): pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch
+transformers>=4.45
+accelerate
+pillow

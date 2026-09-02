@@ -49,12 +49,21 @@ Optional extras (later stages):
 python -m pip install -e ".[dev,video,models]"
 ```
 
-## Smoke test (no model download)
+## Reproducibility init (no model load)
 
 ```bash
 python -m pytest
-python -m magic_vlm.cli --config configs/baseline_stub.yaml
+magic-vlm-init --config configs/baseline_stub.yaml
+# or: python scripts/init_experiment.py --config configs/baseline_stub.yaml
 ```
+
+## Smoke test (stub model only; no weight download)
+
+```bash
+magic-vlm-smoke --config configs/baseline_stub.yaml
+```
+
+See `docs/REPRODUCIBILITY.md` for metadata fields and determinism policy.
 
 ## Recommended first real experiment
 

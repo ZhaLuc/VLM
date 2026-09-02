@@ -12,18 +12,46 @@ from magic_vlm.video import PreprocessedVideo
 
 @dataclass(frozen=True)
 class GenerationConfig:
+    """Decoding parameters that can change scientific results.
+
+    Always serialize the full object into run metadata. ``top_p`` / ``top_k``
+    are recorded even when ``do_sample`` is False so configs remain explicit.
+    """
+
     max_new_tokens: int = 128
     temperature: float = 0.0
+    top_p: float = 1.0
+    top_k: int = 0
     do_sample: bool = False
     extras: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload = {
             "max_new_tokens": self.max_new_tokens,
             "temperature": self.temperature,
+            "top_p": self.top_p,
+            "top_k": self.top_k,
             "do_sample": self.do_sample,
-            **self.extras,
+            "sampling_mode": "sample" if self.do_sample else "greedy",
         }
+        if self.extras:
+            payload["extras"] = dict(self.extras)
+        return payload
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any] | None) -> GenerationConfig:
+        raw = dict(data or {})
+        raw.pop("sampling_mode", None)
+        extras = dict(raw.pop("extras", {}) or {})
+        known = {
+            "max_new_tokens": int(raw.pop("max_new_tokens", 128)),
+            "temperature": float(raw.pop("temperature", 0.0)),
+            "top_p": float(raw.pop("top_p", 1.0)),
+            "top_k": int(raw.pop("top_k", 0)),
+            "do_sample": bool(raw.pop("do_sample", False)),
+        }
+        extras.update(raw)
+        return cls(**known, extras=extras)
 
 
 def build_prompt(example: ExampleRecord) -> str:
