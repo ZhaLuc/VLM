@@ -299,6 +299,42 @@ def validate_preferences_main(argv: list[str] | None = None) -> int:
     return 0 if report.passed else 1
 
 
+def analyze_preferences_main(argv: list[str] | None = None) -> int:
+    """Quality-control analysis for preference JSONL (non-destructive)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Analyze preference-data quality before DPO/reward-model training. "
+            "Reports errors, warnings, and possible biases. Never deletes records."
+        )
+    )
+    parser.add_argument("--prefs", type=Path, required=True, help="Preference JSONL.")
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=None,
+        help="Directory for JSON/MD/JSONL reports (default: alongside --prefs).",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.preference_quality import (
+        analyze_preference_file,
+        format_quality_report,
+        write_quality_outputs,
+    )
+
+    report = analyze_preference_file(args.prefs)
+    out_dir = args.out_dir
+    if out_dir is None:
+        out_dir = args.prefs.parent / f"{args.prefs.stem}_quality"
+    write_quality_outputs(report, out_dir)
+    print(format_quality_report(report), end="")
+    print(
+        f"quality ok parsed={report.n_parsed} malformed={report.n_malformed} "
+        f"errors={report.n_errors} warnings={report.n_warnings} out={out_dir}"
+    )
+    return 0
+
+
 def annotate_main(argv: list[str] | None = None) -> int:
     """Minimal human preference annotation over explanation pairs."""
     parser = argparse.ArgumentParser(

@@ -107,6 +107,12 @@ magic-vlm-annotate --annotator lucas \
 See `docs/ANNOTATION_WORKFLOW.md`.
 
 ```bash
+magic-vlm-analyze-preferences --prefs data/examples/toy_annotated_preferences.jsonl
+```
+
+See `docs/PREFERENCE_QUALITY.md`.
+
+```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```
 
