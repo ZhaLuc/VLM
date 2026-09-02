@@ -22,6 +22,11 @@ move examples into/out of `held_out` after baseline numbers are published.
 - `parsed_answer` is derived and never a substitute when writing artifacts.
 - `preserve_raw_outputs=true` in experiment configs writes `predictions.jsonl`.
 
+## Ground-truth storage
+
+- Dataset `ground_truth` is authoritative and must not be silently normalized.
+- See `docs/DATASET_SCHEMA.md`.
+
 ## Experiment metadata
 
 - Prefer `initialize_experiment`, which writes `metadata.json`,

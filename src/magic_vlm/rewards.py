@@ -37,7 +37,7 @@ class ExactMatchReward:
         **kwargs: Any,
     ) -> float:
         prediction = artifact.parsed_answer if artifact.parsed_answer is not None else artifact.raw_text
-        return 1.0 if exact_match(prediction, example.answer) else 0.0
+        return 1.0 if exact_match(prediction, example.ground_truth) else 0.0
 
 
 @dataclass(frozen=True)

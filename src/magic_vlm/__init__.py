@@ -9,16 +9,17 @@ Training algorithms (DPO/GRPO/PPO) and reward-model fitting are intentionally
 not implemented in this stage.
 """
 
-from magic_vlm.schemas import ExampleRecord, Split, VideoRef
+from magic_vlm.schemas import ExampleRecord, Split, TaskType, VideoRef
 from magic_vlm.experiment import ExperimentConfig, initialize_experiment, load_experiment_config
 
 __all__ = [
     "ExampleRecord",
     "Split",
+    "TaskType",
     "VideoRef",
     "ExperimentConfig",
     "load_experiment_config",
     "initialize_experiment",
 ]
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"

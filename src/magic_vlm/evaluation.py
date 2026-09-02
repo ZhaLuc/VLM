@@ -40,6 +40,11 @@ class EvaluationReport:
 
 
 def normalize_label(value: str | None) -> str:
+    """Compare-time normalization for predictions and gold *copies*.
+
+    This must never be used to rewrite stored dataset ``ground_truth`` values.
+    Manifests keep the authored label verbatim.
+    """
     if value is None:
         return ""
     return " ".join(value.strip().lower().split())
@@ -61,13 +66,14 @@ def evaluate_exact_match(
         if artifact is None:
             raise KeyError(f"Missing inference artifact for example {example.example_id!r}")
         pred = artifact.parsed_answer
-        ok = exact_match(pred, example.answer)
+        gold = example.ground_truth
+        ok = exact_match(pred, gold)
         scores.append(
             ExampleScore(
                 example_id=example.example_id,
                 split=example.split.value,
                 correct=ok,
-                gold=example.answer,
+                gold=gold,
                 prediction=pred,
                 raw_text=artifact.raw_text,
             )

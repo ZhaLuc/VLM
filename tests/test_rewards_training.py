@@ -1,21 +1,33 @@
 import pytest
 
 from magic_vlm.rewards import ExactMatchReward, LengthPenaltyReward, score_batch
-from magic_vlm.schemas import ExampleRecord, InferenceArtifact, PreferencePair, Split, VideoRef
+from magic_vlm.schemas import (
+    ExampleRecord,
+    InferenceArtifact,
+    PreferencePair,
+    Provenance,
+    Split,
+    TaskType,
+    VideoRef,
+)
 from magic_vlm.preferences import write_preference_pairs, load_preference_pairs
 from magic_vlm.training import TrainingConfig, run_training, validate_training_split
 from magic_vlm.dataset import SplitBoundaryError
 
 
-def _ex(example_id: str = "e1", answer: str = "left") -> ExampleRecord:
+def _ex(example_id: str = "e1", answer: str = "left", split: Split = Split.TRAIN) -> ExampleRecord:
     return ExampleRecord(
         example_id=example_id,
-        split=Split.TRAIN,
-        video=VideoRef(path="e.mp4"),
-        question="q",
-        answer=answer,
+        clip_id=f"clip_{example_id}",
         trick_id="t",
         performer_id="p",
+        camera_id="cam",
+        video=VideoRef(path=f"{example_id}.mp4"),
+        task=TaskType.HIDDEN_STATE,
+        question="q",
+        ground_truth=answer,
+        split=split,
+        provenance=Provenance(source="unit_test"),
     )
 
 
@@ -58,16 +70,7 @@ def test_preference_roundtrip(tmp_path) -> None:
 
 
 def test_training_refuses_held_out_and_algorithms() -> None:
-    held = _ex("h")
-    held = ExampleRecord(
-        example_id="h",
-        split=Split.HELD_OUT,
-        video=VideoRef(path="h.mp4"),
-        question="q",
-        answer="left",
-        trick_id="t",
-        performer_id="p",
-    )
+    held = _ex("h", split=Split.HELD_OUT)
     with pytest.raises(SplitBoundaryError):
         validate_training_split([held])
 
