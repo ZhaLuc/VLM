@@ -98,6 +98,15 @@ magic-vlm-validate-preferences --prefs data/examples/toy_preferences.jsonl
 See `docs/PREFERENCE_SCHEMA.md`.
 
 ```bash
+magic-vlm-annotate --annotator lucas \
+  --queue data/examples/toy_annotation_queue.jsonl \
+  --out data/annotations/preferences.jsonl \
+  --rubric configs/annotation_rubric.yaml
+```
+
+See `docs/ANNOTATION_WORKFLOW.md`.
+
+```bash
 magic-vlm-smoke --config configs/baseline_stub.yaml
 ```
 

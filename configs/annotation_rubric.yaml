@@ -1,0 +1,25 @@
+# Human preference annotation rubric for mechanism explanations.
+# Prefer evidence and correctness over style. Do not reward verbosity/confidence alone.
+
+version: explanation_pref_v1
+title: Mechanism explanation preference
+
+prioritize:
+  - Factual correctness relative to what the demonstration shows
+  - Evidence grounded in visible events in the clip
+  - Specificity about the hidden mechanism (not vague restatement)
+
+do_not_reward:
+  - Verbosity or length by itself
+  - Confident tone or assertive phrasing by itself
+  - Fluent writing that invents unsupported details
+
+decision_rule: >
+  Choose A or B based on correctness, evidence, and mechanism specificity.
+  If both fail equally, still force a choice under the default protocol
+  (ties are disabled unless explicitly enabled).
+
+notes:
+  - Do not rewrite or edit the candidate responses.
+  - Optional rationales should cite evidence, not praise style.
+  - This is research tooling for ~60-100+ judgments, not a production platform.

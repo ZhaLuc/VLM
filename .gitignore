@@ -32,14 +32,10 @@ outputs/
 *.ckpt
 *.gguf
 
-# Local data (manifests may be committed; raw media stays local)
-data/raw/
-data/videos/*
-!data/videos/.gitkeep
-*.mp4
-*.mov
-*.avi
-*.mkv
+# Local annotation working copies (commit examples under data/examples/)
+data/annotations/*.jsonl
+data/annotations/*.session.json
+!data/annotations/README.md
 
 # Env / secrets
 .env

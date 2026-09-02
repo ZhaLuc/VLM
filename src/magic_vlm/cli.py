@@ -299,6 +299,82 @@ def validate_preferences_main(argv: list[str] | None = None) -> int:
     return 0 if report.passed else 1
 
 
+def annotate_main(argv: list[str] | None = None) -> int:
+    """Minimal human preference annotation over explanation pairs."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Annotate pairwise explanation preferences. Shows video path, task, "
+            "and raw A/B responses; appends immutable judgments. Resume-safe. "
+            "No accounts, cloud sync, or AI ranking."
+        )
+    )
+    parser.add_argument(
+        "--queue",
+        type=Path,
+        default=Path("data/examples/toy_annotation_queue.jsonl"),
+        help="Candidate pair JSONL (no winners).",
+    )
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=Path("data/annotations/preferences.jsonl"),
+        help="Append-only judgment store.",
+    )
+    parser.add_argument("--annotator", type=str, required=True, help="Annotator ID.")
+    parser.add_argument(
+        "--rubric",
+        type=Path,
+        default=Path("configs/annotation_rubric.yaml"),
+        help="Rubric YAML (correctness / evidence / specificity).",
+    )
+    parser.add_argument("--video-root", type=Path, default=None)
+    parser.add_argument(
+        "--no-open-video",
+        action="store_true",
+        help="Do not attempt to open the video file in an OS viewer.",
+    )
+    parser.add_argument("--limit", type=int, default=None, help="Max new judgments this run.")
+    parser.add_argument(
+        "--winner",
+        action="append",
+        default=None,
+        help="Scripted winner (a/b); repeatable. Enables non-interactive mode.",
+    )
+    parser.add_argument(
+        "--rationale",
+        action="append",
+        default=None,
+        help="Optional rationale aligned with --winner order.",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.annotation import (
+        AnnotationSessionConfig,
+        load_rubric,
+        run_annotation_session,
+    )
+
+    config = AnnotationSessionConfig(
+        annotator_id=args.annotator,
+        queue_path=args.queue,
+        judgments_path=args.out,
+        rubric=load_rubric(args.rubric if args.rubric.exists() else None),
+        video_root=args.video_root,
+        open_video=not args.no_open_video,
+    )
+    result = run_annotation_session(
+        config,
+        winners=args.winner,
+        rationales=args.rationale,
+        limit=args.limit,
+    )
+    print(
+        f"annotate ok recorded={result.n_recorded} skipped={result.n_skipped} "
+        f"pending_before={result.n_pending_before} out={result.judgments_path}"
+    )
+    return 0
+
+
 def analyze_main(argv: list[str] | None = None) -> int:
     """Analyze a baseline run: metrics, report, and inspectable error exports."""
     parser = argparse.ArgumentParser(

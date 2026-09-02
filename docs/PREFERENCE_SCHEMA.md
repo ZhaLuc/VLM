@@ -63,3 +63,8 @@ strict mode), multi-annotator disagreement (review).
 - Do not rewrite candidate text on load/save.
 - Do not use `held_out` preferences for reward-model / DPO fitting without an
   explicit research decision.
+
+## Annotation workflow
+
+See `docs/ANNOTATION_WORKFLOW.md` for the minimal CLI used to collect human
+judgments into this schema.
