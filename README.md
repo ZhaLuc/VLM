@@ -9,11 +9,12 @@ Demonstrations: A Post-Training Study of Vision-Language Models
 ## Status
 
 Five local Wikimedia / PeerJ cups-and-balls clips are **pilot/control**
-footage (`NOT_SUITABLE_FOR_HIDDEN_STATE`). Mac King S6/S7
-(`data/videos/Movie6.MP4`, `Movie7.MP4`) are pending human review, not gold.
-Hidden-state gold: **not ready** (0 qualifying clips; 2 pending). Sourcing:
-`docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`. Review:
-`reports/hidden_state_candidates/index.html`.
+footage (`NOT_SUITABLE_FOR_HIDDEN_STATE`). Mac King S6
+(`data/videos/Movie6.MP4`) is the first human-approved hidden-state gold
+example. S7 remains pending. Hidden-state gold: **1 of 5** for a pilot.
+Sourcing: `docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`. Review:
+`reports/hidden_state_candidates/index.html`. Gold manifest:
+`data/examples/hidden_state_pilot.jsonl`.
 
 This repository currently provides a **minimal research architecture** only:
 
@@ -204,11 +205,10 @@ See `docs/REPRODUCIBILITY.md` for metadata fields and determinism policy.
 
 ## Recommended first real experiment
 
-1. Build Dataset B manifests with frozen `held_out` membership.
-2. Install `models` / `video` extras and obtain Qwen2.5-VL-7B-Instruct locally
-   (or deliberately enable download).
-3. Copy `configs/baseline_qwen25vl_7b.yaml`, point it at the real manifest, and
-   run a zero-shot baseline that writes raw `predictions.jsonl`.
+1. S6 gold is recorded in `data/examples/hidden_state_pilot.jsonl`.
+2. Install CUDA-enabled PyTorch and obtain local Qwen2.5-VL-3B or 7B Instruct
+   weights (do not run Qwen on CPU-only hosts).
+3. Run zero-shot: `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --load-frames`.
 
 ## License
 

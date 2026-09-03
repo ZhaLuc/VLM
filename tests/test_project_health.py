@@ -102,11 +102,18 @@ def test_html_and_markdown_include_hidden_state_collections() -> None:
         assert "MAC KING CANDIDATES" in blob
         assert "HIDDEN-STATE GOLD" in blob
     hs = audit["hidden_state_dataset"]
-    assert hs["approved_gold_examples"] == 0
-    assert hs["pending_review"] == 2
+    assert hs["approved_gold_examples"] == 1
+    assert hs["pending_review"] == 1
     assert hs["hidden_state_candidates"] == 7
-    assert hs["clips_needed"] == 5
+    assert hs["clips_needed"] == 4
     assert hs["wikimedia_controls"]["candidate_count"] == 5
     assert hs["mac_king_candidates"]["candidate_count"] == 7
-    assert hs["hidden_state_gold"]["eligible_count"] == 0
-    assert audit["first_baseline_ready"] == "NO"
+    assert hs["hidden_state_gold"]["eligible_count"] == 1
+    cuda = bool(audit["environment"]["torch"].get("cuda_available"))
+    qwen = bool(audit["environment"].get("qwen_cache_present")) or bool(
+        (audit.get("smokes") or {}).get("real_qwen_load", {}).get("loaded")
+    )
+    if cuda and qwen:
+        assert audit["first_baseline_ready"] == "YES"
+    else:
+        assert audit["first_baseline_ready"] == "PARTIALLY"

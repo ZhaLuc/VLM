@@ -1175,19 +1175,38 @@ def build_blockers(
                 priority="now",
             )
         )
-    blockers.append(
-        Blocker(
-            id="human_labels",
-            why="Real ground-truth / preference / causal annotations not yet collected",
-            need=(
-                "Review Mac King S6/S7 hidden-state proposals (PENDING); "
-                "Wikimedia transparent-cup pilots remain controls, not gold"
-                if int(env.get("real_mp4_count") or 0) > 0
-                else "Author research labels after videos exist"
-            ),
-            priority="now" if int(env.get("real_mp4_count") or 0) > 0 else "later",
+    pending = int((dataset_stats or {}).get("pending_review") or 0)
+    clips_needed = int((dataset_stats or {}).get("clips_needed") or 0)
+    if approved_gold >= 1:
+        blockers.append(
+            Blocker(
+                id="human_labels",
+                why=(
+                    f"{approved_gold} approved hidden-state gold example(s); "
+                    f"{pending} pending review; "
+                    f"{clips_needed} more clip(s) needed for a 5-clip pilot"
+                ),
+                need=(
+                    "Leave S7 PENDING. Do not gold-label Wikimedia clips. "
+                    "Additional gold clips are later, not the first zero-shot baseline"
+                ),
+                priority="later",
+            )
         )
-    )
+    else:
+        blockers.append(
+            Blocker(
+                id="human_labels",
+                why="Real ground-truth / preference / causal annotations not yet collected",
+                need=(
+                    "Review Mac King S6/S7 hidden-state proposals (PENDING); "
+                    "Wikimedia transparent-cup pilots remain controls, not gold"
+                    if int(env.get("real_mp4_count") or 0) > 0
+                    else "Author research labels after videos exist"
+                ),
+                priority="now" if int(env.get("real_mp4_count") or 0) > 0 else "later",
+            )
+        )
     blockers.append(
         Blocker(
             id="vllm_optional",
@@ -1199,7 +1218,12 @@ def build_blockers(
     return blockers
 
 
-def build_human_input(env: dict[str, Any]) -> list[HumanInputItem]:
+def build_human_input(
+    env: dict[str, Any],
+    dataset_stats: dict[str, Any] | None = None,
+) -> list[HumanInputItem]:
+    approved_gold = int((dataset_stats or {}).get("approved_gold_examples") or 0)
+    clips_needed = int((dataset_stats or {}).get("clips_needed") or 0)
     items = [
         HumanInputItem(
             priority="now",
@@ -1246,20 +1270,35 @@ def build_human_input(env: dict[str, Any]) -> list[HumanInputItem]:
     ]
     if int(env.get("real_mp4_count") or 0) > 0:
         items = [i for i in items if "real magic" not in i.what.lower()]
-        items.insert(
-            0,
-            HumanInputItem(
-                priority="now",
-                what=(
-                    "Record an explicit S6 decision in HUMAN_INPUT_REQUIRED.md: "
-                    "replace `APPROVE / EDIT / REJECT` with one word. "
-                    "S7 stays pending. Do not gold-label Wikimedia clips."
+        if approved_gold >= 1:
+            items.append(
+                HumanInputItem(
+                    priority="later",
+                    what=(
+                        "S6 is approved gold. Leave S7 PENDING. "
+                        f"Source {clips_needed} more hidden-state clip(s) for a 5-clip pilot. "
+                        "Do not gold-label Wikimedia clips."
+                    ),
+                    where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+                    format="Human decision on pending proposals only; no unverified ground_truth",
+                    after="Do not run Qwen until CUDA and local weights exist",
+                )
+            )
+        else:
+            items.insert(
+                0,
+                HumanInputItem(
+                    priority="now",
+                    what=(
+                        "Record an explicit S6 decision in HUMAN_INPUT_REQUIRED.md: "
+                        "replace `APPROVE / EDIT / REJECT` with one word. "
+                        "S7 stays pending. Do not gold-label Wikimedia clips."
+                    ),
+                    where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+                    format="Human decision on pending proposals only; no unverified ground_truth",
+                    after="Open reports/hidden_state_candidates/index.html",
                 ),
-                where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
-                format="Human decision on pending proposals only; no unverified ground_truth",
-                after="Open reports/hidden_state_candidates/index.html",
-            ),
-        )
+            )
     return items
 
 
@@ -1537,7 +1576,7 @@ def run_audit(
         )
         overall = derive_overall(env, components, smokes, dataset_stats)
         blockers = build_blockers(env, smokes, dataset_stats)
-        human = build_human_input(env)
+        human = build_human_input(env, dataset_stats)
         actions = next_actions(overall, blockers)
         entry = smokes.get("entry_points") or {}
 

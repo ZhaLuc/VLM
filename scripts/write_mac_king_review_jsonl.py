@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Write Mac King review JSONL from proposals + provenance. No gold labels."""
+"""Write Mac King review JSONL from proposals + provenance."""
 
 from __future__ import annotations
 
@@ -21,12 +21,20 @@ def main() -> int:
     for clip in proposals["clips"]:
         clip_id = clip["clip_id"]
         meta = tech[clip_id]
+        approved = clip.get("human_approval") in {"APPROVE", "APPROVED"}
+        question = clip["candidate_question"] if approved and clip.get("candidate_question") else FILL
+        ground_truth = (
+            clip["candidate_ground_truth"] if approved and clip.get("candidate_ground_truth") else FILL
+        )
+        trick_id = clip.get("trick_id") if approved and clip.get("trick_id") else FILL
+        performer_id = clip.get("performer_id") if approved and clip.get("performer_id") else FILL
+        camera_id = clip.get("camera_id") if approved and clip.get("camera_id") else FILL
         record = {
             "example_id": f"{clip_id}_q1",
             "clip_id": clip_id,
-            "trick_id": FILL,
-            "performer_id": FILL,
-            "camera_id": FILL,
+            "trick_id": trick_id,
+            "performer_id": performer_id,
+            "camera_id": camera_id,
             "video": {
                 "path": meta["local_mp4"],
                 "content_hash": meta["sha256"],
@@ -35,8 +43,8 @@ def main() -> int:
                 "num_frames": meta["num_frames"],
             },
             "task": "hidden_state",
-            "question": FILL,
-            "ground_truth": FILL,
+            "question": question,
+            "ground_truth": ground_truth,
             "justification": None,
             "question_variant": "canonical",
             "temporal": None,
@@ -44,7 +52,7 @@ def main() -> int:
             "split": "held_out",
             "provenance": {
                 "source": provenance["paper"]["urls"]["pmc"],
-                "created_by": "local_ingest",
+                "created_by": "human_researcher" if approved else "local_ingest",
                 "created_at": "2026-09-03",
                 "license": provenance["license"]["short_name"],
                 "collection_notes": (
@@ -52,35 +60,54 @@ def main() -> int:
                     "Cui et al. 2011 Front. Hum. Neurosci. 5:103. Local file "
                     f"{meta['local_filename']} sha256={meta['sha256']}. "
                     "No conversion. Overlay copyright is not a research label. "
-                    "question/ground_truth remain HUMAN_FILL_REQUIRED."
+                    + (
+                        "Human APPROVE recorded; gold copy is data/examples/hidden_state_pilot.jsonl."
+                        if approved
+                        else "question/ground_truth remain HUMAN_FILL_REQUIRED."
+                    )
                 ),
             },
             "notes": (
-                f"HUMAN APPROVAL: PENDING. Candidate task: {clip['candidate_task_type']}. "
+                f"HUMAN APPROVAL: {'APPROVED' if approved else 'PENDING'}. "
+                f"Candidate task: {clip['candidate_task_type']}. "
                 f"Inventory status: {clip['inventory_status']}. "
-                "Do not score this row until a human replaces the sentinels."
+                + (
+                    "Scored gold lives in hidden_state_pilot.jsonl."
+                    if approved
+                    else "Do not score this row until a human replaces the sentinels."
+                )
             ),
-            "prop_id": None,
+            "prop_id": "coin" if approved else None,
             "metadata": {
-                "research_labels_complete": False,
-                "placeholder_fields": [
-                    "trick_id",
-                    "performer_id",
-                    "camera_id",
-                    "question",
-                    "ground_truth",
-                ],
-                "placeholder_fields_are_not_labels": True,
+                "research_labels_complete": approved,
+                "placeholder_fields": (
+                    []
+                    if approved
+                    else [
+                        "trick_id",
+                        "performer_id",
+                        "camera_id",
+                        "question",
+                        "ground_truth",
+                    ]
+                ),
+                "placeholder_fields_are_not_labels": not approved,
                 "paper_condition": clip["source_condition"],
                 "paper_id": clip["paper_id"],
                 "paper_performer": "Mac King",
                 "source_filename": meta["source_filename"],
-                "human_approval": "PENDING",
+                "human_approval": "APPROVED" if approved else "PENDING",
+                "human_decision": clip.get("human_decision") or ("APPROVE" if approved else "PENDING"),
+                "approved_by": "human_researcher" if approved else None,
                 "do_not_gold_label_as_hidden_state": clip["inventory_status"]
                 != "QUALIFIES",
                 "hidden_state_class": clip["hidden_state_class"],
                 "control_roles": clip["control_roles"],
                 "revealed_counterpart_clip_id": clip.get("revealed_counterpart_clip_id"),
+                "reveal_status": clip["reveal_status"],
+                "leakage_resolved_by_human": bool(clip.get("leakage_resolved_by_human")),
+                "unresolved_leakage_warning": bool(clip.get("unresolved_leakage_warning")),
+                "original_proposal": clip.get("original_proposal"),
                 "annotation_proposal": {
                     "source_condition": clip["source_condition"],
                     "observed_event": clip["what_happens"],
@@ -88,13 +115,20 @@ def main() -> int:
                     "candidate_question": clip["candidate_question"],
                     "candidate_ground_truth": clip["candidate_ground_truth"],
                     "ground_truth_basis": clip["ground_truth_basis"],
-                    "occlusion_status": clip["occlusion_status"],
+                    "occlusion_status": (
+                        (clip.get("original_proposal") or {}).get("occlusion_status")
+                        or clip["occlusion_status"]
+                    ),
                     "temporal_status": clip["temporal_status"],
                     "reveal_status": clip["reveal_status"],
-                    "answer_leakage_status": clip["answer_leakage_status"],
+                    "answer_leakage_status": (
+                        (clip.get("original_proposal") or {}).get("answer_leakage_status")
+                        or clip["answer_leakage_status"]
+                    ),
                     "confidence": clip["confidence"],
                     "human_review_required": clip["human_review_required"],
-                    "human_decision": "PENDING",
+                    "human_decision": clip.get("human_decision")
+                    or ("APPROVE" if approved else "PENDING"),
                     "reason": clip["reason"],
                     "hidden_state_class": clip["hidden_state_class"],
                     "control_roles": clip["control_roles"],

@@ -27,8 +27,8 @@ checkpoint:
   label: untouched_base_3b
 
 dataset:
-  manifest: data/examples/toy_manifest.jsonl
-  version: toy-v0
+  manifest: data/examples/hidden_state_pilot.jsonl
+  version: hidden-state-pilot-s6-v1
   split: held_out
   task: hidden_state
 

@@ -32,26 +32,26 @@
     <h1>Hidden-state candidates</h1>
     <pre class="banner">BEST CURRENT HIDDEN-STATE CANDIDATE
 mac_king_s006  Movie6.MP4  Magic trick without reveal
-QUALIFIES_WITH_HUMAN_REVIEW — not gold
+QUALIFIES — first approved hidden-state gold
 
 HOW MANY VALID CLIPS DO WE HAVE?
-0 approved gold. 2 pending human review (S6, S7). Fewer than five.</pre>
+1 approved gold. 1 pending human review (S7). Fewer than five.</pre>
     <pre class="banner">HIDDEN-STATE DATASET READINESS
 
-Valid candidates: 0
-Candidates needing human review: 2
+Valid candidates: 1
+Candidates needing human review: 1
 Invalid candidates: 10
-Additional clips needed: 5</pre>
+Additional clips needed: 4</pre>
     <pre class="next">RECOMMENDED NEXT ACTION
-Review Movie6.MP4 (S6) then Movie7.MP4 (S7): APPROVE / EDIT / REJECT.
-Do not gold-label Wikimedia clips. Do not splice S1/S2 reveals onto S6/S7.</pre>
+S6 is approved gold. Obtain CUDA + local Qwen2.5-VL weights for zero-shot.
+S7 stays PENDING. Do not gold-label Wikimedia clips.</pre>
   </header>
   <main>
     <p>Source: Cui et al. 2011, PMC3202226. Local filenames <code>Movie1.MP4</code>–<code>Movie7.MP4</code> were not renamed. Wikimedia cups stay controls below.</p>
 
     <section class="card" id="mac_king_s006">
       <h2>mac_king_s006 — Movie6.MP4 — Magic trick without reveal</h2>
-      <div class="status pending">QUALIFIES_WITH_HUMAN_REVIEW · HIDDEN_STATE_CANDIDATE</div>
+      <div class="status pending">QUALIFIES · APPROVED · HIDDEN_STATE_CANDIDATE</div>
       <video controls preload="metadata" src="../../data/videos/Movie6.MP4"></video>
       <div class="stills">
         <img src="../mac_king_clip_review/stills/movie6_coin_in_right.jpg" alt="S6 coin in right before toss">
@@ -63,15 +63,14 @@ Do not gold-label Wikimedia clips. Do not splice S1/S2 reveals onto S6/S7.</pre>
         <dt>Source condition</dt><dd>Identical to S1 with the Reveal segment omitted. Counterpart: Movie1.MP4. Do not merge them.</dd>
         <dt>What happens</dt><dd>Coin visible in the right hand before the toss. Apparent right-to-left transfer; coin not seen in flight. Ends looking at the left hand. Shorter than Movie1 (216 vs 265 frames). No Movie1-style empty-left flourish.</dd>
         <dt>Potential hidden-state question</dt><dd>Which hand contains the coin after the apparent transfer?</dd>
-        <dt>Potential answer</dt><dd>right (paper: fake toss retains the coin in the right hand). Not written as gold.</dd>
-        <dt>Occlusion</dt><dd>PARTIAL</dd>
+        <dt>Potential answer</dt><dd>right (human-approved gold)</dd>
+        <dt>Occlusion</dt><dd>PASS (original proposal: PARTIAL)</dd>
         <dt>Temporal dependence</dt><dd>PASS</dd>
         <dt>Reveal</dt><dd>NO_REVEAL</dd>
-        <dt>Ground truth</dt><dd>VERIFIED_FROM_SOURCE_AND_VIDEO — laterality from the paper plus pre-toss right-hand view; palming still needs a human check</dd>
-        <dt>Benchmark status</dt><dd>QUALIFIES_WITH_HUMAN_REVIEW (not gold)</dd>
-        <dt>Human approval</dt><dd>PENDING</dd>
+        <dt>Ground truth</dt><dd>right — VERIFIED_FROM_SOURCE_AND_VIDEO; human researcher confirmed laterality at the evaluation point</dd>
+        <dt>Benchmark status</dt><dd>QUALIFIES (first approved hidden-state gold)</dd>
+        <dt>Human approval</dt><dd>APPROVED by the human researcher. Decision: APPROVE. Original proposal retained for audit.</dd>
       </dl>
-      <p class="actions">APPROVE / EDIT / REJECT</p>
     </section>
 
     <section class="card" id="mac_king_s007">
@@ -273,7 +272,7 @@ Do not gold-label Wikimedia clips. Do not splice S1/S2 reveals onto S6/S7.</pre>
     </section>
 
     <footer>
-      No hidden-state gold yet. License for Mac King supplements: HUMAN_LEGAL_REVIEW_REQUIRED.
+      One approved hidden-state gold example (S6). S7 remains PENDING. License for Mac King supplements: HUMAN_LEGAL_REVIEW_REQUIRED.
     </footer>
   </main>
 </body>

@@ -1,11 +1,10 @@
 # Hidden-state video sourcing guide
 
-The repository currently has **zero** clips that pass
-`docs/HIDDEN_STATE_ELIGIBILITY.md` as approved gold (`QUALIFIES`). Two Mac King
-no-reveal clips (S6/S7) are `QUALIFIES_WITH_HUMAN_REVIEW` only. The five
-Wikimedia / PeerJ cups-and-balls files remain transparent-cup stage clips with
-a late reveal. Keep them as pilot/control footage. Do not force them into
-hidden-state gold.
+The repository currently has **one** human-approved hidden-state gold clip:
+Mac King S6 (`QUALIFIES`, ground truth `right`). S7 remains
+`QUALIFIES_WITH_HUMAN_REVIEW`. The five Wikimedia / PeerJ cups-and-balls files
+remain transparent-cup stage clips with a late reveal. Keep them as
+pilot/control footage. Do not force them into hidden-state gold.
 
 This guide is for obtaining the **next** videos. It is not a request to
 fabricate labels.
@@ -13,7 +12,7 @@ fabricate labels.
 Target for a first held-out-only smoke baseline: **5 clips** that pass the
 rubric (3 is the minimum if sourcing is slow; 15–25 remains the later Dataset B
 goal in `magic-vlm-research-plan-v2.md` and is not the next step while the
-count is zero).
+count is one).
 
 ## Suitable trick categories
 

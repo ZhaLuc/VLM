@@ -27,4 +27,6 @@ python scripts/project_health.py --skip-stub-baseline
   `approved_gold_examples`, `pending_review`, `rejected`, `clips_needed`)
   are read from `data/examples/hidden_state_candidate_inventory.json`.
   Pending candidates are not counted as gold. First-baseline `YES` also
-  requires approved gold, CUDA, and local Qwen weights.
+  requires approved gold, CUDA, and local Qwen weights. After S6 approval,
+  remaining first-baseline blockers are ENVIRONMENT (CUDA GPU) and MODEL
+  (local Qwen2.5-VL weights), not DATA.

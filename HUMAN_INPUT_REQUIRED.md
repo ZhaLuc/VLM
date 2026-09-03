@@ -1,19 +1,22 @@
 # Human input required now
 
-S6 has no recorded decision. The review page still shows `PENDING`.
-Replace the S6 choice line with exactly one word: `APPROVE`, `EDIT`, or `REJECT`.
+S6 decision recorded by the human researcher: `APPROVE`.
 
 Clip: mac_king_s006 / Movie6.MP4
-Candidate question: Which hand contains the coin after the apparent transfer?
-Candidate answer: right
-Why: Paper fake-toss retains the coin in the right hand; S6 omits S1’s reveal; coin is visible in the right hand before the toss.
-What I must verify: palmed coin not visible at the end; late left palm does not make “not left” trivial; reuse rights.
-APPROVE / EDIT / REJECT
+Question: Which hand contains the coin after the apparent transfer?
+Ground truth: right
+Human approval: APPROVED
 
-Clip: mac_king_s007 / Movie7.MP4 — leave pending unless you review it.
+Clip: mac_king_s007 / Movie7.MP4 — leave pending.
 Candidate question: Which hand contains the coin after the transfer?
 Candidate answer: left
 APPROVE / EDIT / REJECT
 
 Do not gold-label Wikimedia clips. Do not splice S1/S2 onto S6/S7.
-Approved gold: 0 of 5.
+Approved gold: 1 of 5.
+
+Remaining first-baseline blockers:
+
+DATA: S6 approved and benchmark-eligible. 4 more clips for a 5-clip pilot (later).
+ENVIRONMENT: CUDA-enabled PyTorch and NVIDIA GPU required.
+MODEL: Local Qwen2.5-VL-3B-Instruct or 7B-Instruct weights required.

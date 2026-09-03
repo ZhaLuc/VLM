@@ -1,9 +1,9 @@
 {
   "schema": "magic_vlm.annotation_proposal.v1",
-  "human_approval": "PENDING",
+  "human_approval": "PARTIAL",
   "collection": "mac_king_cui_2011",
   "task_family": "hidden_state",
-  "gold_labels_written": false,
+  "gold_labels_written": true,
   "paper": {
     "citation": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S. (2011). Social misdirection fails to enhance a magic illusion. Front. Hum. Neurosci. 5:103.",
     "doi": "10.3389/fnhum.2011.00103",
@@ -12,12 +12,12 @@
   "best_current_hidden_state_candidate": {
     "clip_id": "mac_king_s006",
     "rank": 1,
-    "status": "QUALIFIES_WITH_HUMAN_REVIEW",
-    "reason": "Paper: fake toss retains the coin in the right hand. Clip is the S1 performance with the Reveal segment omitted (Movie6 is ~1.6 s shorter than Movie1). Coin is visible in the right hand before the toss. Last frames do not include Movie1's later empty-hand display. Palming occlusion and whether the late left palm leaks emptiness still need a human look."
+    "status": "QUALIFIES",
+    "reason": "Human researcher APPROVE on 2026-09-03. Gold question/answer written. Original PARTIAL occlusion/leakage flags retained under original_proposal."
   },
   "how_many_valid_clips": {
-    "approved_gold": 0,
-    "qualifies_with_human_review": 2,
+    "approved_gold": 1,
+    "qualifies_with_human_review": 1,
     "fewer_than_five": true
   },
   "clips": [
@@ -157,21 +157,39 @@
       "candidate_task_type": "HIDDEN_STATE_CANDIDATE",
       "hidden_state_class": "HIDDEN_STATE_CANDIDATE",
       "control_roles": [],
-      "benchmark_status": "QUALIFIES_WITH_HUMAN_REVIEW",
-      "inventory_status": "QUALIFIES_WITH_HUMAN_REVIEW",
+      "benchmark_status": "QUALIFIES",
+      "inventory_status": "QUALIFIES",
+      "trick_id": "coin_fake_toss",
+      "performer_id": "mac_king",
+      "camera_id": "cui_2011_supplementary",
       "candidate_question": "Which hand contains the coin after the apparent transfer?",
       "candidate_ground_truth": "right",
-      "ground_truth_basis": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end.",
-      "occlusion_status": "PARTIAL",
+      "ground_truth_basis": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point.",
+      "occlusion_status": "PASS",
       "temporal_status": "PASS",
       "reveal_status": "NO_REVEAL",
-      "answer_leakage_status": "PARTIAL",
-      "confidence": "MEDIUM-HIGH on laterality from the paper; MEDIUM on whether the palmed right hand and late left palm leak to a VLM",
-      "human_approval": "PENDING",
-      "human_review_required": true,
-      "remaining_uncertainty": "Confirm the palmed coin is not visible in the right hand at the evaluation point, and that the late left palm-up pose does not make 'not left' trivial. Confirm reuse rights.",
+      "answer_leakage_status": "RESOLVED_BY_HUMAN",
+      "confidence": "HUMAN_APPROVED",
+      "human_approval": "APPROVED",
+      "human_decision": "APPROVE",
+      "approved_by": "human_researcher",
+      "human_review_required": false,
+      "leakage_resolved_by_human": true,
+      "unresolved_leakage_warning": false,
+      "remaining_uncertainty": "Reuse rights still HUMAN_LEGAL_REVIEW_REQUIRED; not a location-label issue.",
       "revealed_counterpart_clip_id": "mac_king_s001",
-      "reason": "Strongest current hidden-state candidate. Not gold until you approve."
+      "original_proposal": {
+        "candidate_question": "Which hand contains the coin after the apparent transfer?",
+        "candidate_ground_truth": "right",
+        "occlusion_status": "PARTIAL",
+        "temporal_status": "PASS",
+        "reveal_status": "NO_REVEAL",
+        "answer_leakage_status": "PARTIAL",
+        "inventory_status": "QUALIFIES_WITH_HUMAN_REVIEW",
+        "human_approval": "PENDING",
+        "remaining_uncertainty": "Confirm the palmed coin is not visible in the right hand at the evaluation point, and that the late left palm-up pose does not make 'not left' trivial. Confirm reuse rights."
+      },
+      "reason": "Human researcher APPROVE. First hidden-state gold example."
     },
     {
       "clip_id": "mac_king_s007",

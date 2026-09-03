@@ -1,0 +1,32 @@
+{
+  "schema": "magic_vlm.human_review_decision.v1",
+  "recorded_at": "2026-09-03",
+  "approved_by": "human_researcher",
+  "notes": "S6 APPROVE is a human researcher decision. S7 remains PENDING. Original S6 proposal is preserved under original_proposal in mac_king_annotation_proposals.json.",
+  "decisions": [
+    {
+      "clip_id": "mac_king_s006",
+      "video": "Movie6.MP4",
+      "task": "hidden_state",
+      "question": "Which hand contains the coin after the apparent transfer?",
+      "ground_truth": "right",
+      "human_decision": "APPROVE",
+      "human_approval": "APPROVED",
+      "approved_by": "human_researcher",
+      "gold_manifest": "data/examples/hidden_state_pilot.jsonl",
+      "original_proposal_preserved": true
+    },
+    {
+      "clip_id": "mac_king_s007",
+      "video": "Movie7.MP4",
+      "task": "hidden_state",
+      "question": "Which hand contains the coin after the transfer?",
+      "ground_truth": null,
+      "human_decision": "PENDING",
+      "human_approval": "PENDING",
+      "approved_by": null,
+      "gold_manifest": null,
+      "original_proposal_preserved": true
+    }
+  ]
+}

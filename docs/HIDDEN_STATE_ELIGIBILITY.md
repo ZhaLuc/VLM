@@ -26,7 +26,7 @@ Statuses used in the inventory:
 
 | Status | Meaning |
 | ------ | ------- |
-| `QUALIFIES` | Local frames inspected; A–F all pass. Still do not write gold until approved. |
+| `QUALIFIES` | Local frames inspected; A–F all pass. Gold is written only after human `APPROVE`. |
 | `QUALIFIES_WITH_HUMAN_REVIEW` | Looks eligible, but occlusion, ground truth, or leakage needs a human decision. |
 | `NOT_SUITABLE` | Inspected and fails at least one hard check. |
 | `INSUFFICIENT_EVIDENCE` | Cannot decide without inspecting frames or a trustworthy source. |

@@ -3,20 +3,20 @@
   "inspected_at": "2026-09-03",
   "rubric": "docs/HIDDEN_STATE_ELIGIBILITY.md",
   "sourcing_guide": "docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md",
-  "gold_labels_written": false,
-  "notes": "Wikimedia cups remain controls. Mac King S6/S7 are pending human review; S1–S5 include reveals or have no single hidden object. No gold labels.",
+  "gold_labels_written": true,
+  "notes": "Wikimedia cups remain controls. Mac King S6 is human-approved gold. S7 remains PENDING. S1–S5 are reveal/no-object controls.",
   "readiness": {
-    "first_baseline_dataset": "NOT READY",
-    "valid_candidates": 0,
-    "candidates_needing_human_review": 2,
+    "first_baseline_dataset": "DATA READY",
+    "valid_candidates": 1,
+    "candidates_needing_human_review": 1,
     "invalid_candidates": 10,
-    "additional_clips_needed": 5,
+    "additional_clips_needed": 4,
     "recommended_next_milestone_clips": 5,
     "minimum_smoke_clips": 3,
     "later_dataset_b_clips": "15-25 (research plan; not the next step)",
     "best_current_hidden_state_candidate": "mac_king_s006",
-    "how_many_valid_clips": "0 approved gold; 2 pending human review; fewer than five",
-    "recommended_next_action": "Review mac_king_s006 and mac_king_s007 in reports/hidden_state_candidates/index.html (APPROVE / EDIT / REJECT). Do not gold-label Wikimedia clips.",
+    "how_many_valid_clips": "1 approved gold; 1 pending human review; fewer than five",
+    "recommended_next_action": "S6 is approved gold. Obtain CUDA + local Qwen2.5-VL weights for the zero-shot baseline. S7 stays PENDING. Do not gold-label Wikimedia clips.",
     "collections": {
       "wikimedia_controls": {
         "candidate_count": 5,
@@ -26,14 +26,14 @@
       },
       "mac_king_candidates": {
         "candidate_count": 7,
-        "eligible_count": 0,
-        "pending_human_review": 2,
+        "eligible_count": 1,
+        "pending_human_review": 1,
         "rejected_count": 5
       },
       "hidden_state_gold": {
-        "eligible_count": 0,
-        "pending_human_review": 2,
-        "clips_needed_for_pilot": 5
+        "eligible_count": 1,
+        "pending_human_review": 1,
+        "clips_needed_for_pilot": 4
       }
     }
   },
@@ -544,12 +544,12 @@
       "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S6; local Movie6.MP4",
       "duration_s": 7.2072,
       "trick_or_condition": "Magic trick without reveal",
-      "genuine_occlusion": "PARTIAL",
+      "genuine_occlusion": "PASS",
       "temporal_dependence": "PASS",
-      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end.",
-      "leakage_risk": "PARTIAL",
-      "status": "QUALIFIES_WITH_HUMAN_REVIEW",
-      "human_review_flag": true,
+      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point.",
+      "leakage_risk": "RESOLVED_BY_HUMAN",
+      "status": "QUALIFIES",
+      "human_review_flag": false,
       "hidden_state_class": "HIDDEN_STATE_CANDIDATE",
       "control_roles": [],
       "keep_in_repository": true,
@@ -572,7 +572,7 @@
         "local_filename": "Movie6.MP4",
         "conversion": null,
         "source_notes": "Same performance as S1 until after the apparent toss. Movie6 is 216 frames vs Movie1's 265. Coin is visible in the right hand before the toss (~2.67 s). Apparent right-to-left transfer; coin not seen in flight. Ends with gaze on the left hand; does not include Movie1's later empty-left display (~8.0–8.8 s). Revealed counterpart is S1; do not splice S1's reveal onto this file.",
-        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end."
+        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point."
       }
     },
     {

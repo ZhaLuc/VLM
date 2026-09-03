@@ -3,9 +3,8 @@
 Inspected 2026-09-03. Frames for the five local Wikimedia MP4s were previously
 sampled into `reports/wikimedia_clip_review/stills/` (transparent cups, late
 reveal). Seven Mac King supplementary MP4s (`data/videos/Movie1.MP4`–
-`Movie7.MP4`) were inspected against Cui et al. 2011 (PMC3202226). No
-`QUALIFIES` row. Two Mac King no-reveal clips are
-`QUALIFIES_WITH_HUMAN_REVIEW` only.
+`Movie7.MP4`) were inspected against Cui et al. 2011 (PMC3202226). S6 is
+human-approved `QUALIFIES` gold. S7 remains `QUALIFIES_WITH_HUMAN_REVIEW`.
 
 Machine-readable copy: `data/examples/hidden_state_candidate_inventory.json`.
 Visual page: `reports/hidden_state_candidates/index.html`.
@@ -58,7 +57,7 @@ no-reveal files.
 
 | Rank | Clip | File | Condition | Occlusion | Temporal | Reveal | Status | Class |
 | ---: | ---- | ---- | --------- | --------- | -------- | ------ | ------ | ----- |
-| 1 | mac_king_s006 | Movie6.MP4 | Magic trick without reveal | PARTIAL | PASS | NO_REVEAL | `QUALIFIES_WITH_HUMAN_REVIEW` | `HIDDEN_STATE_CANDIDATE` |
+| 1 | mac_king_s006 | Movie6.MP4 | Magic trick without reveal | PASS | PASS | NO_REVEAL | `QUALIFIES` | `HIDDEN_STATE_CANDIDATE` |
 | 2 | mac_king_s007 | Movie7.MP4 | Real toss without reveal | PARTIAL | PASS | NO_REVEAL | `QUALIFIES_WITH_HUMAN_REVIEW` | `HIDDEN_STATE_CANDIDATE` |
 | 3 | mac_king_s001 | Movie1.MP4 | Magic trick | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `VISIBLE_REVEAL_CONTROL` |
 | 4 | mac_king_s002 | Movie2.MP4 | Real toss | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `REAL_TOSS_CONTROL` |
@@ -66,7 +65,8 @@ no-reveal files.
 | 6 | mac_king_s004 | Movie4.MP4 | Final coin fake toss | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `VISIBLE_REVEAL_CONTROL` |
 | 7 | mac_king_s005 | Movie5.MP4 | No-coin fake toss | FAIL | FAIL | REVEAL_PRESENT | `NOT_SUITABLE` | `TEMPORAL_CONTROL` |
 
-Approved gold: **0**. Pending review: **2**. Additional clips needed for a
-5-clip pilot: **5**. Do not count pending rows as gold.
+Approved gold: **1** (`mac_king_s006`, ground truth `right`). Pending review:
+**1** (`mac_king_s007`). Additional clips needed for a 5-clip pilot: **4**.
+Do not count pending rows as gold. Do not gold-label Wikimedia clips.
 
-Best current hidden-state candidate: **mac_king_s006**.
+Best current hidden-state candidate: **mac_king_s006** (approved).

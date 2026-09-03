@@ -106,13 +106,13 @@ def main() -> int:
         if r["status"] == "NOT_SUITABLE"
         and r.get("collection") in {"wikimedia_controls", "mac_king_candidates"}
     )
-    inv["gold_labels_written"] = False
+    inv["gold_labels_written"] = gold_eligible > 0
     inv["notes"] = (
-        "Wikimedia cups remain controls. Mac King S6/S7 are pending human review; "
-        "S1–S5 include reveals or have no single hidden object. No gold labels."
+        "Wikimedia cups remain controls. Mac King S6 is human-approved gold. "
+        "S7 remains PENDING. S1–S5 are reveal/no-object controls."
     )
     inv["readiness"] = {
-        "first_baseline_dataset": "NOT READY",
+        "first_baseline_dataset": "DATA READY" if gold_eligible else "NOT READY",
         "valid_candidates": gold_eligible,
         "candidates_needing_human_review": pending,
         "invalid_candidates": invalid,
@@ -125,9 +125,14 @@ def main() -> int:
             f"{gold_eligible} approved gold; {pending} pending human review; fewer than five"
         ),
         "recommended_next_action": (
-            "Review mac_king_s006 and mac_king_s007 in "
-            "reports/hidden_state_candidates/index.html (APPROVE / EDIT / REJECT). "
-            "Do not gold-label Wikimedia clips."
+            "S6 is approved gold. Obtain CUDA + local Qwen2.5-VL weights for the "
+            "zero-shot baseline. S7 stays PENDING. Do not gold-label Wikimedia clips."
+            if gold_eligible
+            else (
+                "Review mac_king_s006 and mac_king_s007 in "
+                "reports/hidden_state_candidates/index.html (APPROVE / EDIT / REJECT). "
+                "Do not gold-label Wikimedia clips."
+            )
         ),
         "collections": {
             "wikimedia_controls": wiki,

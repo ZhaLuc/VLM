@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from magic_vlm.dataset import load_manifest
+from magic_vlm.hidden_state_eligibility import evaluate_gold_manifest
 from magic_vlm.project_health import build_human_input, hidden_state_dataset_stats, load_hidden_state_inventory
 from magic_vlm.video import VideoPreprocessConfig, preprocess_video, probe_video
 
@@ -46,15 +47,15 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def test_inventory_has_zero_gold_and_pending_mac_king() -> None:
+def test_inventory_has_s6_gold_and_s7_pending() -> None:
     payload = json.loads(INVENTORY.read_text(encoding="utf-8"))
     ready = payload["readiness"]
-    assert payload["gold_labels_written"] is False
-    assert ready["valid_candidates"] == 0
-    assert ready["candidates_needing_human_review"] == 2
+    assert payload["gold_labels_written"] is True
+    assert ready["valid_candidates"] == 1
+    assert ready["candidates_needing_human_review"] == 1
     assert ready["invalid_candidates"] == 10
-    assert ready["additional_clips_needed"] == 5
-    assert ready["first_baseline_dataset"] == "NOT READY"
+    assert ready["additional_clips_needed"] == 4
+    assert ready["first_baseline_dataset"] == "DATA READY"
     assert ready["best_current_hidden_state_candidate"] == "mac_king_s006"
     collections = ready["collections"]
     assert collections["wikimedia_controls"]["candidate_count"] == 5
@@ -62,15 +63,15 @@ def test_inventory_has_zero_gold_and_pending_mac_king() -> None:
     assert collections["wikimedia_controls"]["pending_human_review"] == 0
     assert collections["wikimedia_controls"]["rejected_count"] == 5
     assert collections["mac_king_candidates"]["candidate_count"] == 7
-    assert collections["mac_king_candidates"]["eligible_count"] == 0
-    assert collections["mac_king_candidates"]["pending_human_review"] == 2
+    assert collections["mac_king_candidates"]["eligible_count"] == 1
+    assert collections["mac_king_candidates"]["pending_human_review"] == 1
     assert collections["mac_king_candidates"]["rejected_count"] == 5
-    assert collections["hidden_state_gold"]["eligible_count"] == 0
-    assert collections["hidden_state_gold"]["pending_human_review"] == 2
-    assert collections["hidden_state_gold"]["clips_needed_for_pilot"] == 5
+    assert collections["hidden_state_gold"]["eligible_count"] == 1
+    assert collections["hidden_state_gold"]["pending_human_review"] == 1
+    assert collections["hidden_state_gold"]["clips_needed_for_pilot"] == 4
     statuses = {row["status"] for row in payload["candidates"]}
     assert statuses <= ALLOWED_STATUS
-    assert "QUALIFIES" not in statuses
+    assert "QUALIFIES" in statuses
     local = [row for row in payload["candidates"] if row["candidate"] in WIKIMEDIA_IDS]
     assert {row["candidate"] for row in local} == WIKIMEDIA_IDS
     for row in local:
@@ -80,8 +81,11 @@ def test_inventory_has_zero_gold_and_pending_mac_king() -> None:
         assert row["keep_in_repository"] is True
         assert row["human_review_flag"] is False
         assert row["collection"] == "wikimedia_controls"
+    by_id = {row["candidate"]: row for row in payload["candidates"]}
+    assert by_id["mac_king_s006"]["status"] == "QUALIFIES"
+    assert by_id["mac_king_s006"]["human_review_flag"] is False
     pending = [row for row in payload["candidates"] if row["status"] == "QUALIFIES_WITH_HUMAN_REVIEW"]
-    assert {row["candidate"] for row in pending} == {"mac_king_s006", "mac_king_s007"}
+    assert {row["candidate"] for row in pending} == {"mac_king_s007"}
     for row in pending:
         assert row["human_review_flag"] is True
         assert row["hidden_state_class"] == "HIDDEN_STATE_CANDIDATE"
@@ -122,30 +126,44 @@ def test_pilot_manifests_still_have_no_hidden_state_gold() -> None:
             assert record.clip_id in WIKIMEDIA_IDS
 
 
-def test_mac_king_review_has_no_gold_and_pending_approval() -> None:
+def test_mac_king_review_records_s6_approval_and_keeps_s7_pending() -> None:
     records = load_manifest(MAC_REVIEW)
     assert {record.clip_id for record in records} == MAC_IDS
     assert len(records) == 7
-    for record in records:
-        assert record.question == FILL
-        assert record.ground_truth == FILL
-        assert record.metadata.get("human_approval") == "PENDING"
-        proposal = record.metadata["annotation_proposal"]
-        assert proposal["human_decision"] == "PENDING"
-        assert record.provenance.license == "HUMAN_LEGAL_REVIEW_REQUIRED"
     by_id = {record.clip_id: record for record in records}
-    s6 = by_id["mac_king_s006"].metadata["annotation_proposal"]
-    s7 = by_id["mac_king_s007"].metadata["annotation_proposal"]
-    assert s6["candidate_task_type"] == "HIDDEN_STATE_CANDIDATE"
-    assert s6["candidate_question"]
-    assert s6["candidate_ground_truth"] == "right"
-    assert s6["reveal_status"] == "NO_REVEAL"
-    assert s6["occlusion_status"] == "PARTIAL"
-    assert s7["candidate_ground_truth"] == "left"
-    assert s7["reveal_status"] == "NO_REVEAL"
+    s6 = by_id["mac_king_s006"]
+    s7 = by_id["mac_king_s007"]
+    assert s6.question == "Which hand contains the coin after the apparent transfer?"
+    assert s6.ground_truth == "right"
+    assert s6.metadata.get("human_approval") == "APPROVED"
+    assert s6.metadata.get("human_decision") == "APPROVE"
+    assert s6.metadata.get("approved_by") == "human_researcher"
+    assert s6.metadata.get("leakage_resolved_by_human") is True
+    assert s6.metadata.get("unresolved_leakage_warning") is False
+    assert s6.metadata["original_proposal"]["occlusion_status"] == "PARTIAL"
+    assert s6.metadata["original_proposal"]["answer_leakage_status"] == "PARTIAL"
+    assert s6.metadata["annotation_proposal"]["occlusion_status"] == "PARTIAL"
+    assert s6.provenance.created_by == "human_researcher"
+    assert s7.question == FILL
+    assert s7.ground_truth == FILL
+    assert s7.metadata.get("human_approval") == "PENDING"
+    assert s7.metadata["annotation_proposal"]["human_decision"] == "PENDING"
+    assert s7.metadata["annotation_proposal"]["candidate_ground_truth"] == "left"
+    assert s7.metadata["annotation_proposal"]["reveal_status"] == "NO_REVEAL"
+    for record in records:
+        assert record.provenance.license == "HUMAN_LEGAL_REVIEW_REQUIRED"
+        if record.clip_id not in {"mac_king_s006"}:
+            assert record.question == FILL
+            assert record.ground_truth == FILL
+            assert record.metadata.get("human_approval") == "PENDING"
     proposals = json.loads(MAC_PROPOSALS.read_text(encoding="utf-8"))
-    assert proposals["human_approval"] == "PENDING"
-    assert proposals["gold_labels_written"] is False
+    assert proposals["human_approval"] == "PARTIAL"
+    assert proposals["gold_labels_written"] is True
+    clips = {row["clip_id"]: row for row in proposals["clips"]}
+    assert clips["mac_king_s006"]["human_decision"] == "APPROVE"
+    assert clips["mac_king_s006"]["candidate_ground_truth"] == "right"
+    assert clips["mac_king_s007"]["human_approval"] == "PENDING"
+    assert clips["mac_king_s007"]["candidate_ground_truth"] == "left"
 
 
 def test_human_input_required_is_short_and_actionable() -> None:
@@ -159,24 +177,39 @@ def test_human_input_required_is_short_and_actionable() -> None:
 
 
 def test_health_does_not_ask_to_gold_label_wikimedia() -> None:
-    items = build_human_input({"real_mp4_count": 5, "root": str(ROOT)})
+    stats = hidden_state_dataset_stats(load_hidden_state_inventory(ROOT))
+    items = build_human_input({"real_mp4_count": 5, "root": str(ROOT)}, stats)
     blob = " ".join(item.what for item in items)
     assert "Do not gold-label" in blob
-    assert "S6" in blob
+    assert "Leave S7 PENDING" in blob
     assert "Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot" not in blob
-    stats = hidden_state_dataset_stats(load_hidden_state_inventory(ROOT))
-    assert stats["approved_gold_examples"] == 0
-    assert stats["pending_review"] == 2
+    assert stats["approved_gold_examples"] == 1
+    assert stats["pending_review"] == 1
+    assert stats["clips_needed"] == 4
     assert stats["hidden_state_candidates"] == 7
 
 
-def test_no_hidden_state_gold_manifest_without_human_approval() -> None:
+def test_hidden_state_pilot_contains_only_approved_s6() -> None:
     gold = ROOT / "data" / "examples" / "hidden_state_pilot.jsonl"
-    assert not gold.exists()
-    for record in load_manifest(MAC_REVIEW):
-        assert record.question == FILL
-        assert record.ground_truth == FILL
-        assert record.metadata.get("human_approval") == "PENDING"
+    records = load_manifest(gold)
+    assert len(records) == 1
+    record = records[0]
+    assert record.clip_id == "mac_king_s006"
+    assert record.question == "Which hand contains the coin after the apparent transfer?"
+    assert record.ground_truth == "right"
+    assert record.trick_id == "coin_fake_toss"
+    assert record.performer_id == "mac_king"
+    assert record.camera_id == "cui_2011_supplementary"
+    assert record.split.value == "held_out"
+    assert record.provenance.created_by == "human_researcher"
+    assert record.metadata.get("human_approval") == "APPROVED"
+    assert record.metadata.get("approved_by") == "human_researcher"
+    assert record.metadata.get("leakage_resolved_by_human") is True
+    assert record.metadata.get("unresolved_leakage_warning") is False
+    assert record.metadata["original_proposal"]["occlusion_status"] == "PARTIAL"
+    report = evaluate_gold_manifest(gold, ROOT)
+    assert report["passed"] is True
+    assert report["n"] == 1
 
 
 def test_local_wikimedia_clips_still_preprocess() -> None:

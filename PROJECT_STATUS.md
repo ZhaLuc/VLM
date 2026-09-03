@@ -5,9 +5,9 @@
 **NOT READY FOR RESEARCH RUN**
 
 - Overall: `BLOCKED`
-- First real baseline ready: `NO`
-- Reason: First real hidden-state baseline cannot run. Missing: approved hidden-state gold example, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache; stub tooling may still work for synthetic smoke tests.
-- Generated: 2026-09-03T02:44:47+00:00
+- First real baseline ready: `PARTIALLY`
+- Reason: Approved hidden-state gold exists, but first real VLM baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
+- Generated: 2026-09-03T02:58:17+00:00
 
 ## Pipeline
 
@@ -59,15 +59,11 @@
 
 ### I need to provide this now
 
-1. **What:** Record an explicit S6 decision in HUMAN_INPUT_REQUIRED.md: replace `APPROVE / EDIT / REJECT` with one word. S7 stays pending. Do not gold-label Wikimedia clips.
-   - Where: reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md
-   - Format: Human decision on pending proposals only; no unverified ground_truth
-   - After: `Open reports/hidden_state_candidates/index.html`
-2. **What:** Obtain a CUDA GPU environment and CUDA-enabled PyTorch
+1. **What:** Obtain a CUDA GPU environment and CUDA-enabled PyTorch
    - Where: Training/inference host (not this CPU-only audit host)
    - Format: NVIDIA GPU + matching CUDA torch wheel
    - After: `python -c "import torch; print(torch.cuda.is_available())"`
-3. **What:** Place local Qwen2.5-VL weights (3B or 7B Instruct)
+2. **What:** Place local Qwen2.5-VL weights (3B or 7B Instruct)
    - Where: HF hub cache or a local directory referenced by model_id
    - Format: Transformers checkpoint directory for Qwen2.5-VL
    - After: `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --load-frames`
@@ -82,6 +78,10 @@
    - Where: Manifest causal/temporal fields
    - Format: TemporalSpan + CausalAnnotation on ExampleRecord
    - After: `magic-vlm-compare-objective --manifest ... --predictions ...`
+3. **What:** S6 is approved gold. Leave S7 PENDING. Source 4 more hidden-state clip(s) for a 5-clip pilot. Do not gold-label Wikimedia clips.
+   - Where: reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md
+   - Format: Human decision on pending proposals only; no unverified ground_truth
+   - After: `Do not run Qwen until CUDA and local weights exist`
 
 ### Optional
 
@@ -99,10 +99,10 @@
 ## Hidden-state dataset
 
 - hidden_state_candidates: `7`
-- approved_gold_examples: `0`
-- pending_review: `2`
+- approved_gold_examples: `1`
+- pending_review: `1`
 - rejected: `10`
-- clips_needed: `5`
+- clips_needed: `4`
 
 ### WIKIMEDIA CONTROLS
 
@@ -114,24 +114,22 @@
 ### MAC KING CANDIDATES
 
 - candidate_count: `7`
-- eligible_count: `0`
-- pending_human_review: `2`
+- eligible_count: `1`
+- pending_human_review: `1`
 - rejected_count: `5`
 
 ### HIDDEN-STATE GOLD
 
-- eligible_count: `0`
-- pending_human_review: `2`
-- clips_needed_for_pilot: `5`
+- eligible_count: `1`
+- pending_human_review: `1`
+- clips_needed_for_pilot: `4`
 
 ## First Research Experiment Readiness
 
-`NO` — First real hidden-state baseline cannot run. Missing: approved hidden-state gold example, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache; stub tooling may still work for synthetic smoke tests.
+`PARTIALLY` — Approved hidden-state gold exists, but first real VLM baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
 
 ## Next Actions
 
-1. In HUMAN_INPUT_REQUIRED.md, replace the S6 line `APPROVE / EDIT / REJECT` with exactly one of those words
-2. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
-3. Download Qwen2.5-VL locally or point model_id at a local directory
-4. Review Mac King S6/S7 hidden-state proposals (PENDING); Wikimedia transparent-cup pilots remain controls, not gold
-5. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights
+1. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
+2. Download Qwen2.5-VL locally or point model_id at a local directory
+3. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights

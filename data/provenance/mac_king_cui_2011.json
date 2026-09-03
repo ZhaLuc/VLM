@@ -44,9 +44,11 @@
     "overwrite_originals": false
   },
   "research_labels": {
-    "status": "not_authored",
+    "status": "partial",
     "do_not_gold_label_until_human_approval": true,
-    "hidden_state_gold_count": 0
+    "hidden_state_gold_count": 1,
+    "approved_clip_ids": ["mac_king_s006"],
+    "pending_clip_ids": ["mac_king_s007"]
   },
   "paper_condition_map": {
     "S1": "Magic trick (fake toss, retain in right; includes Reveal of empty left hand)",
