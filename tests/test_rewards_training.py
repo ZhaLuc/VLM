@@ -89,7 +89,9 @@ def test_training_refuses_held_out_and_algorithms() -> None:
     train = [_ex()]
     result = run_training(TrainingConfig(algorithm="none"), train)
     assert result.status == "skipped"
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(ValueError, match="grpo_config"):
         run_training(TrainingConfig(algorithm="grpo"), train)
     with pytest.raises(ValueError, match="dpo_config"):
         run_training(TrainingConfig(algorithm="dpo"), train)
+    with pytest.raises(NotImplementedError):
+        run_training(TrainingConfig(algorithm="ppo"), train)

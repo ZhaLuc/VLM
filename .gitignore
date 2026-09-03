@@ -26,6 +26,7 @@ Thumbs.db
 artifacts/
 runs/
 outputs/
+reports/project_health/stub_baseline_runs/
 *.pt
 *.bin
 *.safetensors

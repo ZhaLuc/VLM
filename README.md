@@ -161,6 +161,14 @@ See `docs/REPORTING.md`. Deterministic research summaries from stored artifacts;
 missing fields stay `unavailable`.
 
 ```bash
+magic-vlm-project-health
+# or: python scripts/project_health.py
+```
+
+Writes `PROJECT_STATUS.md` and `reports/project_status.html` from live probes
+(not file-existence alone). See `docs/PROJECT_HEALTH.md` if present.
+
+```bash
 magic-vlm-compare-objective \
   --manifest data/examples/toy_temporal_causal.jsonl \
   --predictions path/to/predictions.jsonl \

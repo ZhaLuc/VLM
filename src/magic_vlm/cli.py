@@ -1091,5 +1091,12 @@ def infer_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def project_health_main(argv: list[str] | None = None) -> int:
+    """Audit repository readiness and write PROJECT_STATUS + HTML dashboard."""
+    from magic_vlm.project_health import project_health_main as _main
+
+    return _main(argv)
+
+
 if __name__ == "__main__":
     raise SystemExit(smoke_main())

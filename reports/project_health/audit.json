@@ -1,0 +1,678 @@
+{
+  "generated_at": "2026-09-03T00:50:38+00:00",
+  "root": "C:\\Users\\Lucas\\Downloads\\VLM",
+  "environment": {
+    "probed_at": "2026-09-03T00:50:38+00:00",
+    "root": "C:\\Users\\Lucas\\Downloads\\VLM",
+    "python": {
+      "version": "3.11.9",
+      "executable": "C:\\Users\\Lucas\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "platform": "Windows-10-10.0.26200-SP0"
+    },
+    "torch": {
+      "available": true,
+      "version": "2.13.0+cpu",
+      "error": null,
+      "cuda_available": false,
+      "cuda_device_count": 0,
+      "cpu_only": true
+    },
+    "transformers": {
+      "available": true,
+      "version": "5.16.1",
+      "error": null
+    },
+    "trl": {
+      "available": true,
+      "version": "1.12.0",
+      "error": null
+    },
+    "peft": {
+      "available": true,
+      "version": "0.20.0",
+      "error": null
+    },
+    "cv2": {
+      "available": true,
+      "version": "5.0.0",
+      "error": null
+    },
+    "accelerate": {
+      "available": true,
+      "version": "1.14.0",
+      "error": null
+    },
+    "real_mp4_count": 0,
+    "videos_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\data\\videos",
+    "hf_hub_cache": "C:\\Users\\Lucas\\.cache\\huggingface\\hub",
+    "qwen_cache_dirs": [],
+    "qwen_cache_present": false
+  },
+  "tests": {
+    "ran": false,
+    "skipped": true
+  },
+  "smokes": {
+    "dataset": {
+      "ok": true,
+      "n_records": 4,
+      "validation_passed": false,
+      "n_findings": 5,
+      "finding_severities": [
+        "error",
+        "review"
+      ],
+      "media_checked": true
+    },
+    "video": {
+      "ok": true,
+      "ordered_indices": [
+        0,
+        5,
+        10,
+        15
+      ],
+      "shuffled_indices": [
+        5,
+        15,
+        0,
+        10
+      ],
+      "same_index_set": true,
+      "temporal_shuffled": true
+    },
+    "rewards": {
+      "ok": true,
+      "good_value": 1.0,
+      "bad_value": 0.0,
+      "reward_id": "hidden_state_exact_match",
+      "version": "1.0.0"
+    },
+    "stub_vlm": {
+      "ok": true,
+      "model_id": "stub/echo",
+      "sample": "STUB_RESPONSE images=0 videos=0 frames=0 :: audit prompt"
+    },
+    "real_qwen_load": {
+      "ok": true,
+      "loaded": false,
+      "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+      "expected_fail": true,
+      "error": "RuntimeError: Refusing to download weights during load_vlm(allow_download=False). Pass allow_download=True once intentionally ready, or point model_id at a local directory.",
+      "note": "Real Qwen load refused or failed with allow_download=False."
+    },
+    "entry_points": {
+      "ok": true,
+      "found": [
+        "magic-vlm-analyze-baseline",
+        "magic-vlm-analyze-preferences",
+        "magic-vlm-analyze-reward-hacking",
+        "magic-vlm-annotate",
+        "magic-vlm-baseline",
+        "magic-vlm-compare-methods",
+        "magic-vlm-compare-objective",
+        "magic-vlm-infer",
+        "magic-vlm-init",
+        "magic-vlm-report",
+        "magic-vlm-run",
+        "magic-vlm-sample-frames",
+        "magic-vlm-score-reward",
+        "magic-vlm-smoke",
+        "magic-vlm-temporal-shuffle",
+        "magic-vlm-train-dpo",
+        "magic-vlm-train-grpo",
+        "magic-vlm-train-reward",
+        "magic-vlm-validate",
+        "magic-vlm-validate-preferences"
+      ],
+      "missing": [],
+      "n_found": 20,
+      "n_expected": 20
+    },
+    "reporting": {
+      "ok": true,
+      "keys": [
+        "artifact_index",
+        "config_fingerprint",
+        "configuration",
+        "dataset_split",
+        "dimension_legend",
+        "evaluation",
+        "example_selection",
+        "example_selection_rule",
+        "generalization",
+        "generated_at",
+        "integrity_disclaimer",
+        "model_checkpoint",
+        "notes",
+        "protocol",
+        "representative_failures",
+        "representative_successes",
+        "reward",
+        "reward_hacking_analysis",
+        "schema_version",
+        "summary"
+      ],
+      "has_disclaimer": true,
+      "config": "C:\\Users\\Lucas\\Downloads\\VLM\\configs\\experiment_report_toy.yaml"
+    },
+    "stub_baseline": {
+      "ok": null,
+      "skipped": true,
+      "note": "Stub baseline smoke skipped by caller."
+    }
+  },
+  "components": [
+    {
+      "id": "repository",
+      "name": "Repository architecture",
+      "status": "PASS",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Package layout, docs, and configs present.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "has_pyproject": true
+      }
+    },
+    {
+      "id": "environment",
+      "name": "Environment setup",
+      "status": "BLOCKED",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "available": true,
+        "version": "2.13.0+cpu",
+        "error": null,
+        "cuda_available": false,
+        "cuda_device_count": 0,
+        "cpu_only": true
+      }
+    },
+    {
+      "id": "reproducibility",
+      "name": "Reproducibility / configuration",
+      "status": "PASS",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "ExperimentConfig / initialize_experiment available.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {}
+    },
+    {
+      "id": "dataset_schema",
+      "name": "Dataset schema",
+      "status": "PASS",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Schema load ok (4 records).",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "ok": true,
+        "n_records": 4,
+        "validation_passed": false,
+        "n_findings": 5,
+        "finding_severities": [
+          "error",
+          "review"
+        ],
+        "media_checked": true
+      }
+    },
+    {
+      "id": "dataset_validation",
+      "name": "Dataset validation",
+      "status": "PARTIAL",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Toy manifest validates structurally; media checks report missing files (findings=5).",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "ok": true,
+        "n_records": 4,
+        "validation_passed": false,
+        "n_findings": 5,
+        "finding_severities": [
+          "error",
+          "review"
+        ],
+        "media_checked": true
+      }
+    },
+    {
+      "id": "video_preprocessing",
+      "name": "Video preprocessing",
+      "status": "PARTIAL",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Index sampling + temporal shuffle smoke ok; no real mp4 under data/videos.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "ok": true,
+        "ordered_indices": [
+          0,
+          5,
+          10,
+          15
+        ],
+        "shuffled_indices": [
+          5,
+          15,
+          0,
+          10
+        ],
+        "same_index_set": true,
+        "temporal_shuffled": true
+      }
+    },
+    {
+      "id": "vlm_loading",
+      "name": "VLM model loading",
+      "status": "BLOCKED",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Stub load works; real Qwen load with allow_download=False failed (cache_present=False).",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "stub": {
+          "ok": true,
+          "model_id": "stub/echo",
+          "sample": "STUB_RESPONSE images=0 videos=0 frames=0 :: audit prompt"
+        },
+        "real": {
+          "ok": true,
+          "loaded": false,
+          "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+          "expected_fail": true,
+          "error": "RuntimeError: Refusing to download weights during load_vlm(allow_download=False). Pass allow_download=True once intentionally ready, or point model_id at a local directory.",
+          "note": "Real Qwen load refused or failed with allow_download=False."
+        }
+      }
+    },
+    {
+      "id": "vlm_inference",
+      "name": "VLM video inference",
+      "status": "BLOCKED",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "stub_ok": true,
+        "real_loaded": false,
+        "real_mp4": 0
+      }
+    },
+    {
+      "id": "zero_shot_baseline",
+      "name": "Zero-shot baseline",
+      "status": "PARTIAL",
+      "evidence_level": 1,
+      "evidence_label": "LEVEL 1 - CODE EXISTS",
+      "notes": "Stub baseline smoke skipped; real baseline still blocked.",
+      "tested": false,
+      "last_test": null,
+      "details": {
+        "ok": null,
+        "skipped": true,
+        "note": "Stub baseline smoke skipped by caller."
+      }
+    },
+    {
+      "id": "baseline_evaluation",
+      "name": "Baseline evaluation",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Evaluation helpers exist; no real baseline metrics produced by this audit.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "failure_analysis",
+      "name": "Failure analysis",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Analysis module present; not exercised on a real baseline run.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "preference_schema",
+      "name": "Preference schema",
+      "status": "PASS",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Preference schema/module importable; no human preference labels collected.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {}
+    },
+    {
+      "id": "preference_annotation",
+      "name": "Preference annotation workflow",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Annotation workflow code exists; requires human judgments later.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "preference_validation",
+      "name": "Preference validation",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Preference validation entry exists; not run on real annotations.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "reward_model",
+      "name": "Bradley-Terry reward model",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "BT reward-model code present; real training not audited here.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "dpo",
+      "name": "DPO",
+      "status": "BLOCKED",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "DPO stack code exists; real Qwen DPO needs CUDA + weights + preferences.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "reward_interface",
+      "name": "Reward interface",
+      "status": "PASS",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "hidden_state_exact_match good/bad smoke passed.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "ok": true,
+        "good_value": 1.0,
+        "bad_value": 0.0,
+        "reward_id": "hidden_state_exact_match",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "temporal_shuffle",
+      "name": "Temporal shuffle",
+      "status": "PARTIAL",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Temporal shuffle applied in index smoke; real-video diagnostic not run.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "ok": true,
+        "ordered_indices": [
+          0,
+          5,
+          10,
+          15
+        ],
+        "shuffled_indices": [
+          5,
+          15,
+          0,
+          10
+        ],
+        "same_index_set": true,
+        "temporal_shuffled": true
+      }
+    },
+    {
+      "id": "temporal_causal_reward",
+      "name": "Temporal / causal reward",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "temporal_iou / causal annotation path exists; not run on real causal labels.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "experiment_runner",
+      "name": "Common experiment runner",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Common runner module present; not re-dispatched in this audit beyond stub baseline.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "grpo",
+      "name": "GRPO",
+      "status": "BLOCKED",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "GRPO code exists; real VLM GRPO blocked without CUDA/weights/rewards data.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "comparative_evaluation",
+      "name": "Comparative evaluation",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Comparison module present; synthetic fixtures only unless real runs exist.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "reward_hacking",
+      "name": "Reward-hacking analysis",
+      "status": "PARTIAL",
+      "evidence_level": 2,
+      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
+      "notes": "Reward-hacking diagnostics code present; needs before/after artifacts.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
+    },
+    {
+      "id": "reporting",
+      "name": "Research reporting",
+      "status": "PASS",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "ReportConfig + build_experiment_report smoke on experiment_report_toy.",
+      "tested": true,
+      "last_test": "2026-09-03T00:50:38+00:00",
+      "details": {
+        "ok": true,
+        "keys": [
+          "artifact_index",
+          "config_fingerprint",
+          "configuration",
+          "dataset_split",
+          "dimension_legend",
+          "evaluation",
+          "example_selection",
+          "example_selection_rule",
+          "generalization",
+          "generated_at",
+          "integrity_disclaimer",
+          "model_checkpoint",
+          "notes",
+          "protocol",
+          "representative_failures",
+          "representative_successes",
+          "reward",
+          "reward_hacking_analysis",
+          "schema_version",
+          "summary"
+        ],
+        "has_disclaimer": true,
+        "config": "C:\\Users\\Lucas\\Downloads\\VLM\\configs\\experiment_report_toy.yaml"
+      }
+    }
+  ],
+  "overall": {
+    "overall_status": "BLOCKED",
+    "first_baseline_ready": "NO",
+    "banner": "NOT READY FOR RESEARCH RUN",
+    "reason": "First real hidden-state baseline cannot run. Missing: real mp4 under data/videos, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache",
+    "criteria": {
+      "real_mp4": false,
+      "cuda": false,
+      "qwen_cache_or_load": false,
+      "stub_baseline_ok": false
+    },
+    "n_blocked": 5,
+    "n_failed": 0
+  },
+  "first_baseline_ready": "NO",
+  "blockers": [
+    {
+      "id": "real_videos",
+      "why": "data/videos has no non-empty .mp4 files",
+      "need": "Add real magic/mentalism mp4 clips referenced by the research manifest",
+      "priority": "now"
+    },
+    {
+      "id": "cuda",
+      "why": "Torch reports CUDA unavailable (CPU-only)",
+      "need": "GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs",
+      "priority": "now"
+    },
+    {
+      "id": "qwen_weights",
+      "why": "No HF Qwen cache and load_vlm(allow_download=False) did not load",
+      "need": "Download Qwen2.5-VL locally or point model_id at a local directory",
+      "priority": "now"
+    },
+    {
+      "id": "human_labels",
+      "why": "Real ground-truth / preference / causal annotations not yet collected",
+      "need": "Author research labels after videos exist",
+      "priority": "later"
+    },
+    {
+      "id": "vllm_optional",
+      "why": "vLLM not required for first baseline",
+      "need": "Optional faster serving stack later",
+      "priority": "optional"
+    }
+  ],
+  "human_input": [
+    {
+      "priority": "now",
+      "what": "Provide at least one real magic/mentalism video clip with a hidden-state question and ground-truth label",
+      "where": "data/videos/ (mp4) and a research manifest under data/ (JSONL)",
+      "format": "mp4 + ExampleRecord JSONL (see docs/DATASET_SCHEMA.md)",
+      "after": "magic-vlm-validate --manifest <your_manifest.jsonl>"
+    },
+    {
+      "priority": "now",
+      "what": "Obtain a CUDA GPU environment and CUDA-enabled PyTorch",
+      "where": "Training/inference host (not this CPU-only audit host)",
+      "format": "NVIDIA GPU + matching CUDA torch wheel",
+      "after": "python -c \"import torch; print(torch.cuda.is_available())\""
+    },
+    {
+      "priority": "now",
+      "what": "Place local Qwen2.5-VL weights (3B or 7B Instruct)",
+      "where": "HF hub cache or a local directory referenced by model_id",
+      "format": "Transformers checkpoint directory for Qwen2.5-VL",
+      "after": "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --load-frames"
+    },
+    {
+      "priority": "later",
+      "what": "Human preference judgments (A/B explanations)",
+      "where": "data/annotations/ or preference JSONL",
+      "format": "PreferencePair schema (docs/PREFERENCE_SCHEMA.md)",
+      "after": "magic-vlm-validate-preferences --input <prefs.jsonl>"
+    },
+    {
+      "priority": "later",
+      "what": "Causal / temporal span annotations for advanced rewards",
+      "where": "Manifest causal/temporal fields",
+      "format": "TemporalSpan + CausalAnnotation on ExampleRecord",
+      "after": "magic-vlm-compare-objective --manifest ... --predictions ..."
+    },
+    {
+      "priority": "optional",
+      "what": "Hugging Face token if gated assets are used",
+      "where": "Environment variable HF_TOKEN / huggingface-cli login",
+      "format": "Access token string",
+      "after": "huggingface-cli whoami"
+    }
+  ],
+  "next_actions": [
+    "Add real magic/mentalism mp4 clips referenced by the research manifest",
+    "GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs",
+    "Download Qwen2.5-VL locally or point model_id at a local directory",
+    "Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights"
+  ],
+  "entry_points": {
+    "ok": true,
+    "found": [
+      "magic-vlm-analyze-baseline",
+      "magic-vlm-analyze-preferences",
+      "magic-vlm-analyze-reward-hacking",
+      "magic-vlm-annotate",
+      "magic-vlm-baseline",
+      "magic-vlm-compare-methods",
+      "magic-vlm-compare-objective",
+      "magic-vlm-infer",
+      "magic-vlm-init",
+      "magic-vlm-report",
+      "magic-vlm-run",
+      "magic-vlm-sample-frames",
+      "magic-vlm-score-reward",
+      "magic-vlm-smoke",
+      "magic-vlm-temporal-shuffle",
+      "magic-vlm-train-dpo",
+      "magic-vlm-train-grpo",
+      "magic-vlm-train-reward",
+      "magic-vlm-validate",
+      "magic-vlm-validate-preferences"
+    ],
+    "missing": [],
+    "n_found": 20,
+    "n_expected": 20
+  },
+  "integrity_note": "Statuses reflect executed probes only. Stub PASS is not real VLM evidence.",
+  "artifacts": {
+    "audit_json": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\audit.json",
+    "project_status_md": "C:\\Users\\Lucas\\Downloads\\VLM\\PROJECT_STATUS.md",
+    "project_status_html": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\project_status.html",
+    "project_status_html_copy": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_status.html"
+  }
+}
