@@ -4,7 +4,7 @@ Paused VLM research prototype. Real zero-shot pipeline works on **one** human-ap
 
 ## Talk to Professor Xu with this file
 
-**[docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)** - one scrollable page with simple diagrams. Open it and talk while you point at the images.
+**[docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)** - images + short bullet cues for the meeting.
 
 ## Study this before the meeting
 
