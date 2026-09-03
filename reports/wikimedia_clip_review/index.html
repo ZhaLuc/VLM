@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wikimedia pilot clip review — HUMAN APPROVAL PENDING</title>
+  <style>
+    :root {
+      --ink: #1c1917;
+      --muted: #57534e;
+      --line: #d6d3d1;
+      --bg: #f5f5f4;
+      --paper: #fffcf8;
+      --warn: #9a3412;
+      --warn-bg: #ffedd5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.45;
+    }
+    header {
+      padding: 2rem 1.25rem 1.5rem;
+      border-bottom: 4px solid var(--ink);
+      background: var(--paper);
+    }
+    header h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+    }
+    .pending {
+      display: inline-block;
+      margin: 0.75rem 0 0;
+      padding: 0.35rem 0.7rem;
+      background: var(--warn-bg);
+      color: var(--warn);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+    .clip { padding: 2.25rem 0; border-bottom: 1px solid var(--line); }
+    .clip h2 { margin: 0 0 0.75rem; font-size: 1.35rem; }
+    video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #111;
+      margin: 0.75rem 0 1rem;
+    }
+    .stills { display: flex; gap: 0.5rem; margin: 0 0 1rem; }
+    .stills img { width: 33.33%; height: auto; }
+    dl { margin: 0; }
+    dt { margin-top: 0.85rem; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    dd { margin: 0.2rem 0 0; }
+    .actions { margin-top: 1rem; color: var(--muted); font-size: 0.95rem; }
+    .actions span { margin-right: 1.25rem; }
+    footer { margin-top: 2rem; color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Wikimedia Cups and Balls pilot</h1>
+    <p>Local MP4 review for a possible first hidden-state example. Commons captions name the condition. They are not the question or the answer.</p>
+    <p class="pending">HUMAN APPROVAL: PENDING</p>
+  </header>
+  <main>
+    <p>All five clips use <strong>transparent</strong> cups and include a late reveal. None are recommended as occluded <code>hidden_state</code> gold. Candidate questions below are visible-event proposals only.</p>
+
+    <section class="clip" id="s003">
+      <h2>CLIP peerj_01_19_s003</h2>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.mp4"></video>
+      <div class="stills">
+        <img src="stills/s003_start.jpg" alt="s003 start">
+        <img src="stills/s003_third_cup.jpg" alt="s003 third cup, ball in palm">
+        <img src="stills/s003_loaded.jpg" alt="s003 three balls under cups">
+      </div>
+      <dl>
+        <dt>Source condition</dt>
+        <dd>Standard</dd>
+        <dt>What the video appears to show</dt>
+        <dd>Transparent cups. A ball starts on top of each cup. At the third cup the top ball is in the magician’s open palm. Afterward a ball is visible under all three cups. Cups are later lifted.</dd>
+        <dt>Candidate question</dt>
+        <dd>Where is the ball that started on top of the right-hand cup immediately after it leaves the cup?</dd>
+        <dt>Candidate answer</dt>
+        <dd>in the magician's hand</dd>
+        <dt>Evidence</dt>
+        <dd>VERIFIED_FROM_SOURCE_AND_VIDEO — frame ~5.51s shows the ball in an open palm; paper Standard = ball falling to the hand.</dd>
+        <dt>Confidence</dt>
+        <dd>HIGH for that visible event. NOT_SUITABLE_FOR_HIDDEN_STATE_TASK (no occlusion; reveal leakage).</dd>
+        <dt>Human decision</dt>
+        <dd class="actions"><span>[APPROVE]</span><span>[EDIT]</span><span>[REJECT]</span> — unresolved</dd>
+      </dl>
+    </section>
+
+    <section class="clip" id="s004">
+      <h2>CLIP peerj_01_19_s004</h2>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.mp4"></video>
+      <div class="stills">
+        <img src="stills/s004_start.jpg" alt="s004 start, empty right cup">
+        <img src="stills/s004_third_cup.jpg" alt="s004 empty-hand third cup">
+        <img src="stills/s004_loaded.jpg" alt="s004 three balls under cups">
+      </div>
+      <dl>
+        <dt>Source condition</dt>
+        <dd>No ball</dd>
+        <dt>What the video appears to show</dt>
+        <dd>Transparent cups. Opening: balls on the left and center cups only; none on the right. The magician still tilts the empty third cup over an empty palm. A ball later appears under all three cups.</dd>
+        <dt>Candidate question</dt>
+        <dd>At the start of the clip, is there a ball on top of the right-hand cup?</dd>
+        <dt>Candidate answer</dt>
+        <dd>no</dd>
+        <dt>Evidence</dt>
+        <dd>VERIFIED_FROM_SOURCE_AND_VIDEO — opening frame and paper No-ball definition.</dd>
+        <dt>Confidence</dt>
+        <dd>HIGH for the start state. NOT_SUITABLE_FOR_HIDDEN_STATE_TASK (visible in frame 0).</dd>
+        <dt>Human decision</dt>
+        <dd class="actions"><span>[APPROVE]</span><span>[EDIT]</span><span>[REJECT]</span> — unresolved</dd>
+      </dl>
+    </section>
+
+    <section class="clip" id="s005">
+      <h2>CLIP peerj_01_19_s005</h2>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.mp4"></video>
+      <div class="stills">
+        <img src="stills/s005_start.jpg" alt="s005 start">
+        <img src="stills/s005_third_cup.jpg" alt="s005 ball lifted">
+        <img src="stills/s005_loaded.jpg" alt="s005 three balls under cups">
+      </div>
+      <dl>
+        <dt>Source condition</dt>
+        <dd>Lift</dd>
+        <dt>What the video appears to show</dt>
+        <dd>Transparent cups. At the third cup the magician holds the former top ball up at about shoulder height, then a ball is visible under all three cups.</dd>
+        <dt>Candidate question</dt>
+        <dd>During the third-cup action, does the magician lift the former top ball to about head/shoulder height?</dd>
+        <dt>Candidate answer</dt>
+        <dd>yes</dd>
+        <dt>Evidence</dt>
+        <dd>VERIFIED_FROM_SOURCE_AND_VIDEO — frames ~5.9–6.1s; paper Lift. Pocket destination not verified on video.</dd>
+        <dt>Confidence</dt>
+        <dd>HIGH for the lift. NOT_SUITABLE_FOR_HIDDEN_STATE_TASK.</dd>
+        <dt>Human decision</dt>
+        <dd class="actions"><span>[APPROVE]</span><span>[EDIT]</span><span>[REJECT]</span> — unresolved</dd>
+      </dl>
+    </section>
+
+    <section class="clip" id="s006">
+      <h2>CLIP peerj_01_19_s006 — review this one first</h2>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.mp4"></video>
+      <div class="stills">
+        <img src="stills/s006_start.jpg" alt="s006 start">
+        <img src="stills/s006_third_cup.jpg" alt="s006 ball on table">
+        <img src="stills/s006_four_balls.jpg" alt="s006 four balls visible">
+      </div>
+      <dl>
+        <dt>Source condition</dt>
+        <dd>Table</dd>
+        <dt>What the video appears to show</dt>
+        <dd>Transparent cups. The third cup’s former top ball is placed on the table. A later frame shows three balls under cups plus a fourth ball on the table.</dd>
+        <dt>Candidate question</dt>
+        <dd>After the magician handles the right-hand cup, is there a ball sitting on the table beside the cups (not only under them)?</dd>
+        <dt>Candidate answer</dt>
+        <dd>yes</dd>
+        <dt>Evidence</dt>
+        <dd>VERIFIED_FROM_SOURCE_AND_VIDEO — frames ~6.2s and ~6.7s; paper Table.</dd>
+        <dt>Confidence</dt>
+        <dd>HIGH for the extra on-table ball. Strongest visible candidate. Still NOT_SUITABLE_FOR_HIDDEN_STATE_TASK unless you accept a visible-location proxy.</dd>
+        <dt>Human decision</dt>
+        <dd class="actions"><span>[APPROVE]</span><span>[EDIT]</span><span>[REJECT]</span> — unresolved</dd>
+      </dl>
+    </section>
+
+    <section class="clip" id="s007">
+      <h2>CLIP peerj_01_19_s007</h2>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4"></video>
+      <div class="stills">
+        <img src="stills/s007_start.jpg" alt="s007 start">
+        <img src="stills/s007_third_cup.jpg" alt="s007 drop motion">
+        <img src="stills/s007_loaded.jpg" alt="s007 three balls under cups">
+      </div>
+      <dl>
+        <dt>Source condition</dt>
+        <dd>Drop</dd>
+        <dt>What the video appears to show</dt>
+        <dd>Transparent cups. The third cup is tilted; a blurred white object appears at the bottom-right table edge. The landing (floor vs fully off-screen) is not clear in sampled frames.</dd>
+        <dt>Candidate question</dt>
+        <dd>During the third-cup action, does the former top ball remain on the table next to the cups?</dd>
+        <dt>Candidate answer</dt>
+        <dd>AMBIGUOUS — do not use as gold</dd>
+        <dt>Evidence</dt>
+        <dd>SOURCE_ONLY for floor; partial video for departure (~6.0s). NOT_ESTABLISHED for landing.</dd>
+        <dt>Confidence</dt>
+        <dd>LOW–MEDIUM. NOT_SUITABLE_FOR_HIDDEN_STATE_TASK.</dd>
+        <dt>Human decision</dt>
+        <dd class="actions"><span>[APPROVE]</span><span>[EDIT]</span><span>[REJECT]</span> — unresolved</dd>
+      </dl>
+    </section>
+
+    <footer>
+      <p>HUMAN APPROVAL: PENDING. Buttons above are labels only; they do not save a decision. Open this file from the repo so the local MP4s resolve.</p>
+    </footer>
+  </main>
+</body>
+</html>

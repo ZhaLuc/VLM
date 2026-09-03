@@ -1,0 +1,91 @@
+{
+  "schema": "magic_vlm.annotation_proposal.v1",
+  "human_approval": "PENDING",
+  "task_family": "hidden_state",
+  "paper": {
+    "citation": "Rieiro H, Martinez-Conde S, Macknik S. (2013). Perceptual elements in Penn & Teller's 'Cups and Balls' magic trick. PeerJ 1:e19.",
+    "doi": "10.7717/peerj.19"
+  },
+  "shared_video_facts": {
+    "cups": "All five local MP4s use inverted transparent cups. Occluded hidden-state is therefore not well-posed for these files.",
+    "camera": "Single frontal stage shot; camera_id not labeled in source metadata.",
+    "performer_attribution": "The paper states Teller performed the filmed routines. performer_id is not assigned in the manifest.",
+    "reveal": "Each clip includes a late sequence in which cups are lifted. A full-clip 'what is under the cup' question leaks via the ending.",
+    "load_after_third_cup": "After the third-cup manipulation, a ball is visible under each of the three cups in all five files (Load, not No-load).",
+    "opaque_cup_versions": "The paper also used opaque cups (48 crossed conditions). Those files are not in this local set."
+  },
+  "hidden_state_eligibility_rule": "Only VERIFIED_FROM_VIDEO or VERIFIED_FROM_SOURCE_AND_VIDEO may enter the first hidden-state benchmark without further review. Transparent-cup clips fail occlusion, so none are eligible as hidden_state gold until a human explicitly changes the task or supplies opaque media.",
+  "best_first_baseline_clip": {
+    "clip_id": "peerj_01_19_s006",
+    "status": "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK",
+    "why_strongest_visible_candidate": "The Table action leaves a fourth ball sitting on the table beside the cups for several frames (seen at ~6.2s and ~6.7s). That configuration is unique among the five, easy to formulate, and does not depend on an off-screen destination. It is still a visible-location event, not an occluded hidden state.",
+    "runner_up": "peerj_01_19_s005"
+  },
+  "clips": [
+    {
+      "clip_id": "peerj_01_19_s003",
+      "source_condition": "Standard (Commons S1; paper: third cup uses the same maneuver as cups 1–2; ball falls from the cup top into the hand while a load occurs)",
+      "observed_event": "Transparent cups. Start: one ball on top of each of three inverted cups. Cups 1–2 are loaded so a ball is visible under each. At the third cup (~5.5s) the top ball is in the magician's open palm under the tilted cup. After the sleight, a ball is visible under all three cups. Late frames show cups being lifted.",
+      "candidate_task_type": "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK",
+      "candidate_question": "Where is the ball that started on top of the right-hand cup immediately after it leaves the cup?",
+      "candidate_ground_truth": "in the magician's hand",
+      "ground_truth_basis": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper Standard = ball falling to the hand; frame ~5.51s shows that ball in an open palm under the tilted third cup.",
+      "confidence": "HIGH for the visible-event description; not eligible as occluded hidden-state gold",
+      "human_review_required": true,
+      "human_decision": "PENDING",
+      "reason": "The interesting Standard fact is a visible transfer into the hand, then a visible load under a transparent cup, then a reveal. Nothing stays occluded from the camera."
+    },
+    {
+      "clip_id": "peerj_01_19_s004",
+      "source_condition": "No ball (Commons S2; paper: same third-cup routine but no ball initially on top of the third cup)",
+      "observed_event": "Transparent cups. Start: balls on top of the left and center cups only; the right cup has no ball on top. After cups 1–2, balls are under left and center; the right cup is empty. The magician still mimes the third-cup tilt over an empty palm (~6.0s). Afterward a ball is visible under all three cups. Reveal follows.",
+      "candidate_task_type": "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK",
+      "candidate_question": "At the start of the clip, is there a ball on top of the right-hand cup?",
+      "candidate_ground_truth": "no",
+      "ground_truth_basis": "VERIFIED_FROM_SOURCE_AND_VIDEO — opening frame has no ball on the right cup; matches the paper No-ball definition.",
+      "confidence": "HIGH for the opening configuration; LOW as a hidden-state item (the empty top is visible in frame 0)",
+      "human_review_required": true,
+      "human_decision": "PENDING",
+      "reason": "The No-ball cue is an initial visible absence, not a hidden location. The later load under the empty third cup is visible through the transparent cup."
+    },
+    {
+      "clip_id": "peerj_01_19_s005",
+      "source_condition": "Lift (Commons S3; paper: the ball on top of the third cup is lifted to about eye level before the cup is loaded)",
+      "observed_event": "Transparent cups. Start: one ball on top of each cup. After cups 1–2 are loaded, the magician lifts the third cup and holds the former top ball up at about shoulder height (~5.9–6.1s). Afterward a ball is visible under all three cups. Reveal follows.",
+      "candidate_task_type": "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK",
+      "candidate_question": "During the third-cup action, does the magician lift the former top ball to about head/shoulder height?",
+      "candidate_ground_truth": "yes",
+      "ground_truth_basis": "VERIFIED_FROM_SOURCE_AND_VIDEO — frames ~5.91s and ~6.14s show the ball pinched high in the right hand while the third cup is held in the other hand.",
+      "confidence": "HIGH for the lift event; not eligible as occluded hidden-state gold",
+      "human_review_required": true,
+      "human_decision": "PENDING",
+      "reason": "The Lift cue is a brief visible action. Where the lifted ball goes afterward (pocket, per the paper) is not established from the sampled frames (SOURCE_ONLY / NOT_ESTABLISHED on video)."
+    },
+    {
+      "clip_id": "peerj_01_19_s006",
+      "source_condition": "Table (Commons S4; paper: the top ball on the third cup is placed on the table before the cup is loaded)",
+      "observed_event": "Transparent cups. Start: one ball on top of each cup. At the third cup (~6.2s) that cup is lifted and a ball sits exposed on the table to its right. ~6.7s shows three balls under the three cups plus a fourth ball on the table, with the magician's hand at that extra ball. Reveal follows.",
+      "candidate_task_type": "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK",
+      "candidate_question": "After the magician handles the right-hand cup, is there a ball sitting on the table beside the cups (not only under them)?",
+      "candidate_ground_truth": "yes",
+      "ground_truth_basis": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper Table = top ball placed on the table; frames ~6.21s and ~6.74s show that extra on-table ball.",
+      "confidence": "HIGH for the on-table ball; not eligible as occluded hidden-state gold",
+      "human_review_required": true,
+      "human_decision": "PENDING",
+      "reason": "Clearest unique visual among the five, but the extra ball is in plain view. Using it as hidden_state gold would mislabel a visible-location item."
+    },
+    {
+      "clip_id": "peerj_01_19_s007",
+      "source_condition": "Drop (Commons S5; paper: the top ball on the third cup is dropped to the floor / out of the screen before the cup is loaded)",
+      "observed_event": "Transparent cups. Start: one ball on top of each cup. At the third cup the magician tilts/lifts it; ~6.01s shows a blurred white object at the bottom-right edge of the tabletop. Later a ball is visible under all three cups. The exact landing (floor vs fully off-screen) is not shown clearly in sampled frames. Reveal follows.",
+      "candidate_task_type": "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK",
+      "candidate_question": "During the third-cup action, does the former top ball remain on the table next to the cups?",
+      "candidate_ground_truth": "AMBIGUOUS — paper says it is dropped off-screen/to the floor; video shows a downward/off-table motion but not a clear rest location",
+      "ground_truth_basis": "SOURCE_ONLY for 'floor'; video supports that the ball leaves the cup and moves down/out of the main table area (partial VERIFIED_FROM_VIDEO for departure, NOT_ESTABLISHED for landing)",
+      "confidence": "LOW–MEDIUM",
+      "human_review_required": true,
+      "human_decision": "PENDING",
+      "reason": "Drop destination is the weakest of the five. Do not treat 'Drop' as a hidden-state answer. Unsuitable for the first benchmark even as a visible-event item until a human confirms the off-screen fate."
+    }
+  ]
+}

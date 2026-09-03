@@ -45,6 +45,9 @@ data/videos/*.webm
 data/videos/*.mkv
 !data/videos/.gitkeep
 
+# Dense OpenCV dumps used while inspecting clips; keep curated stills.
+reports/wikimedia_clip_review/frames/
+
 # Env / secrets
 .env
 .env.*
