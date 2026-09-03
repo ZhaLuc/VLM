@@ -601,6 +601,49 @@ def train_reward_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def analyze_reward_hacking_main(argv: list[str] | None = None) -> int:
+    """Diagnose possible reward–quality divergences (not single-example proof)."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Reward-hacking diagnostics: compare programmatic/RM reward vs "
+            "independent ground-truth accuracy (and optional human labels). "
+            "Single examples are never proof. Tags are possible_* only."
+        )
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/reward_hacking_toy.yaml"),
+    )
+    parser.add_argument("--run-id", type=str, default=None)
+    parser.add_argument(
+        "--allow-incomplete-coverage",
+        action="store_true",
+        help="Allow missing locked examples (missing cells stay visible).",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.reward_hacking import RewardHackingConfig, run_reward_hacking
+
+    config = RewardHackingConfig.from_yaml(args.config)
+    payload = config.to_dict()
+    if args.run_id:
+        payload["run_id"] = args.run_id
+    if args.allow_incomplete_coverage:
+        payload["require_full_coverage"] = False
+    result = run_reward_hacking(RewardHackingConfig.from_dict(payload))
+    ba = result.report["before_after"]
+    print(
+        f"reward-hacking ok run_dir={result.run_dir} "
+        f"n={result.report['n_aligned']} "
+        f"acc {ba['accuracy_before']}->{ba['accuracy_after']} "
+        f"rm {ba['mean_rm_before']}->{ba['mean_rm_after']} "
+        f"hr_la={result.report['quadrant_counts_after'].get('high_reward_low_accuracy', 0)}"
+    )
+    print(result.report["integrity_disclaimer"])
+    return 0
+
+
 def compare_methods_main(argv: list[str] | None = None) -> int:
     """Compare implemented methods under a locked held-out protocol."""
     parser = argparse.ArgumentParser(

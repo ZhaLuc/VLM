@@ -62,6 +62,8 @@ move examples into/out of `held_out` after baseline numbers are published.
   `hidden_state_exact_match`). Reward gains ≠ reasoning improvement.
 - Cross-method comparative evaluation: `docs/COMPARISON.md` (locked held-out
   protocol; accuracy / generalization / temporal / reward kept separate).
+- Reward-hacking diagnostics: `docs/REWARD_HACKING.md` (reward vs independent
+  accuracy / RM / human; observational `possible_*` tags only).
 - Objective rewards: `docs/OBJECTIVE_REWARDS.md`
   (`hidden_state_exact_match` and `temporal_iou` v1.0.0). Not reasoning metrics;
   no hybrid weighting. Causal annotation status is exposed in reports

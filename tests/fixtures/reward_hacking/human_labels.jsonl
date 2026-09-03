@@ -1,0 +1,4 @@
+{"example_id": "rh_ho_001", "method_id": "before", "preferred": true, "annotator_id": "annotator_synth", "rubric_version": "explanation_pref_v1", "provenance": "synthetic_human_labels"}
+{"example_id": "rh_ho_001", "method_id": "after", "preferred": false, "annotator_id": "annotator_synth", "rubric_version": "explanation_pref_v1", "provenance": "synthetic_human_labels"}
+{"example_id": "rh_ho_002", "method_id": "before", "preferred": true, "annotator_id": "annotator_synth", "rubric_version": "explanation_pref_v1", "provenance": "synthetic_human_labels"}
+{"example_id": "rh_ho_002", "method_id": "after", "preferred": false, "annotator_id": "annotator_synth", "rubric_version": "explanation_pref_v1", "provenance": "synthetic_human_labels"}

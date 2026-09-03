@@ -33,7 +33,13 @@ from magic_vlm.utils import (
 )
 
 ExperimentType = Literal[
-    "baseline", "temporal_shuffle", "dpo", "grpo", "reward_model", "comparison"
+    "baseline",
+    "temporal_shuffle",
+    "dpo",
+    "grpo",
+    "reward_model",
+    "comparison",
+    "reward_hacking",
 ]
 
 SUPPORTED_EXPERIMENT_TYPES: tuple[str, ...] = (
@@ -43,6 +49,7 @@ SUPPORTED_EXPERIMENT_TYPES: tuple[str, ...] = (
     "grpo",
     "reward_model",
     "comparison",
+    "reward_hacking",
 )
 
 INTEGRITY_NOTE = (
@@ -86,6 +93,7 @@ def list_supported_experiments() -> dict[str, str]:
         "grpo": "GRPO post-training on objective reward (GRPOConfigSpec)",
         "reward_model": "Bradley-Terry text reward model (RewardModelConfig)",
         "comparison": "Cross-method locked held-out comparative evaluation",
+        "reward_hacking": "Reward–quality divergence diagnostics (observational)",
     }
 
 
@@ -119,6 +127,12 @@ def resolve_experiment_type(raw: dict[str, Any]) -> ExperimentType:
         return "grpo"
     if "methods" in raw and ("protocol" in raw or raw.get("experiment_type") == "comparison"):
         return "comparison"
+    if (
+        "before" in raw
+        and "after" in raw
+        and ("quadrant_reward" in raw or raw.get("experiment_type") == "reward_hacking")
+    ):
+        return "reward_hacking"
     if "prefs_path" in raw and "embedding_dim" in raw:
         return "reward_model"
     stage = str(raw.get("stage") or "")
@@ -207,6 +221,14 @@ def validate_dispatch_config(raw: dict[str, Any], *, experiment_type: str) -> No
                 )
         return
 
+    if experiment_type == "reward_hacking":
+        for key in ("before", "after"):
+            if key not in raw:
+                raise ExperimentDispatchError(f"reward_hacking config missing {key}")
+        if "manifest" not in raw and "manifest" not in dict(raw.get("protocol") or {}):
+            raise ExperimentDispatchError("reward_hacking config requires manifest")
+        return
+
     raise ExperimentDispatchError(f"Unsupported experiment_type: {experiment_type}")
 
 
@@ -230,6 +252,8 @@ def _output_dir_for(raw: dict[str, Any], experiment_type: str) -> str:
         return "runs/reward_model"
     if experiment_type == "comparison":
         return "runs/comparison"
+    if experiment_type == "reward_hacking":
+        return "runs/reward_hacking"
     return "runs"
 
 
@@ -422,6 +446,32 @@ def _run_comparison(
     return result.run_dir, metrics, artifacts
 
 
+def _run_reward_hacking(
+    raw: dict[str, Any], *, run_id: str
+) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    from magic_vlm.reward_hacking import RewardHackingConfig, run_reward_hacking
+
+    payload = dict(raw)
+    payload["run_id"] = run_id
+    config = RewardHackingConfig.from_dict(payload)
+    result = run_reward_hacking(config)
+    metrics = {
+        "n_aligned": result.report["n_aligned"],
+        "before_after": result.report.get("before_after"),
+        "frac_high_reward_low_accuracy_after": result.report.get(
+            "frac_high_reward_low_accuracy_after"
+        ),
+        "human_evaluation_available": result.report["human_evaluation"]["available"],
+    }
+    artifacts = {
+        "metrics": "reward_hacking_metrics.json",
+        "report": "reward_hacking_report.md",
+        "examples": "examples_inspectable.jsonl",
+        "high_reward_low_accuracy": "high_reward_low_accuracy.jsonl",
+    }
+    return result.run_dir, metrics, artifacts
+
+
 def run_experiment(
     config_path: str | Path,
     *,
@@ -486,6 +536,8 @@ def run_experiment(
             out_path, metrics, artifacts = _run_reward_model(raw, run_id=rid)
         elif etype == "comparison":
             out_path, metrics, artifacts = _run_comparison(raw, run_id=rid)
+        elif etype == "reward_hacking":
+            out_path, metrics, artifacts = _run_reward_hacking(raw, run_id=rid)
         else:  # pragma: no cover
             raise ExperimentDispatchError(f"Unsupported experiment_type: {etype}")
 

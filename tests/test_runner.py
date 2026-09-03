@@ -29,6 +29,7 @@ def test_supported_types() -> None:
         "grpo",
         "reward_model",
         "comparison",
+        "reward_hacking",
     }
 
 
@@ -63,6 +64,12 @@ def test_comparison_config_resolves() -> None:
     raw = load_raw_config("configs/compare_methods_toy.yaml")
     assert resolve_experiment_type(raw) == "comparison"
     validate_dispatch_config(raw, experiment_type="comparison")
+
+
+def test_reward_hacking_config_resolves() -> None:
+    raw = load_raw_config("configs/reward_hacking_toy.yaml")
+    assert resolve_experiment_type(raw) == "reward_hacking"
+    validate_dispatch_config(raw, experiment_type="reward_hacking")
 
 
 def test_dpo_rejects_held_out_checkpoint_selection() -> None:

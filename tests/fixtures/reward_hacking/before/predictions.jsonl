@@ -1,0 +1,4 @@
+{"example_id": "rh_ho_001", "clip_id": "rh_ho_1", "split": "held_out", "ground_truth": "center", "raw_text": "Answer: center", "parsed_answer": "center", "parse_failed": false, "correct": true, "reward": 1.0}
+{"example_id": "rh_ho_002", "clip_id": "rh_ho_2", "split": "held_out", "ground_truth": "right", "raw_text": "Answer: right", "parsed_answer": "right", "parse_failed": false, "correct": true, "reward": 1.0}
+{"example_id": "rh_ho_003", "clip_id": "rh_ho_3", "split": "held_out", "ground_truth": "left", "raw_text": "Answer: left", "parsed_answer": "left", "parse_failed": false, "correct": true, "reward": 1.0}
+{"example_id": "rh_ho_004", "clip_id": "rh_ho_4", "split": "held_out", "ground_truth": "center", "raw_text": "Answer: center", "parsed_answer": "center", "parse_failed": false, "correct": true, "reward": 1.0}

@@ -12,6 +12,7 @@ Config-driven dispatch over **existing** experiment implementations.
 | `grpo` | `train_grpo` |
 | `reward_model` | `train_bradley_terry_reward_model` |
 | `comparison` | `run_comparison` (locked held-out multi-method report) |
+| `reward_hacking` | `run_reward_hacking` (reward vs independent quality diagnostics) |
 
 Unsupported (not implemented): `sft`, `ppo`, plugins, distributed jobs.
 

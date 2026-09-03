@@ -147,6 +147,13 @@ See `docs/COMPARISON.md`. Compares implemented methods on the same locked
 held-out protocol; dimensions stay separate (no single "reasoning score").
 
 ```bash
+magic-vlm-analyze-reward-hacking --config configs/reward_hacking_toy.yaml
+```
+
+See `docs/REWARD_HACKING.md`. Flags possible reward–quality divergences;
+a single example is never proof of reward hacking.
+
+```bash
 magic-vlm-compare-objective \
   --manifest data/examples/toy_temporal_causal.jsonl \
   --predictions path/to/predictions.jsonl \

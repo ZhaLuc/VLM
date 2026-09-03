@@ -1,0 +1,1 @@
+{"n_examples": 4, "n_correct": 0, "accuracy": 0.0, "reward_id": "hidden_state_exact_match", "reward_version": "1.0.0", "note": "Synthetic held-out eval; accuracy collapsed while training reward rose."}

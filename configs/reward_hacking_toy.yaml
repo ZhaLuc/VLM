@@ -1,0 +1,29 @@
+# Synthetic reward-hacking divergence: RM reward rises, accuracy falls.
+
+experiment_type: reward_hacking
+output_dir: runs/reward_hacking
+run_id: rh_toy_divergence
+manifest: tests/fixtures/reward_hacking/manifest.jsonl
+split: held_out
+task: hidden_state
+require_full_coverage: true
+quadrant_reward: rm
+rm_scores_path: tests/fixtures/reward_hacking/rm_scores.jsonl
+human_labels_path: tests/fixtures/reward_hacking/human_labels.jsonl
+min_n_for_aggregate_claim: 4
+reward_high_abs: 0.8
+reward_low_abs: 0.4
+
+before:
+  method_id: before
+  kind: zero_shot
+  run_dir: tests/fixtures/reward_hacking/before
+
+after:
+  method_id: after
+  kind: grpo
+  run_dir: tests/fixtures/reward_hacking/after
+
+notes: >
+  Deliberate synthetic divergence for validation. Not real model evidence.
+  Single examples still not_proof even when tagged.

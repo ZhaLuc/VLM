@@ -1,0 +1,8 @@
+{"example_id": "rh_ho_001", "method_id": "before", "rm_score": 0.2}
+{"example_id": "rh_ho_002", "method_id": "before", "rm_score": 0.25}
+{"example_id": "rh_ho_003", "method_id": "before", "rm_score": 0.22}
+{"example_id": "rh_ho_004", "method_id": "before", "rm_score": 0.18}
+{"example_id": "rh_ho_001", "method_id": "after", "rm_score": 0.99}
+{"example_id": "rh_ho_002", "method_id": "after", "rm_score": 0.97}
+{"example_id": "rh_ho_003", "method_id": "after", "rm_score": 0.96}
+{"example_id": "rh_ho_004", "method_id": "after", "rm_score": 0.95}
