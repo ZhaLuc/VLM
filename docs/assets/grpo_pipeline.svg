@@ -1,21 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="360" viewBox="0 0 820 360" role="img" aria-label="GRPO group comparison">
-  <rect width="820" height="360" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">GRPO: relative advantage within one prompt group</text>
-  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
-    <rect x="310" y="50" width="200" height="40" rx="4" fill="#fff" stroke="#1c1917"/><text x="410" y="75" text-anchor="middle">one prompt</text>
-    <path d="M410 90 V115" stroke="#1c1917" stroke-width="2"/>
-    <path d="M150 115 H670" stroke="#1c1917" stroke-width="2"/>
-    <path d="M150 115 V140" stroke="#1c1917" stroke-width="2"/><path d="M320 115 V140" stroke="#1c1917" stroke-width="2"/><path d="M500 115 V140" stroke="#1c1917" stroke-width="2"/><path d="M670 115 V140" stroke="#1c1917" stroke-width="2"/>
-    <rect x="90" y="145" width="120" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="150" y="175" text-anchor="middle">answer A</text>
-    <rect x="260" y="145" width="120" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="320" y="175" text-anchor="middle">answer B</text>
-    <rect x="440" y="145" width="120" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="500" y="175" text-anchor="middle">answer C</text>
-    <rect x="610" y="145" width="120" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="670" y="175" text-anchor="middle">answer D</text>
-    <text x="150" y="230" text-anchor="middle">r=0.9</text>
-    <text x="320" y="230" text-anchor="middle">r=0.7</text>
-    <text x="500" y="230" text-anchor="middle">r=0.2</text>
-    <text x="670" y="230" text-anchor="middle">r=0.1</text>
-    <rect x="200" y="260" width="420" height="70" rx="4" fill="#dcfce7" stroke="#14532d"/>
-    <text x="410" y="288" text-anchor="middle">meanH0.475 · pop. stdH0.3345</text>
-    <text x="410" y="312" text-anchor="middle">advantages H +1.27, +0.67, 0.82, 1.12</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="380" viewBox="0 0 860 380">
+  <rect width="860" height="380" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">GRPO: relative advantage within one prompt group</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#111">
+    <rect x="320" y="50" width="220" height="42" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="430" y="77" text-anchor="middle">one prompt</text>
+    <line x1="430" y1="92" x2="430" y2="115" stroke="#111" stroke-width="2"/>
+    <line x1="150" y1="115" x2="710" y2="115" stroke="#111" stroke-width="2"/>
+    <line x1="150" y1="115" x2="150" y2="140" stroke="#111" stroke-width="2"/>
+    <line x1="330" y1="115" x2="330" y2="140" stroke="#111" stroke-width="2"/>
+    <line x1="530" y1="115" x2="530" y2="140" stroke="#111" stroke-width="2"/>
+    <line x1="710" y1="115" x2="710" y2="140" stroke="#111" stroke-width="2"/>
+    <rect x="90" y="145" width="120" height="48" fill="#fff" stroke="#111" stroke-width="2"/><text x="150" y="175" text-anchor="middle">answer A</text>
+    <rect x="270" y="145" width="120" height="48" fill="#fff" stroke="#111" stroke-width="2"/><text x="330" y="175" text-anchor="middle">answer B</text>
+    <rect x="470" y="145" width="120" height="48" fill="#fff" stroke="#111" stroke-width="2"/><text x="530" y="175" text-anchor="middle">answer C</text>
+    <rect x="650" y="145" width="120" height="48" fill="#fff" stroke="#111" stroke-width="2"/><text x="710" y="175" text-anchor="middle">answer D</text>
+    <text x="150" y="230" text-anchor="middle">r = 0.9</text>
+    <text x="330" y="230" text-anchor="middle">r = 0.7</text>
+    <text x="530" y="230" text-anchor="middle">r = 0.2</text>
+    <text x="710" y="230" text-anchor="middle">r = 0.1</text>
+    <rect x="180" y="260" width="500" height="80" fill="#dcfce7" stroke="#14532d" stroke-width="2"/>
+    <text x="430" y="292" text-anchor="middle">mean = 0.475   pop. std ~ 0.3345</text>
+    <text x="430" y="318" text-anchor="middle">advantages ~ +1.27, +0.67, -0.82, -1.12</text>
   </g>
 </svg>

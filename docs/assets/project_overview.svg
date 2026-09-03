@@ -1,34 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="920" height="220" viewBox="0 0 920 220" role="img" aria-label="Project overview pipeline">
-  <rect width="920" height="220" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Project overview (intended full pipeline)</text>
-  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
-    <rect x="20" y="55" width="100" height="70" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="70" y="85" text-anchor="middle">magic</text>
-    <text x="70" y="102" text-anchor="middle">video</text>
-    <text x="70" y="119" text-anchor="middle">+ question</text>
-    <path d="M125 90 H155" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="160" y="55" width="90" height="70" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="205" y="95" text-anchor="middle">VLM</text>
-    <path d="M255 90 H285" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="290" y="55" width="90" height="70" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="335" y="95" text-anchor="middle">answer</text>
-    <path d="M385 90 H415" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="420" y="55" width="110" height="70" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="475" y="85" text-anchor="middle">feedback /</text>
-    <text x="475" y="105" text-anchor="middle">reward</text>
-    <path d="M535 90 H565" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="570" y="55" width="110" height="70" rx="4" fill="#ffedd5" stroke="#9a3412"/>
-    <text x="625" y="85" text-anchor="middle">post-</text>
-    <text x="625" y="105" text-anchor="middle">training</text>
-    <path d="M685 90 H715" stroke="#9a3412" stroke-width="2" marker-end="url(#b)"/>
-    <rect x="720" y="55" width="170" height="70" rx="4" fill="#ffedd5" stroke="#9a3412"/>
-    <text x="805" y="85" text-anchor="middle">better model +</text>
-    <text x="805" y="105" text-anchor="middle">independent eval</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260">
+  <rect width="960" height="260" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">Project overview (intended full pipeline)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#111">
+    <rect x="24" y="60" width="120" height="78" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="84" y="90" text-anchor="middle">magic video</text>
+    <text x="84" y="112" text-anchor="middle">+ question</text>
+    <line x1="144" y1="99" x2="168" y2="99" stroke="#111" stroke-width="2"/>
+    <polygon points="168,94 180,99 168,104" fill="#111"/>
+    <rect x="180" y="60" width="100" height="78" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="230" y="105" text-anchor="middle">VLM</text>
+    <line x1="280" y1="99" x2="304" y2="99" stroke="#111" stroke-width="2"/>
+    <polygon points="304,94 316,99 304,104" fill="#111"/>
+    <rect x="316" y="60" width="100" height="78" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="366" y="105" text-anchor="middle">answer</text>
+    <line x1="416" y1="99" x2="440" y2="99" stroke="#111" stroke-width="2"/>
+    <polygon points="440,94 452,99 440,104" fill="#111"/>
+    <rect x="452" y="60" width="120" height="78" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="512" y="90" text-anchor="middle">feedback /</text>
+    <text x="512" y="112" text-anchor="middle">reward</text>
+    <line x1="572" y1="99" x2="596" y2="99" stroke="#9a3412" stroke-width="2"/>
+    <polygon points="596,94 608,99 596,104" fill="#9a3412"/>
+    <rect x="608" y="60" width="120" height="78" fill="#ffedd5" stroke="#9a3412" stroke-width="2"/>
+    <text x="668" y="90" text-anchor="middle">post-</text>
+    <text x="668" y="112" text-anchor="middle">training</text>
+    <line x1="728" y1="99" x2="752" y2="99" stroke="#9a3412" stroke-width="2"/>
+    <polygon points="752,94 764,99 752,104" fill="#9a3412"/>
+    <rect x="764" y="60" width="172" height="78" fill="#ffedd5" stroke="#9a3412" stroke-width="2"/>
+    <text x="850" y="90" text-anchor="middle">better model +</text>
+    <text x="850" y="112" text-anchor="middle">independent eval</text>
   </g>
-  <text x="20" y="170" font-family="Georgia, serif" font-size="13" fill="#14532d">Reached in this repo: video + question ’ VLM ’ answer ’ evaluation (zero-shot)</text>
-  <text x="20" y="195" font-family="Georgia, serif" font-size="13" fill="#9a3412">Not completed: preference/reward post-training and comparative evaluation</text>
-  <defs>
-    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1c1917"/></marker>
-    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9a3412"/></marker>
-  </defs>
+  <text x="24" y="180" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#14532d">Reached here: video + question -&gt; VLM -&gt; answer -&gt; evaluation (zero-shot)</text>
+  <text x="24" y="210" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#9a3412">Not completed: preference/reward post-training and comparative evaluation</text>
+  <text x="24" y="240" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#555">Green path = implemented. Orange boxes = planned research stages.</text>
 </svg>

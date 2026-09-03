@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VLM Magic Research Archive — Paused Prototype</title>
+  <title>VLM Magic Research Archive - Paused Prototype</title>
   <style>
     :root {
       --ink: #1a1f2e;
@@ -82,10 +82,18 @@
       margin: 1.5rem 0;
       overflow-x: auto;
     }
-    .pipeline img, .result img, .diagram img {
+    .pipeline img, .result img, .diagram img, figure img {
       max-width: 100%;
       height: auto;
       display: block;
+      background: #f7f8fa;
+      border: 1px solid var(--line);
+    }
+    figure { margin: 0; }
+    figcaption {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
     }
     .result {
       background: var(--panel);
@@ -166,7 +174,7 @@
       <span class="pill stop">POST-TRAINING NOT COMPLETED</span>
     </div>
     <div class="cta">
-      <a href="PROFESSOR_DEMO_GUIDE.md">Professor Xu — 2 Minute Walkthrough</a>
+      <a href="PROFESSOR_DEMO_GUIDE.md">Professor Xu - 2 Minute Walkthrough</a>
       <a class="secondary" href="PROJECT_COMPLETE_GUIDE.md">Complete Technical Guide</a>
       <a class="secondary" href="../PROJECT_STATUS.md">Project Status</a>
       <a class="secondary" href="PROFESSOR_XU_ONE_PAGE.md">One-Page Meeting Sheet</a>
@@ -199,7 +207,7 @@
       <section class="panel">
         <h2>What We Would Have Done Next</h2>
         <ul>
-          <li>Approve ~5 gold clips, then 15–25</li>
+          <li>Approve ~5 gold clips, then 15-25</li>
           <li>Collect human preference pairs</li>
           <li>Train BT reward model (optional)</li>
           <li>Run DPO + GRPO</li>
@@ -208,14 +216,29 @@
       </section>
     </div>
 
+    <section class="panel" style="margin:1.5rem 0;">
+      <h2>Backbone (how the repo actually works)</h2>
+      <p>The project is not a chatbot wrapper. It is a <strong>gated evaluation spine</strong> that training methods were meant to plug into later:</p>
+      <pre style="background:#0f172a;color:#e2e8f0;padding:1rem;overflow-x:auto;font-size:0.85rem;">manifest JSONL
+  -&gt; schema + validation + leakage checks
+  -&gt; video + content hash
+  -&gt; frame sampling (+ optional shuffle)
+  -&gt; prompt + frames + question
+  -&gt; Qwen2.5-VL (or stub)
+  -&gt; raw text
+  -&gt; parse + exact-match eval
+  -&gt; runs/ artifacts (+ reports/ mirrors)</pre>
+      <p>S6 is one approved gold row flowing through that spine. DPO/GRPO are unfinished side branches. Full write-up: <a href="PROJECT_COMPLETE_GUIDE.md#1b-the-backbone-how-this-system-is-wired-end-to-end">Complete Guide - Backbone</a>.</p>
+    </section>
+
     <section class="pipeline">
       <h2>Visual pipeline</h2>
-      <img src="assets/project_overview.svg" alt="Project overview: video and question through VLM to post-training and evaluation" />
+      <img src="assets/project_overview.svg" width="960" height="260" alt="Project overview: video and question through VLM to post-training and evaluation" />
     </section>
 
     <section class="result">
       <h2>Real result (S6)</h2>
-      <img src="assets/hidden_state_task.svg" alt="Hidden-state task sequence for Mac King S6" />
+      <img src="assets/hidden_state_task.svg" width="760" height="460" alt="Hidden-state task sequence for Mac King S6" />
       <pre>Question: Which hand contains the coin after the apparent transfer?
 Model:    right
 GT:       right
@@ -229,7 +252,7 @@ Evidence: reports/real_zero_shot_baseline/</pre>
       <h2>Learning methods</h2>
       <div class="cards">
         <a href="PROJECT_COMPLETE_GUIDE.md#11-sft-supervised-fine-tuning">SFT<span>Optional imitation baseline</span></a>
-        <a href="PROJECT_COMPLETE_GUIDE.md#22-rlhf">RLHF<span>Preferences → reward → RL</span></a>
+        <a href="PROJECT_COMPLETE_GUIDE.md#22-rlhf">RLHF<span>Preferences -&gt; reward -&gt; RL</span></a>
         <a href="PROJECT_COMPLETE_GUIDE.md#23-ppo">PPO<span>Deferred; critic + KL</span></a>
         <a href="PROJECT_COMPLETE_GUIDE.md#25-dpo">DPO<span>Preferences without RM loop</span></a>
         <a href="PROJECT_COMPLETE_GUIDE.md#24-grpo">GRPO<span>Group-relative advantages</span></a>
@@ -241,7 +264,23 @@ Evidence: reports/real_zero_shot_baseline/</pre>
 
     <section class="diagram">
       <h2>Completed vs planned</h2>
-      <img src="assets/completed_vs_planned.svg" alt="Completed zero-shot path versus planned DPO and GRPO branches" />
+      <img src="assets/completed_vs_planned.svg" width="920" height="360" alt="Completed zero-shot path versus planned DPO and GRPO branches" />
+    </section>
+
+    <section class="diagram">
+      <h2>All diagrams</h2>
+      <p style="color:var(--muted);font-size:0.9rem;">Open this file from <code>docs/index.html</code> (or serve <code>docs/</code>). Image paths are relative to the <code>docs/</code> folder.</p>
+      <div class="grid3">
+        <figure><img src="assets/vlm_concept.svg" width="860" height="300" alt="VLM concept"/><figcaption>VLM concept</figcaption></figure>
+        <figure><img src="assets/dataset_and_evaluation.svg" width="900" height="320" alt="Dataset and evaluation"/><figcaption>Dataset / eval</figcaption></figure>
+        <figure><img src="assets/rlhf_pipeline.svg" width="900" height="340" alt="RLHF pipeline"/><figcaption>RLHF</figcaption></figure>
+        <figure><img src="assets/ppo_pipeline.svg" width="940" height="280" alt="PPO pipeline"/><figcaption>PPO</figcaption></figure>
+        <figure><img src="assets/dpo_pipeline.svg" width="820" height="300" alt="DPO pipeline"/><figcaption>DPO</figcaption></figure>
+        <figure><img src="assets/grpo_pipeline.svg" width="860" height="380" alt="GRPO pipeline"/><figcaption>GRPO</figcaption></figure>
+        <figure><img src="assets/temporal_shuffle.svg" width="860" height="280" alt="Temporal shuffle"/><figcaption>Temporal shuffle</figcaption></figure>
+        <figure><img src="assets/reward_hacking.svg" width="860" height="280" alt="Reward hacking"/><figcaption>Reward hacking</figcaption></figure>
+        <figure><img src="assets/professor_talking_points.svg" width="900" height="340" alt="Professor talking points"/><figcaption>Professor points</figcaption></figure>
+      </div>
     </section>
   </main>
 

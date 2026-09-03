@@ -1,18 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320" role="img" aria-label="Professor talking points">
-  <rect width="860" height="320" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Professor meeting  four facts</text>
-  <g font-family="Georgia, serif" font-size="14" fill="#1c1917">
-    <rect x="20" y="55" width="400" height="100" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="40" y="90">1. Real VLM pipeline on a magic video</text>
-    <text x="40" y="120">Qwen2.5-VL-3B + S6 ’ right (correct)</text>
-    <rect x="440" y="55" width="400" height="100" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="460" y="90">2. n = 1  not a reasoning proof</text>
-    <text x="460" y="120">One success ` generalization</text>
-    <rect x="20" y="175" width="400" height="100" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="40" y="210">3. Post-training was the research goal</text>
-    <text x="40" y="240">DPO / GRPO planned; not trained</text>
-    <rect x="440" y="175" width="400" height="100" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="460" y="210">4. Paused for time + data scale</text>
-    <text x="460" y="240">Need more gold clips + preferences</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340">
+  <rect width="900" height="340" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">Professor meeting - four facts</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
+    <rect x="24" y="55" width="420" height="110" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="44" y="95">1. Real VLM pipeline on a magic video</text>
+    <text x="44" y="125">Qwen2.5-VL-3B + S6 -&gt; "right" (correct)</text>
+    <rect x="460" y="55" width="420" height="110" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="480" y="95">2. n = 1 - not a reasoning proof</text>
+    <text x="480" y="125">One success != generalization</text>
+    <rect x="24" y="185" width="420" height="110" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="44" y="225">3. Post-training was the research goal</text>
+    <text x="44" y="255">DPO / GRPO planned; not trained</text>
+    <rect x="460" y="185" width="420" height="110" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="480" y="225">4. Paused for time + data scale</text>
+    <text x="480" y="255">Need more gold clips + preferences</text>
   </g>
 </svg>

@@ -2,7 +2,7 @@
 
 **Visual Reasoning and Explanation from Magic and Mentalism Demonstrations**
 
-**Status:** PAUSED — zero-shot prototype complete; post-training study not completed.
+**Status:** PAUSED - zero-shot prototype complete; post-training study not completed.
 
 This guide is the authoritative educational explanation of the repository. It is written for a technically capable student who knows basic machine learning but may not have worked with VLMs, RLHF, reward models, PPO, DPO, or GRPO.
 
@@ -48,6 +48,120 @@ independent evaluation
 
 ---
 
+## 1b. The Backbone: How This System Is Wired End-to-End
+
+If the "one minute" story is the *idea*, this section is the *machine*. Everything in the repo hangs off one spine:
+
+```text
+manifest JSONL (examples)
+        |
+        v
+schema + validation + leakage checks
+        |
+        v
+video path + content hash
+        |
+        v
+frame sampling (and optional temporal shuffle)
+        |
+        v
+prompt template + frames + question
+        |
+        v
+model loader (stub or Qwen2.5-VL)
+        |
+        v
+raw text generation
+        |
+        v
+parse / canonicalize answer
+        |
+        v
+exact-match evaluation (+ optional rewards)
+        |
+        v
+run artifacts under runs/  (+ mirrored reports/)
+```
+
+That spine is what "worked" on S6. Training methods (DPO/GRPO) are **side branches** that were scaffolded to plug into the same data/eval spine later - they were never the completed experiment.
+
+### Why the project is shaped this way
+
+The scientific fear is not "can a VLM generate text about a video?" (that is easy to demo). The fear is:
+
+1. **Leakage:** the answer is already visible (transparent cups, final reveal).
+2. **Shortcut learning:** the model memorizes a performer, camera, or wording.
+3. **Proxy gaming:** a training reward goes up while true hidden-state skill does not.
+4. **Overclaiming:** n=1 or toy smokes get narrated as "reasoning improved."
+
+So the backbone is deliberately **gates first, training second**:
+
+| Layer | Job | Main code |
+|-------|-----|-----------|
+| Schema | Force every example to carry identity + provenance + split | `src/magic_vlm/schemas.py`, `dataset.py` |
+| Validation | Catch missing fields, bad media, split leakage | `validate.py`, `scripts/validate_dataset.py` |
+| Eligibility / human review | Refuse to gold-label leaky clips | `hidden_state_eligibility.py`, inventory + review JSONL |
+| Video | Deterministic frame indices from real MP4s | `video.py`, `scripts/sample_frames.py` |
+| Experiment config | Freeze seeds, model id, generation, run ids | `experiment.py`, `configs/*.yaml` |
+| Models | Load stub or real HF VLM without baking training in | `models.py` |
+| Inference | Produce **raw** model text, keep it inspectable | `inference.py` |
+| Evaluation | Exact-match vs ground truth; keep parse failures visible | `evaluation.py`, `baseline.py` |
+| Rewards (planned training) | Score answers for GRPO / diagnostics | `rewards.py` |
+| Preferences (planned training) | Store A/B human judgments for DPO / RM | `preferences.py`, `annotation.py` |
+| DPO / GRPO / RM | Training loops (toy/fixture-proven; not real post-training) | `dpo.py`, `grpo.py`, `reward_model.py` |
+| Health / reporting | Tell you what is real vs scaffolded | `project_health.py`, `reporting.py` |
+
+### What happens on the one real success (S6)
+
+This is the concrete walk through the backbone for the only approved gold example:
+
+1. **Gold gate.** Human APPROVE recorded for Mac King S6. Only then is a scoreable row written to `data/examples/hidden_state_pilot.jsonl` with:
+   - `question`: Which hand contains the coin after the apparent transfer?
+   - `ground_truth`: `right`
+   - `video.path`: `data/videos/Movie6.MP4`
+   - `split`: `held_out`
+   - provenance pointing at Cui et al. 2011 / PMC3202226
+2. **Config.** `configs/baseline_qwen25vl_3b.yaml` selects that manifest, the Qwen2.5-VL-3B Instruct checkpoint, greedy decoding (`temperature: 0.0`), and frame sampling (`max_frames: 8`, uniform).
+3. **Preprocess.** The runner opens the MP4, samples 8 ordered frame indices (formal run used indices like `0, 31, 61, ..., 215`), and feeds **project-sampled frames** into the model - not a mystery closed-source API.
+4. **Generate.** Untouched base weights (`untouched_base_3b`) on `cuda:0` (RTX 3060, Torch `2.13.0+cu130`) emit raw text `right`.
+5. **Evaluate.** Exact-match: parsed answer `right` == ground truth `right` -> correct. Metrics: `n_examples=1`, `overall_accuracy=1.0`.
+6. **Freeze evidence.** Formal artifacts live under `runs/baseline-real-v1/` (local/gitignored) and a committed mirror at `reports/real_zero_shot_baseline/` labeled `REAL_ZERO_SHOT_BASELINE`, kept distinct from the earlier smoke folder.
+
+Command shape:
+
+```bash
+python scripts/run_baseline.py --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames
+```
+
+### What "post-training" would attach to this backbone
+
+Nothing mystical - the same prompt/example objects would be reused:
+
+```text
+                    +--> human prefs --> DPO  (explanation quality)
+baseline examples --+
+                    +--> objective reward --> GRPO  (e.g. exact-match hidden state)
+                              |
+                              v
+                     same held_out / leakage / temporal-shuffle eval
+```
+
+That is why so much code exists that was never "finished research": the spine had to be real before training claims could be honest. Pausing after the first real zero-shot run is therefore a **data/time** stop, not a missing folder hierarchy.
+
+### Mental model of the directories
+
+Think of three nested folders:
+
+1. **Research question** (hidden-state + explanation under post-training, with generalization).
+2. **Engineering spine** (data -> frames -> VLM -> eval -> artifacts) - **this is done for n=1**.
+3. **Learning methods** (SFT/DPO/PPO/GRPO/RM) - **implemented as modules, not completed as experiments**.
+
+If you only remember one sentence: *the backbone is a gated multimodal evaluation pipeline; learning algorithms were optional adapters that never got real preference/reward data.*
+
+Diagrams: [`assets/project_overview.svg`](assets/project_overview.svg), [`assets/completed_vs_planned.svg`](assets/completed_vs_planned.svg).
+
+---
+
 ## 2. Professor Xu's Research Question
 
 > Can preference- and/or reward-based post-training improve an open VLM's ability to infer hidden states and explain mechanisms in magic/mentalism demonstrations, while generalizing beyond the small training set rather than merely exploiting shortcuts?
@@ -58,7 +172,7 @@ This is a **scientific** question, not merely an application demo, because it as
 2. Whether gains **transfer** to unseen tricks / performers / cameras / wordings.
 3. Whether measured gains reflect **reasoning** rather than reward hacking or leakage.
 
-The planned contribution was a controlled benchmark + post-training comparison (especially DPO for explanations and GRPO for objective hidden-state reward), plus temporal-shuffle and reward-hacking diagnostics — **not** a finished claim that any method already improved reasoning.
+The planned contribution was a controlled benchmark + post-training comparison (especially DPO for explanations and GRPO for objective hidden-state reward), plus temporal-shuffle and reward-hacking diagnostics - **not** a finished claim that any method already improved reasoning.
 
 ---
 
@@ -180,7 +294,7 @@ SFT teaches imitation of gold demonstrations. The project considered SFT as an *
 
 ## 12. Post-training
 
-**Post-training** here means further adaptation **after** the public pretrained/instruction-tuned checkpoint — using preferences, rewards, or demonstrations — to specialize behavior on the research task. It differs from pretraining in scale, objective, and data: small curated task data and explicit preference/reward signals rather than next-token prediction on a web-scale corpus.
+**Post-training** here means further adaptation **after** the public pretrained/instruction-tuned checkpoint - using preferences, rewards, or demonstrations - to specialize behavior on the research task. It differs from pretraining in scale, objective, and data: small curated task data and explicit preference/reward signals rather than next-token prediction on a web-scale corpus.
 
 ---
 
@@ -217,13 +331,13 @@ Early Wikimedia / PeerJ cups-and-balls clips were inspected and labeled **not su
 - late reveal that leaks the answer
 - visible final state that turns the task into recognition rather than inference
 
-They were **retained as controls / pipeline smoke**, not discarded from the world — and the team did **not** lower the benchmark standard just to inflate the gold count. That is scientific rigor: a harder empty set is better than a polluted “success.”
+They were **retained as controls / pipeline smoke**, not discarded from the world - and the team did **not** lower the benchmark standard just to inflate the gold count. That is scientific rigor: a harder empty set is better than a polluted “success.”
 
 See `docs/HIDDEN_STATE_ELIGIBILITY.md`, `data/examples/wikimedia_pilot_review.md`, and `reports/hidden_state_candidates/`.
 
 ## 15. Mac King Video Set
 
-Supplementary clips from Cui et al. 2011 (*Front. Hum. Neurosci.*), local files `Movie1.MP4`–`Movie7.MP4`, inventoried in `data/examples/mac_king_review.jsonl` and `reports/mac_king_clip_review/`.
+Supplementary clips from Cui et al. 2011 (*Front. Hum. Neurosci.*), local files `Movie1.MP4`-`Movie7.MP4`, inventoried in `data/examples/mac_king_review.jsonl` and `reports/mac_king_clip_review/`.
 
 | ID | Paper condition (approx.) | Role in this project |
 |----|---------------------------|----------------------|
@@ -231,7 +345,7 @@ Supplementary clips from Cui et al. 2011 (*Front. Hum. Neurosci.*), local files 
 | S2 | Real toss (with reveal) | Real-toss reveal **control**; counterpart of S7 |
 | S3 | (related fake-toss / study condition in inventory) | Control / not gold unless separately approved |
 | S4 | Reveal-present condition in inventory | Visible-reveal **control** |
-| S5 | No-coin fake toss | Ill-posed for “which hand has the coin” — control only |
+| S5 | No-coin fake toss | Ill-posed for “which hand has the coin” - control only |
 | **S6** | Magic trick **without** reveal | **First approved hidden-state gold** (`ground_truth: right`) |
 | S7 | Real toss **without** reveal | Hidden-state **candidate**; remains **PENDING** |
 
@@ -392,7 +506,7 @@ Concepts:
 
 ## 24. GRPO
 
-**Group Relative Policy Optimization** (DeepSeekMath) samples multiple answers for **one** prompt, scores them, and uses **relative** advantages within that group — without a separate critic.
+**Group Relative Policy Optimization** (DeepSeekMath) samples multiple answers for **one** prompt, scores them, and uses **relative** advantages within that group - without a separate critic.
 
 ```text
              one prompt
@@ -690,7 +804,7 @@ comparative evaluation
 | Step | What it would test |
 |------|--------------------|
 | 5-clip pilot | Minimal multi-example baseline variance |
-| 15–25 clip benchmark | Broader zero-shot / method comparison |
+| 15-25 clip benchmark | Broader zero-shot / method comparison |
 | Preferences | Human judgment of explanations |
 | BT RM | Proxy scoring of responses |
 | DPO | Preference-driven policy update without RM loop |
@@ -707,15 +821,15 @@ PPO remains a **deferred** option if resources allow.
 
 ## 30-second version
 
-> I’m building a VLM research prototype on magic videos where the true object state is hidden. We got a real Qwen2.5-VL-3B zero-shot pipeline working end-to-end on one human-approved Mac King clip — the model answered “right,” matching ground truth. Post-training with DPO/GRPO wasn’t started because we only have one gold example and no preference data yet; the project is paused as a reproducible prototype, not a finished learning study.
+> I’m building a VLM research prototype on magic videos where the true object state is hidden. We got a real Qwen2.5-VL-3B zero-shot pipeline working end-to-end on one human-approved Mac King clip - the model answered “right,” matching ground truth. Post-training with DPO/GRPO wasn’t started because we only have one gold example and no preference data yet; the project is paused as a reproducible prototype, not a finished learning study.
 
 ## 60-second version
 
-> The research question is whether preference- or reward-based post-training can improve open VLMs on hidden-state and mechanism reasoning in magic/mentalism clips without shortcut learning. We implemented dataset validation, leakage checks, video preprocessing, inference, and training scaffolds. Wikimedia transparent-cup clips were rejected as gold because they leak the answer; Mac King S6 was approved. On that single example, untouched Qwen2.5-VL-3B-Instruct predicted `right` correctly. That’s n=1 — pipeline success, not evidence of general reasoning. Next would be more gold clips, preferences, then DPO for explanations and GRPO for exact-match rewards, with held-out and temporal-shuffle evaluation.
+> The research question is whether preference- or reward-based post-training can improve open VLMs on hidden-state and mechanism reasoning in magic/mentalism clips without shortcut learning. We implemented dataset validation, leakage checks, video preprocessing, inference, and training scaffolds. Wikimedia transparent-cup clips were rejected as gold because they leak the answer; Mac King S6 was approved. On that single example, untouched Qwen2.5-VL-3B-Instruct predicted `right` correctly. That’s n=1 - pipeline success, not evidence of general reasoning. Next would be more gold clips, preferences, then DPO for explanations and GRPO for exact-match rewards, with held-out and temporal-shuffle evaluation.
 
 ## 2-minute version
 
-Use [`PROFESSOR_DEMO_GUIDE.md`](PROFESSOR_DEMO_GUIDE.md) screens 1–8. Emphasize: scientific question → S6 task → real correct inference → n=1 limit → intended DPO/GRPO → evaluation against shortcuts → paused status.
+Use [`PROFESSOR_DEMO_GUIDE.md`](PROFESSOR_DEMO_GUIDE.md) screens 1-8. Emphasize: scientific question → S6 task → real correct inference → n=1 limit → intended DPO/GRPO → evaluation against shortcuts → paused status.
 
 ### "What did you actually build?"
 
@@ -737,7 +851,7 @@ Time + need for more approved clips and preference labels before any honest post
 
 ### "What would you do next?"
 
-1. Expand approved gold to ~5, then 15–25.  
+1. Expand approved gold to ~5, then 15-25.  
 2. Collect preference pairs for explanations.  
 3. Run DPO + GRPO with independent held-out / temporal / hacking eval.
 
@@ -755,11 +869,11 @@ Hidden state + misdirection stress temporal/causal inference beyond captioning v
 
 ### "Does the one correct example prove anything?"
 
-**No** — only that the pipeline and one zero-shot prediction matched.
+**No** - only that the pipeline and one zero-shot prediction matched.
 
 ### "What is the research contribution if completed?"
 
-A hidden-state / explanation benchmark with leakage-aware splits, temporal-shuffle diagnostics, and reward-hacking analysis comparing post-training methods — **potential** contributions, not completed findings.
+A hidden-state / explanation benchmark with leakage-aware splits, temporal-shuffle diagnostics, and reward-hacking analysis comparing post-training methods - **potential** contributions, not completed findings.
 
 ### Questions Professor Xu Might Ask
 

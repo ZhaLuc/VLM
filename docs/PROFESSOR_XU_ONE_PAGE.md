@@ -1,12 +1,16 @@
-# Professor Xu — One Page
+# Professor Xu - One Page
 
-**Status:** PAUSED — zero-shot prototype complete; post-training not completed.
+**Status:** PAUSED - zero-shot prototype complete; post-training not completed.
 
 ### Research question
 
 Can preference- and/or reward-based post-training improve an open VLM’s ability to
 infer **hidden states** and explain mechanisms in magic/mentalism videos, while
 generalizing beyond a small training set rather than exploiting shortcuts?
+
+### Backbone
+
+Gated spine: validated JSONL examples -> frame sampling -> VLM generate -> exact-match eval -> archived artifacts. Training (DPO/GRPO) was meant to plug into that spine after more gold + preferences.
 
 ### What I built
 
@@ -44,7 +48,7 @@ therefore no honest DPO/GRPO experiment. Not a software failure.
 ### One GRPO detail
 
 Same prompt → multiple sampled answers → rewards → **group-normalized**
-advantages (relative to that group’s mean/std), then policy update — no separate
+advantages (relative to that group’s mean/std), then policy update - no separate
 critic (DeepSeekMath).
 
 ### One DPO detail

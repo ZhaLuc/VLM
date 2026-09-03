@@ -1,7 +1,7 @@
 # Visual Reasoning and Explanation from Magic and Mentalism Demonstrations
 
 A **paused** VLM research prototype studying visual reasoning and explanation from
-magic/mentalism demonstration clips — documented as a teaching archive, not a
+magic/mentalism demonstration clips - documented as a teaching archive, not a
 completed post-training study.
 
 **Working title:** Visual Reasoning and Explanation from Magic and Mentalism
@@ -13,8 +13,21 @@ Demonstrations: A Post-Training Study of Vision-Language Models
 
 A research codebase for evaluating (and, if resumed, post-training) open
 vision-language models on **hidden-state** and mechanism questions in short
-magic/mentalism videos — with leakage checks, temporal diagnostics, and
+magic/mentalism videos - with leakage checks, temporal diagnostics, and
 preference/reward scaffolds (DPO / GRPO).
+
+### Backbone in one paragraph
+
+The repo is a **gated multimodal evaluation spine**: JSONL manifests are
+validated for schema and leakage, videos are turned into deterministic frame
+samples, a VLM (here Qwen2.5-VL-3B-Instruct) answers a question, answers are
+parsed and exact-matched to ground truth, and runs are archived under
+
+uns/ / 
+eports/. Human APPROVE gates prevent leaky clips from becoming
+gold. DPO/GRPO/reward-model code attaches to that same spine but was **not**
+run as a completed post-training study. Deep dive:
+[docs/PROJECT_COMPLETE_GUIDE.md](docs/PROJECT_COMPLETE_GUIDE.md#1b-the-backbone-how-this-system-is-wired-end-to-end).
 
 ## Current result
 
@@ -37,7 +50,7 @@ and time became limited. Preference labels were not collected.
 
 ## START HERE
 
-1. **[Project Overview (visual homepage)](docs/index.html)** — open locally in a browser
+1. **[Project Overview (visual homepage)](docs/index.html)** - open locally in a browser
 2. **[Professor Xu 2-Minute Demo](docs/PROFESSOR_DEMO_GUIDE.md)**
 3. **[Complete Technical Guide](docs/PROJECT_COMPLETE_GUIDE.md)**
 4. **[Project Status](PROJECT_STATUS.md)**
@@ -64,7 +77,7 @@ start docs/index.html
 
 | Done | Not done |
 |------|----------|
-| Repo architecture, tests, health audits | 5-clip / 15–25 clip benchmarks |
+| Repo architecture, tests, health audits | 5-clip / 15-25 clip benchmarks |
 | Dataset schema, validation, leakage tooling | Human preference dataset |
 | Video preprocessing + frame sampling | Bradley-Terry RM on real prefs |
 | CUDA + Qwen2.5-VL-3B load | Real DPO / GRPO / PPO training |

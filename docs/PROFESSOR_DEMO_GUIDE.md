@@ -1,4 +1,4 @@
-# Professor Demo Guide — Visual Walkthrough
+# Professor Demo Guide - Visual Walkthrough
 
 Use this in a short meeting. Each screen is one idea. Full detail lives in
 [`PROJECT_COMPLETE_GUIDE.md`](PROJECT_COMPLETE_GUIDE.md). One-page sheet:
@@ -8,19 +8,19 @@ Open diagrams from `docs/assets/` or the homepage [`index.html`](index.html).
 
 ---
 
-## Slide/Screen 1 — Project Question
+## Slide/Screen 1 - Project Question
 
 **Show:** [`assets/project_overview.svg`](assets/project_overview.svg)
 
 **Talking point:**
 
 > I'm testing whether post-training can make a VLM better at reasoning about
-> hidden states and mechanisms in magic videos — not just captioning what is
+> hidden states and mechanisms in magic videos - not just captioning what is
 > already visible.
 
 ---
 
-## Slide/Screen 2 — The Concrete Task
+## Slide/Screen 2 - The Concrete Task
 
 **Show:** [`assets/hidden_state_task.svg`](assets/hidden_state_task.svg)
 
@@ -31,7 +31,7 @@ Open diagrams from `docs/assets/` or the homepage [`index.html`](index.html).
 
 ---
 
-## Slide/Screen 3 — What the Model Did
+## Slide/Screen 3 - What the Model Did
 
 **Show:**
 
@@ -56,7 +56,7 @@ model `Qwen/Qwen2.5-VL-3B-Instruct` · device `cuda:0`.
 
 ---
 
-## Slide/Screen 4 — Why This Was Not Enough
+## Slide/Screen 4 - Why This Was Not Enough
 
 **Show:**
 
@@ -72,7 +72,7 @@ accuracy = 1.0
 
 ---
 
-## Slide/Screen 5 — Intended Training Pipeline
+## Slide/Screen 5 - Intended Training Pipeline
 
 **Show:** [`assets/rlhf_pipeline.svg`](assets/rlhf_pipeline.svg) and
 [`assets/completed_vs_planned.svg`](assets/completed_vs_planned.svg)
@@ -96,19 +96,19 @@ independent evaluation
 
 ---
 
-## Slide/Screen 6 — Why GRPO
+## Slide/Screen 6 - Why GRPO
 
 **Show:** [`assets/grpo_pipeline.svg`](assets/grpo_pipeline.svg)
 
 **Talking point:**
 
 > For a rule-based hidden-state reward, GRPO samples several answers for one
-> prompt and updates from relative advantages inside that group — no separate
+> prompt and updates from relative advantages inside that group - no separate
 > critic like PPO.
 
 ---
 
-## Slide/Screen 7 — Evaluation Design
+## Slide/Screen 7 - Evaluation Design
 
 **Show:** [`assets/dataset_and_evaluation.svg`](assets/dataset_and_evaluation.svg)
 and [`assets/temporal_shuffle.svg`](assets/temporal_shuffle.svg)
@@ -124,12 +124,12 @@ ordered vs shuffled
 
 **Talking point:**
 
-> Evaluation is designed to catch memorization and shortcuts — including
+> Evaluation is designed to catch memorization and shortcuts - including
 > transparent-cup leakage we already rejected from gold.
 
 ---
 
-## Slide/Screen 8 — Final Status
+## Slide/Screen 8 - Final Status
 
 **Show:** [`assets/professor_talking_points.svg`](assets/professor_talking_points.svg)
 

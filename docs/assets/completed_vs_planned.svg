@@ -1,24 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340" role="img" aria-label="Completed versus planned">
-  <rect width="900" height="340" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Completed vs planned</text>
-  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
-    <rect x="20" y="50" width="420" height="260" rx="4" fill="#dcfce7" stroke="#14532d"/>
-    <text x="230" y="80" text-anchor="middle" font-weight="bold">COMPLETED</text>
-    <text x="40" y="115">repo / schema / validation</text>
-    <text x="40" y="140">video preprocess + temporal shuffle code</text>
-    <text x="40" y="165">CUDA + Qwen2.5-VL-3B load</text>
-    <text x="40" y="190">1 human-approved gold clip (S6)</text>
-    <text x="40" y="215">real zero-shot inference (answer=right)</text>
-    <text x="40" y="240">tests + project health</text>
-    <text x="40" y="265">DPO/GRPO scaffolds (not trained)</text>
-    <rect x="460" y="50" width="420" height="260" rx="4" fill="#ffedd5" stroke="#9a3412"/>
-    <text x="670" y="80" text-anchor="middle" font-weight="bold">NOT COMPLETED</text>
-    <text x="480" y="115">5-clip pilot / 1525 benchmark</text>
-    <text x="480" y="140">human preference dataset</text>
-    <text x="480" y="165">Bradley-Terry RM on real prefs</text>
-    <text x="480" y="190">DPO / GRPO / PPO training</text>
-    <text x="480" y="215">temporal/causal post-training</text>
-    <text x="480" y="240">reward-hacking experiment</text>
-    <text x="480" y="265">post-training improvement evidence</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360">
+  <rect width="920" height="360" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">Completed vs planned</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
+    <rect x="24" y="55" width="430" height="275" fill="#dcfce7" stroke="#14532d" stroke-width="2"/>
+    <text x="239" y="90" text-anchor="middle" font-weight="700">COMPLETED</text>
+    <text x="48" y="125">repo / schema / validation</text>
+    <text x="48" y="155">video preprocess + temporal shuffle code</text>
+    <text x="48" y="185">CUDA + Qwen2.5-VL-3B load</text>
+    <text x="48" y="215">1 human-approved gold clip (S6)</text>
+    <text x="48" y="245">real zero-shot inference (answer=right)</text>
+    <text x="48" y="275">tests + project health</text>
+    <text x="48" y="305">DPO/GRPO scaffolds (not trained)</text>
+    <rect x="470" y="55" width="430" height="275" fill="#ffedd5" stroke="#9a3412" stroke-width="2"/>
+    <text x="685" y="90" text-anchor="middle" font-weight="700">NOT COMPLETED</text>
+    <text x="494" y="125">5-clip pilot / 15-25 benchmark</text>
+    <text x="494" y="155">human preference dataset</text>
+    <text x="494" y="185">Bradley-Terry RM on real prefs</text>
+    <text x="494" y="215">DPO / GRPO / PPO training</text>
+    <text x="494" y="245">temporal/causal post-training</text>
+    <text x="494" y="275">reward-hacking experiment</text>
+    <text x="494" y="305">post-training improvement evidence</text>
   </g>
 </svg>

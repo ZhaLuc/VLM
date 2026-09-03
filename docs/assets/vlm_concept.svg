@@ -1,24 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="780" height="280" viewBox="0 0 780 280" role="img" aria-label="What is a VLM">
-  <rect width="780" height="280" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Vision-language model (VLM)</text>
-  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
-    <rect x="30" y="60" width="140" height="60" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="100" y="95" text-anchor="middle">VIDEO / IMAGE</text>
-    <rect x="30" y="150" width="140" height="60" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="100" y="185" text-anchor="middle">TEXT</text>
-    <path d="M175 90 H220" stroke="#1c1917" stroke-width="2"/>
-    <path d="M175 180 H220" stroke="#1c1917" stroke-width="2"/>
-    <path d="M220 90 V180" stroke="#1c1917" stroke-width="2"/>
-    <path d="M220 135 H270" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="275" y="90" width="200" height="90" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="375" y="125" text-anchor="middle">visual information</text>
-    <text x="375" y="145" text-anchor="middle">+</text>
-    <text x="375" y="165" text-anchor="middle">language information</text>
-    <path d="M480 135 H530" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="535" y="90" width="200" height="90" rx="4" fill="#dcfce7" stroke="#14532d"/>
-    <text x="635" y="130" text-anchor="middle">multimodal model</text>
-    <text x="635" y="155" text-anchor="middle">’ text response</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300">
+  <rect width="860" height="300" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">Vision-language model (VLM)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
+    <rect x="30" y="60" width="150" height="58" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="105" y="95" text-anchor="middle">VIDEO / IMAGE</text>
+    <rect x="30" y="150" width="150" height="58" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="105" y="185" text-anchor="middle">TEXT</text>
+    <line x1="180" y1="89" x2="220" y2="89" stroke="#111" stroke-width="2"/>
+    <line x1="180" y1="179" x2="220" y2="179" stroke="#111" stroke-width="2"/>
+    <line x1="220" y1="89" x2="220" y2="179" stroke="#111" stroke-width="2"/>
+    <line x1="220" y1="134" x2="260" y2="134" stroke="#111" stroke-width="2"/>
+    <polygon points="260,129 272,134 260,139" fill="#111"/>
+    <rect x="272" y="90" width="220" height="88" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="382" y="122" text-anchor="middle">visual information</text>
+    <text x="382" y="145" text-anchor="middle">+</text>
+    <text x="382" y="168" text-anchor="middle">language information</text>
+    <line x1="492" y1="134" x2="532" y2="134" stroke="#111" stroke-width="2"/>
+    <polygon points="532,129 544,134 532,139" fill="#111"/>
+    <rect x="544" y="90" width="280" height="88" fill="#dcfce7" stroke="#14532d" stroke-width="2"/>
+    <text x="684" y="125" text-anchor="middle">multimodal model</text>
+    <text x="684" y="155" text-anchor="middle">-&gt; text response</text>
   </g>
-  <text x="20" y="255" font-family="Georgia, serif" font-size="12" fill="#57534e">LLM = text only · Vision model = images/video only · VLM = both, jointly</text>
-  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1c1917"/></marker></defs>
+  <text x="24" y="260" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#555">LLM = text only. Vision model = images/video only. VLM = both, jointly.</text>
 </svg>

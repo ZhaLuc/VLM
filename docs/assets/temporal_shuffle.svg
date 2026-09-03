@@ -1,20 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="780" height="260" viewBox="0 0 780 260" role="img" aria-label="Temporal shuffle diagnostic">
-  <rect width="780" height="260" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Temporal shuffle diagnostic</text>
-  <g font-family="Georgia, serif" font-size="14" fill="#1c1917">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="280" viewBox="0 0 860 280">
+  <rect width="860" height="280" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">Temporal shuffle diagnostic</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
     <text x="40" y="70">Ordered frames</text>
-    <rect x="40" y="85" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="65" y="110" text-anchor="middle">1</text>
-    <rect x="100" y="85" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="125" y="110" text-anchor="middle">2</text>
-    <rect x="160" y="85" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="185" y="110" text-anchor="middle">3</text>
-    <rect x="220" y="85" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="245" y="110" text-anchor="middle">4</text>
+    <rect x="40" y="85" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="67" y="112" text-anchor="middle">1</text>
+    <rect x="105" y="85" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="132" y="112" text-anchor="middle">2</text>
+    <rect x="170" y="85" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="197" y="112" text-anchor="middle">3</text>
+    <rect x="235" y="85" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="262" y="112" text-anchor="middle">4</text>
     <text x="40" y="170">Shuffled frames (same set)</text>
-    <rect x="40" y="185" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="65" y="210" text-anchor="middle">3</text>
-    <rect x="100" y="185" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="125" y="210" text-anchor="middle">1</text>
-    <rect x="160" y="185" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="185" y="210" text-anchor="middle">4</text>
-    <rect x="220" y="185" width="50" height="40" fill="#fff" stroke="#1c1917"/><text x="245" y="210" text-anchor="middle">2</text>
-    <rect x="360" y="100" width="380" height="90" rx="4" fill="#fff" stroke="#1c1917"/>
-    <text x="550" y="135" text-anchor="middle">Same pixels. Different order.</text>
-    <text x="550" y="160" text-anchor="middle">If accuracy collapses under shuffle,</text>
-    <text x="550" y="180" text-anchor="middle">order likely mattered (diagnostic, not proof).</text>
+    <rect x="40" y="185" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="67" y="212" text-anchor="middle">3</text>
+    <rect x="105" y="185" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="132" y="212" text-anchor="middle">1</text>
+    <rect x="170" y="185" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="197" y="212" text-anchor="middle">4</text>
+    <rect x="235" y="185" width="55" height="42" fill="#fff" stroke="#111" stroke-width="2"/><text x="262" y="212" text-anchor="middle">2</text>
+    <rect x="360" y="100" width="460" height="100" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="590" y="135" text-anchor="middle">Same pixels. Different order.</text>
+    <text x="590" y="162" text-anchor="middle">If accuracy collapses under shuffle,</text>
+    <text x="590" y="185" text-anchor="middle">order likely mattered (diagnostic, not proof).</text>
   </g>
 </svg>

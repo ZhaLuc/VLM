@@ -1,22 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="780" height="320" viewBox="0 0 780 320" role="img" aria-label="RLHF pipeline">
-  <rect width="780" height="320" fill="#f6f3ee"/>
-  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">RLHF sketch</text>
-  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
-    <rect x="40" y="60" width="120" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="100" y="90" text-anchor="middle">base model</text>
-    <path d="M100 110 V135" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="25" y="140" width="150" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="100" y="170" text-anchor="middle">candidate answers</text>
-    <path d="M100 190 V215" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="25" y="220" width="150" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="100" y="250" text-anchor="middle">human preferences</text>
-    <path d="M180 245 H240" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="245" y="220" width="140" height="50" rx="4" fill="#fff" stroke="#1c1917"/><text x="315" y="250" text-anchor="middle">reward model</text>
-    <path d="M390 245 H450" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
-    <rect x="455" y="220" width="140" height="50" rx="4" fill="#ffedd5" stroke="#9a3412"/><text x="525" y="250" text-anchor="middle">RL optimize</text>
-    <path d="M600 245 H660" stroke="#9a3412" stroke-width="2" marker-end="url(#b)"/>
-    <rect x="665" y="220" width="90" height="50" rx="4" fill="#ffedd5" stroke="#9a3412"/><text x="710" y="250" text-anchor="middle">updated</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340">
+  <rect width="900" height="340" fill="#f7f8fa"/>
+  <text x="24" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#111">RLHF sketch</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#111">
+    <rect x="40" y="60" width="140" height="50" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="110" y="90" text-anchor="middle">base model</text>
+    <line x1="110" y1="110" x2="110" y2="135" stroke="#111" stroke-width="2"/>
+    <polygon points="105,135 110,147 115,135" fill="#111"/>
+    <rect x="30" y="150" width="160" height="50" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="110" y="180" text-anchor="middle">candidate answers</text>
+    <line x1="110" y1="200" x2="110" y2="225" stroke="#111" stroke-width="2"/>
+    <polygon points="105,225 110,237 115,225" fill="#111"/>
+    <rect x="30" y="240" width="160" height="50" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="110" y="270" text-anchor="middle">human preferences</text>
+    <line x1="190" y1="265" x2="230" y2="265" stroke="#111" stroke-width="2"/>
+    <polygon points="230,260 242,265 230,270" fill="#111"/>
+    <rect x="242" y="240" width="150" height="50" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="317" y="270" text-anchor="middle">reward model</text>
+    <line x1="392" y1="265" x2="432" y2="265" stroke="#111" stroke-width="2"/>
+    <polygon points="432,260 444,265 432,270" fill="#111"/>
+    <rect x="444" y="240" width="150" height="50" fill="#ffedd5" stroke="#9a3412" stroke-width="2"/>
+    <text x="519" y="270" text-anchor="middle">RL optimize</text>
+    <line x1="594" y1="265" x2="634" y2="265" stroke="#9a3412" stroke-width="2"/>
+    <polygon points="634,260 646,265 634,270" fill="#9a3412"/>
+    <rect x="646" y="240" width="150" height="50" fill="#ffedd5" stroke="#9a3412" stroke-width="2"/>
+    <text x="721" y="270" text-anchor="middle">updated VLM</text>
   </g>
-  <text x="20" y="305" font-family="Georgia, serif" font-size="12" fill="#9a3412">Not run on real preferences in this repository (paused)</text>
-  <defs>
-    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1c1917"/></marker>
-    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9a3412"/></marker>
-  </defs>
+  <text x="24" y="320" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#9a3412">Not run on real preferences in this repository (paused)</text>
 </svg>
