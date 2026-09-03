@@ -1195,7 +1195,7 @@ def derive_overall(
 
     if real_baseline_done and has_gold and real_mp4 and cuda and qwen_ready:
         first_baseline = "YES"
-        banner = "REAL ZERO-SHOT BASELINE COMPLETE"
+        banner = "PAUSED - ZERO-SHOT PROTOTYPE COMPLETE"
         overall = "PASS"
         readiness_status = "REAL_BASELINE_COMPLETE"
         runtime_checks["FIRST_BASELINE_READY"] = True
@@ -1203,8 +1203,9 @@ def derive_overall(
             f"Formal zero-shot baseline run_id={env.get('real_baseline_run_id')} "
             f"evaluated {examples_evaluated}/{approved_gold} approved gold example(s) "
             f"with model {env.get('real_baseline_model_id')}. "
+            "Post-training (preferences/DPO/GRPO) was not completed. "
             f"Pilot still needs {clips_needed} more clip(s) for a 5-clip set. "
-            "n=1 does not establish generalization."
+            "n=1 does not establish generalization. Research paused for time/scope."
         )
     elif has_gold and real_mp4 and cuda and qwen_ready:
         first_baseline = "YES"

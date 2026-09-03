@@ -2,12 +2,12 @@
 
 ## Overall Status
 
-**REAL ZERO-SHOT BASELINE COMPLETE**
+**PAUSED - ZERO-SHOT PROTOTYPE COMPLETE**
 
 - Overall: `PASS`
 - First real baseline ready: `YES`
-- Reason: Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization.
-- Generated: 2026-09-03T04:05:40+00:00
+- Reason: Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Post-training (preferences/DPO/GRPO) was not completed. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization. Research paused for time/scope.
+- Generated: 2026-09-03T04:21:54+00:00
 
 ## Pipeline
 
@@ -143,7 +143,7 @@
 
 ## First Research Experiment Readiness
 
-`YES` — Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization.
+`YES` — Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Post-training (preferences/DPO/GRPO) was not completed. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization. Research paused for time/scope.
 
 ## Next Actions
 

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300" role="img" aria-label="Dataset and evaluation splits">
+  <rect width="860" height="300" fill="#f6f3ee"/>
+  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Dataset grouping and evaluation axes</text>
+  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
+    <rect x="20" y="55" width="250" height="200" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="145" y="85" text-anchor="middle" font-weight="bold">Metadata</text>
+    <text x="40" y="115">clip / trick / performer</text>
+    <text x="40" y="140">camera / question</text>
+    <text x="40" y="165">ground truth</text>
+    <text x="40" y="190">provenance</text>
+    <text x="40" y="215">split (held_out)</text>
+    <rect x="300" y="55" width="250" height="200" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="425" y="85" text-anchor="middle" font-weight="bold">Avoid leakage</text>
+    <text x="320" y="115">not random frame splits</text>
+    <text x="320" y="140">group by trick/setup</text>
+    <text x="320" y="165">held_out frozen</text>
+    <text x="320" y="190">no train on held_out</text>
+    <text x="320" y="215">provenance required</text>
+    <rect x="580" y="55" width="250" height="200" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="705" y="85" text-anchor="middle" font-weight="bold">Eval axes (planned)</text>
+    <text x="600" y="115">seen / unseen trick</text>
+    <text x="600" y="140">unseen performer</text>
+    <text x="600" y="165">unseen camera</text>
+    <text x="600" y="190">new wording</text>
+    <text x="600" y="215">ordered vs shuffled</text>
+  </g>
+</svg>

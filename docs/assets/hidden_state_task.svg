@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img" aria-label="Hidden-state task S6">
+  <rect width="720" height="420" fill="#f6f3ee"/>
+  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">Hidden-state task (Mac King S6)</text>
+  <g font-family="Georgia, serif" font-size="13" fill="#1c1917">
+    <rect x="220" y="50" width="280" height="45" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="360" y="78" text-anchor="middle">coin visible in right hand</text>
+    <path d="M360 95 V115" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="220" y="120" width="280" height="45" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="360" y="148" text-anchor="middle">apparent transfer</text>
+    <path d="M360 165 V185" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="220" y="190" width="280" height="45" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="360" y="218" text-anchor="middle">coin remains hidden</text>
+    <path d="M360 235 V255" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="220" y="260" width="280" height="45" rx="4" fill="#fff" stroke="#1c1917"/>
+    <text x="360" y="288" text-anchor="middle">video ends (no reveal)</text>
+    <path d="M360 305 V325" stroke="#1c1917" stroke-width="2" marker-end="url(#a)"/>
+    <rect x="160" y="330" width="400" height="55" rx="4" fill="#dcfce7" stroke="#14532d"/>
+    <text x="360" y="352" text-anchor="middle">Which hand contains the coin after the apparent transfer?</text>
+    <text x="360" y="372" text-anchor="middle">ground truth ’ right</text>
+  </g>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1c1917"/></marker></defs>
+</svg>

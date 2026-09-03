@@ -85,7 +85,7 @@ def test_derive_overall_marks_real_baseline_complete() -> None:
     out = derive_overall(env, [], smokes, {"approved_gold_examples": 1, "clips_needed": 4})
     assert out["readiness_status"] == "REAL_BASELINE_COMPLETE"
     assert out["runtime_checks"]["REAL_BASELINE_COMPLETED"] is True
-    assert out["banner"] == "REAL ZERO-SHOT BASELINE COMPLETE"
+    assert out["banner"] == "PAUSED - ZERO-SHOT PROTOTYPE COMPLETE"
 
 
 def test_html_contains_status_banner() -> None:
@@ -161,6 +161,6 @@ def test_html_and_markdown_include_hidden_state_collections() -> None:
             assert audit["overall"]["readiness_status"] == "REAL_BASELINE_COMPLETE"
             assert audit["real_baseline"]["run_id"] == "baseline-real-v1"
             assert audit["real_baseline"]["examples_evaluated"] == 1
-            assert "REAL ZERO-SHOT BASELINE COMPLETE" in md
+            assert "REAL ZERO-SHOT BASELINE COMPLETE" in md or "PAUSED - ZERO-SHOT PROTOTYPE COMPLETE" in md
     else:
         assert audit["first_baseline_ready"] == "PARTIALLY"

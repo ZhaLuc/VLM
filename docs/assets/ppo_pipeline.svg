@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="280" viewBox="0 0 860 280" role="img" aria-label="PPO pipeline">
+  <rect width="860" height="280" fill="#f6f3ee"/>
+  <text x="20" y="28" font-family="Georgia, serif" font-size="16" fill="#1c1917">PPO sketch (deferred in this project)</text>
+  <g font-family="Georgia, serif" font-size="12" fill="#1c1917">
+    <rect x="20" y="70" width="120" height="55" rx="4" fill="#fff" stroke="#1c1917"/><text x="80" y="102" text-anchor="middle">policy (VLM)</text>
+    <rect x="170" y="70" width="120" height="55" rx="4" fill="#fff" stroke="#1c1917"/><text x="230" y="102" text-anchor="middle">sample answers</text>
+    <rect x="320" y="70" width="120" height="55" rx="4" fill="#fff" stroke="#1c1917"/><text x="380" y="102" text-anchor="middle">reward model</text>
+    <rect x="470" y="70" width="120" height="55" rx="4" fill="#fff" stroke="#1c1917"/><text x="530" y="102" text-anchor="middle">advantage</text>
+    <rect x="620" y="70" width="100" height="55" rx="4" fill="#fff" stroke="#1c1917"/><text x="670" y="95" text-anchor="middle">value /</text><text x="670" y="112" text-anchor="middle">critic</text>
+    <rect x="740" y="70" width="100" height="55" rx="4" fill="#ffedd5" stroke="#9a3412"/><text x="790" y="102" text-anchor="middle">update</text>
+    <path d="M140 97 H165" stroke="#1c1917" stroke-width="2"/><path d="M290 97 H315" stroke="#1c1917" stroke-width="2"/><path d="M440 97 H465" stroke="#1c1917" stroke-width="2"/><path d="M590 97 H615" stroke="#1c1917" stroke-width="2"/><path d="M720 97 H735" stroke="#9a3412" stroke-width="2"/>
+    <text x="20" y="170">Also usually needs: reference policy + KL regularization (stay close to the base model).</text>
+    <text x="20" y="200">Memory cost: policy + reference + reward + critic makes PPO heavy for large VLMs.</text>
+    <text x="20" y="230" fill="#9a3412">Status here: deferred  architecture notes exist; no real PPO training was run.</text>
+  </g>
+</svg>
