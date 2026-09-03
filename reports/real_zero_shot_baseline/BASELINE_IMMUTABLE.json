@@ -1,0 +1,9 @@
+{
+  "immutable": true,
+  "message": "This zero-shot baseline is the frozen reference. Do not overwrite; compare later post-training runs against this run_id.",
+  "run_id": "baseline-real-v1",
+  "split": "held_out",
+  "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+  "dataset_version": "hidden-state-pilot-s6-v1",
+  "config_hash": "5faa845a492bc779"
+}

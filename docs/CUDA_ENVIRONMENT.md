@@ -42,3 +42,9 @@ magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-
 ```
 
 Cached hub weights load without `--allow-download`. Do not commit weights or videos.
+
+Formal baseline evidence (committed, distinct from smoke):
+`reports/real_zero_shot_baseline/` with label `REAL_ZERO_SHOT_BASELINE`.
+Full run dir (gitignored): `runs/baseline-real-v1/`.
+
+n=1 exact-match accuracy must not be over-interpreted scientifically.

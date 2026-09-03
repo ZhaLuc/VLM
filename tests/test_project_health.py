@@ -69,6 +69,25 @@ def test_derive_overall_gpu_blocked_when_no_cuda() -> None:
     assert out["readiness_status"] == "GPU_BLOCKED"
 
 
+def test_derive_overall_marks_real_baseline_complete() -> None:
+    env = {
+        "real_mp4_count": 12,
+        "gpu_available": True,
+        "torch": {"cuda_available": True},
+        "qwen_cache_present": True,
+        "real_baseline_completed": True,
+        "real_baseline_run_id": "baseline-real-v1",
+        "real_baseline_model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+        "real_baseline_examples_evaluated": 1,
+        "real_baseline_accuracy": 1.0,
+    }
+    smokes = {"real_qwen_load": {"loaded": True}, "stub_baseline": {"ok": True}}
+    out = derive_overall(env, [], smokes, {"approved_gold_examples": 1, "clips_needed": 4})
+    assert out["readiness_status"] == "REAL_BASELINE_COMPLETE"
+    assert out["runtime_checks"]["REAL_BASELINE_COMPLETED"] is True
+    assert out["banner"] == "REAL ZERO-SHOT BASELINE COMPLETE"
+
+
 def test_html_contains_status_banner() -> None:
     audit = {
         "generated_at": "2026-09-02T00:00:00+00:00",
@@ -134,6 +153,14 @@ def test_html_and_markdown_include_hidden_state_collections() -> None:
     assert "readiness_status" in audit["overall"]
     if cuda and qwen:
         assert audit["first_baseline_ready"] == "YES"
-        assert audit["overall"]["readiness_status"] == "READY_FOR_REAL_BASELINE"
+        assert audit["overall"]["readiness_status"] in {
+            "READY_FOR_REAL_BASELINE",
+            "REAL_BASELINE_COMPLETE",
+        }
+        if audit["environment"].get("real_baseline_completed"):
+            assert audit["overall"]["readiness_status"] == "REAL_BASELINE_COMPLETE"
+            assert audit["real_baseline"]["run_id"] == "baseline-real-v1"
+            assert audit["real_baseline"]["examples_evaluated"] == 1
+            assert "REAL ZERO-SHOT BASELINE COMPLETE" in md
     else:
         assert audit["first_baseline_ready"] == "PARTIALLY"

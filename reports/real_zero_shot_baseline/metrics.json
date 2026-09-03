@@ -1,0 +1,19 @@
+{
+  "metric": "exact_match",
+  "n_examples": 1,
+  "n_correct": 1,
+  "overall_accuracy": 1.0,
+  "n_parse_failures": 0,
+  "parse_failure_rate": 0.0,
+  "per_trick_accuracy": {
+    "coin_fake_toss": 1.0
+  },
+  "per_trick_counts": {
+    "coin_fake_toss": 1
+  },
+  "mean_latency_s": 2.6090545000006387,
+  "split": "held_out",
+  "example_ids": [
+    "mac_king_s006_q1"
+  ]
+}

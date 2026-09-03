@@ -2,12 +2,12 @@
 
 ## Overall Status
 
-**READY FOR FIRST BASELINE**
+**REAL ZERO-SHOT BASELINE COMPLETE**
 
 - Overall: `PASS`
 - First real baseline ready: `YES`
-- Reason: 1 approved gold example(s), real mp4(s) present, CUDA available, and Qwen cache/load evidence found.
-- Generated: 2026-09-03T03:58:31+00:00
+- Reason: Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization.
+- Generated: 2026-09-03T04:05:40+00:00
 
 ## Pipeline
 
@@ -18,8 +18,8 @@
 - `PARTIAL` **Dataset validation** (evidence 3) — Toy manifest validates structurally; media checks report missing files (findings=5).
 - `PASS` **Video preprocessing** (evidence 4) — Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
 - `PASS` **VLM model loading** (evidence 4) — Stub and real Qwen load succeeded.
-- `PARTIAL` **VLM video inference** (evidence 3) — Weights/CUDA/mp4 present; full video→answer path not executed in this audit.
-- `PARTIAL` **Zero-shot baseline** (evidence 3) — Stub baseline ok and hardware/cache look ready — confirm a real Qwen run separately.
+- `PASS` **VLM video inference** (evidence 5) — Formal baseline run_id=baseline-real-v1 evaluated 1 gold example(s) with Qwen/Qwen2.5-VL-3B-Instruct.
+- `PASS` **Zero-shot baseline** (evidence 5) — REAL_ZERO_SHOT_BASELINE complete (run_id=baseline-real-v1, n=1, accuracy=1.0). Distinct from REAL_ZERO_SHOT_BASELINE_SMOKE_TEST.
 - `PARTIAL` **Baseline evaluation** (evidence 2) — Evaluation helpers exist; no real baseline metrics produced by this audit.
 - `PARTIAL` **Failure analysis** (evidence 2) — Analysis module present; not exercised on a real baseline run.
 - `PASS` **Preference schema** (evidence 2) — Preference schema/module importable; no human preference labels collected.
@@ -44,6 +44,8 @@
 - Dataset schema: Schema load ok (4 records).
 - Video preprocessing: Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
 - VLM model loading: Stub and real Qwen load succeeded.
+- VLM video inference: Formal baseline run_id=baseline-real-v1 evaluated 1 gold example(s) with Qwen/Qwen2.5-VL-3B-Instruct.
+- Zero-shot baseline: REAL_ZERO_SHOT_BASELINE complete (run_id=baseline-real-v1, n=1, accuracy=1.0). Distinct from REAL_ZERO_SHOT_BASELINE_SMOKE_TEST.
 - Preference schema: Preference schema/module importable; no human preference labels collected.
 - Reward interface: hidden_state_exact_match good/bad smoke passed.
 - Research reporting: ReportConfig + build_experiment_report smoke on experiment_report_toy.
@@ -96,7 +98,20 @@
 - REAL_VLM_LOAD: `True`
 - REAL_VIDEO_INFERENCE: `True`
 - FIRST_BASELINE_READY: `True`
-- readiness_status: `READY_FOR_REAL_BASELINE`
+- REAL_BASELINE_COMPLETED: `True`
+- readiness_status: `REAL_BASELINE_COMPLETE`
+
+## Real zero-shot baseline
+
+- label: `REAL_ZERO_SHOT_BASELINE`
+- run_id: `baseline-real-v1`
+- model: `Qwen/Qwen2.5-VL-3B-Instruct`
+- examples_evaluated: `1`
+- exact_match_accuracy: `1.0`
+- evidence: `reports/real_zero_shot_baseline/` (distinct from `reports/real_zero_shot_baseline_smoke/`)
+- approved_gold_examples: `1`
+- clips_needed_for_pilot: `4`
+- limitation: n is small; one correct answer does not establish hidden-state/temporal/causal reasoning or generalization.
 
 ## Hidden-state dataset
 
@@ -128,8 +143,8 @@
 
 ## First Research Experiment Readiness
 
-`YES` — 1 approved gold example(s), real mp4(s) present, CUDA available, and Qwen cache/load evidence found.
+`YES` — Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization.
 
 ## Next Actions
 
-1. magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames
+1. Source 4 more approved hidden-state clips for a 5-clip pilot (leave S7 PENDING until reviewed; do not gold-label Wikimedia controls)

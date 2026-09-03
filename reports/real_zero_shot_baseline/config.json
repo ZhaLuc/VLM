@@ -1,0 +1,65 @@
+{
+  "name": "baseline_qwen25vl_3b",
+  "model": {
+    "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "revision": null,
+    "torch_dtype": "bfloat16",
+    "device_map": "auto",
+    "trust_remote_code": true,
+    "attn_implementation": null
+  },
+  "dataset": {
+    "manifest": "data/examples/hidden_state_pilot.jsonl",
+    "version": "hidden-state-pilot-s6-v1",
+    "split": "held_out",
+    "task": "hidden_state"
+  },
+  "dataset_manifest": "data/examples/hidden_state_pilot.jsonl",
+  "output_dir": "runs",
+  "video": {
+    "max_frames": 8,
+    "sample_strategy": "uniform",
+    "temporal_shuffle": false,
+    "shuffle_seed": 0,
+    "resize": null
+  },
+  "generation": {
+    "max_new_tokens": 128,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "do_sample": false,
+    "sampling_mode": "greedy"
+  },
+  "device": {
+    "preference": "auto",
+    "cuda_index": null
+  },
+  "seed": 0,
+  "seed_config": {
+    "seed": 0,
+    "deterministic_algorithms": false,
+    "cudnn_deterministic": false,
+    "cudnn_benchmark": false
+  },
+  "checkpoint": {
+    "kind": "base",
+    "path": null,
+    "parent_run_id": null,
+    "label": "untouched_base_3b"
+  },
+  "stage": "baseline",
+  "training_method": "none",
+  "reward_function": "exact_match",
+  "task": "hidden_state",
+  "split": "held_out",
+  "dataset_version": "hidden-state-pilot-s6-v1",
+  "preserve_raw_outputs": true,
+  "baseline_immutable": true,
+  "allow_held_out_in_training": false,
+  "allow_model_download": false,
+  "is_zero_shot_baseline": true,
+  "notes": "3B fallback when 7B does not fit. Still an untouched base checkpoint; still evaluates the fixed held_out split only.\n",
+  "extras": {},
+  "experiment_type": null
+}

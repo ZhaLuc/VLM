@@ -1,0 +1,14 @@
+{
+  "split": "held_out",
+  "n_examples": 1,
+  "example_ids": [
+    "mac_king_s006_q1"
+  ],
+  "clip_ids": [
+    "mac_king_s006"
+  ],
+  "trick_ids": [
+    "coin_fake_toss"
+  ],
+  "note": "Held-out membership is taken from the manifest and not modified by the baseline runner."
+}

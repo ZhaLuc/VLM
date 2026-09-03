@@ -316,6 +316,20 @@ def load_real_smoke_evidence(root: Path) -> dict[str, Any] | None:
         return None
 
 
+def load_real_baseline_evidence(root: Path) -> dict[str, Any] | None:
+    """Load committed REAL_ZERO_SHOT_BASELINE evidence if present."""
+    path = Path(root) / "reports" / "real_zero_shot_baseline" / "summary.json"
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+    if str(payload.get("label") or "") != "REAL_ZERO_SHOT_BASELINE":
+        return None
+    return payload
+
+
 def probe_environment(root: Path | None = None) -> dict[str, Any]:
     """Probe Python, torch/CUDA, optional stacks, video deps, media, HF cache."""
     root = Path(root or Path.cwd()).resolve()
@@ -346,6 +360,9 @@ def probe_environment(root: Path | None = None) -> dict[str, Any]:
     qwen_dirs = list_qwen_cache_dirs()
     real_mp4_count = count_real_mp4(root)
     smoke_evidence = load_real_smoke_evidence(root)
+    baseline_evidence = load_real_baseline_evidence(root)
+    baseline_metrics = (baseline_evidence or {}).get("metrics") or {}
+    baseline_dataset = (baseline_evidence or {}).get("dataset") or {}
 
     return {
         "probed_at": utc_now_iso(),
@@ -379,6 +396,16 @@ def probe_environment(root: Path | None = None) -> dict[str, Any]:
         "qwen_cache_present": len(qwen_dirs) > 0,
         "real_smoke_evidence": smoke_evidence,
         "real_smoke_evidence_present": smoke_evidence is not None,
+        "real_baseline_evidence": baseline_evidence,
+        "real_baseline_completed": baseline_evidence is not None,
+        "real_baseline_run_id": (baseline_evidence or {}).get("run_id"),
+        "real_baseline_model_id": (baseline_evidence or {}).get("model_id"),
+        "real_baseline_examples_evaluated": int(
+            baseline_metrics.get("n_examples")
+            or baseline_dataset.get("examples_evaluated")
+            or 0
+        ),
+        "real_baseline_accuracy": baseline_metrics.get("overall_accuracy"),
     }
 
 
@@ -867,7 +894,20 @@ def build_component_results(
         )
 
     # VLM inference — no fake PASS without real video+model
-    if real.get("loaded") and real_mp4 > 0 and cuda:
+    if env.get("real_baseline_completed"):
+        put(
+            "vlm_inference",
+            "PASS",
+            5,
+            (
+                f"Formal baseline run_id={env.get('real_baseline_run_id')} "
+                f"evaluated {env.get('real_baseline_examples_evaluated')} gold example(s) "
+                f"with {env.get('real_baseline_model_id')}."
+            ),
+            tested=True,
+            details={"baseline": env.get("real_baseline_evidence")},
+        )
+    elif real.get("loaded") and real_mp4 > 0 and cuda:
         put(
             "vlm_inference",
             "PARTIAL",
@@ -887,7 +927,22 @@ def build_component_results(
 
     # zero-shot baseline
     base = smokes.get("stub_baseline") or {}
-    if base.get("skipped"):
+    if env.get("real_baseline_completed"):
+        put(
+            "zero_shot_baseline",
+            "PASS",
+            5,
+            (
+                f"REAL_ZERO_SHOT_BASELINE complete "
+                f"(run_id={env.get('real_baseline_run_id')}, "
+                f"n={env.get('real_baseline_examples_evaluated')}, "
+                f"accuracy={env.get('real_baseline_accuracy')}). "
+                "Distinct from REAL_ZERO_SHOT_BASELINE_SMOKE_TEST."
+            ),
+            tested=True,
+            details={"baseline": env.get("real_baseline_evidence"), "stub": base},
+        )
+    elif base.get("skipped"):
         put(
             "zero_shot_baseline",
             "PARTIAL",
@@ -1116,12 +1171,17 @@ def derive_overall(
     qwen_cache = bool(env.get("qwen_cache_present"))
     qwen_loaded = bool((smokes.get("real_qwen_load") or {}).get("loaded"))
     qwen_ready = qwen_cache or qwen_loaded
-    real_infer = bool(env.get("real_smoke_evidence_present")) or bool(
-        ((env.get("real_smoke_evidence") or {}).get("correct") is True)
+    real_infer = (
+        bool(env.get("real_baseline_completed"))
+        or bool(env.get("real_smoke_evidence_present"))
+        or bool(((env.get("real_smoke_evidence") or {}).get("correct") is True))
     )
+    real_baseline_done = bool(env.get("real_baseline_completed"))
     stub_ok = bool((smokes.get("stub_baseline") or {}).get("ok"))
     approved_gold = int((dataset_stats or {}).get("approved_gold_examples") or 0)
     has_gold = approved_gold >= 1
+    clips_needed = int((dataset_stats or {}).get("clips_needed") or 0)
+    examples_evaluated = int(env.get("real_baseline_examples_evaluated") or 0)
 
     runtime_checks = {
         "GPU_AVAILABLE": gpu_available,
@@ -1130,9 +1190,23 @@ def derive_overall(
         "REAL_VLM_LOAD": qwen_loaded,
         "REAL_VIDEO_INFERENCE": real_infer,
         "FIRST_BASELINE_READY": False,
+        "REAL_BASELINE_COMPLETED": real_baseline_done,
     }
 
-    if has_gold and real_mp4 and cuda and qwen_ready:
+    if real_baseline_done and has_gold and real_mp4 and cuda and qwen_ready:
+        first_baseline = "YES"
+        banner = "REAL ZERO-SHOT BASELINE COMPLETE"
+        overall = "PASS"
+        readiness_status = "REAL_BASELINE_COMPLETE"
+        runtime_checks["FIRST_BASELINE_READY"] = True
+        reason = (
+            f"Formal zero-shot baseline run_id={env.get('real_baseline_run_id')} "
+            f"evaluated {examples_evaluated}/{approved_gold} approved gold example(s) "
+            f"with model {env.get('real_baseline_model_id')}. "
+            f"Pilot still needs {clips_needed} more clip(s) for a 5-clip set. "
+            "n=1 does not establish generalization."
+        )
+    elif has_gold and real_mp4 and cuda and qwen_ready:
         first_baseline = "YES"
         banner = "READY FOR FIRST BASELINE"
         overall = "PASS"
@@ -1211,6 +1285,11 @@ def derive_overall(
             "qwen_cache_or_load": qwen_ready,
             "real_vlm_load": qwen_loaded,
             "real_video_inference": real_infer,
+            "real_baseline_completed": real_baseline_done,
+            "real_baseline_run_id": env.get("real_baseline_run_id"),
+            "real_baseline_model_id": env.get("real_baseline_model_id"),
+            "real_baseline_examples_evaluated": examples_evaluated,
+            "clips_needed": clips_needed,
             "stub_baseline_ok": stub_ok,
         },
         "n_blocked": len(blocked),
@@ -1435,6 +1514,13 @@ def next_actions(
     blockers: list[Blocker],
 ) -> list[str]:
     actions: list[str] = []
+    if overall.get("readiness_status") == "REAL_BASELINE_COMPLETE":
+        clips_needed = int((overall.get("criteria") or {}).get("clips_needed") or 4)
+        actions.append(
+            f"Source {clips_needed} more approved hidden-state clips for a 5-clip pilot "
+            "(leave S7 PENDING until reviewed; do not gold-label Wikimedia controls)"
+        )
+        return actions[:5]
     if overall.get("readiness_status") == "READY_FOR_REAL_BASELINE":
         actions.append(
             "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml "
@@ -1517,9 +1603,28 @@ def render_markdown(audit: dict[str, Any]) -> str:
         "REAL_VLM_LOAD",
         "REAL_VIDEO_INFERENCE",
         "FIRST_BASELINE_READY",
+        "REAL_BASELINE_COMPLETED",
     ):
         lines.append(f"- {key}: `{checks.get(key)}`")
     lines.append(f"- readiness_status: `{overall.get('readiness_status')}`")
+    if env.get("real_baseline_completed"):
+        lines.extend(["", "## Real zero-shot baseline", ""])
+        lines.append("- label: `REAL_ZERO_SHOT_BASELINE`")
+        lines.append(f"- run_id: `{env.get('real_baseline_run_id')}`")
+        lines.append(f"- model: `{env.get('real_baseline_model_id')}`")
+        lines.append(f"- examples_evaluated: `{env.get('real_baseline_examples_evaluated')}`")
+        lines.append(f"- exact_match_accuracy: `{env.get('real_baseline_accuracy')}`")
+        lines.append(
+            "- evidence: `reports/real_zero_shot_baseline/` "
+            "(distinct from `reports/real_zero_shot_baseline_smoke/`)"
+        )
+        hs_pre = audit.get("hidden_state_dataset") or {}
+        lines.append(f"- approved_gold_examples: `{hs_pre.get('approved_gold_examples', 0)}`")
+        lines.append(f"- clips_needed_for_pilot: `{hs_pre.get('clips_needed', 4)}`")
+        lines.append(
+            "- limitation: n is small; one correct answer does not establish "
+            "hidden-state/temporal/causal reasoning or generalization."
+        )
     lines.extend(["", "## Hidden-state dataset", ""])
     hs = audit.get("hidden_state_dataset") or {}
     wiki = hs.get("wikimedia_controls") or {}
@@ -1573,7 +1678,12 @@ def _status_color(status: str) -> str:
 def render_html(audit: dict[str, Any]) -> str:
     overall = audit["overall"]
     banner = html.escape(str(overall["banner"]))
-    banner_color = "#1b7f3a" if overall["first_baseline_ready"] == "YES" else "#b00020"
+    banner_color = (
+        "#1b7f3a"
+        if overall["first_baseline_ready"] == "YES"
+        or overall.get("readiness_status") == "REAL_BASELINE_COMPLETE"
+        else "#b00020"
+    )
     hs = audit.get("hidden_state_dataset") or {}
     wiki = hs.get("wikimedia_controls") or {}
     mac = hs.get("mac_king_candidates") or {}
@@ -1658,7 +1768,12 @@ th {{ background: #efeae2; }}
   · QWEN_WEIGHTS_AVAILABLE={html.escape(str((overall.get('runtime_checks') or {}).get('QWEN_WEIGHTS_AVAILABLE')))}
   · REAL_VLM_LOAD={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_VLM_LOAD')))}
   · REAL_VIDEO_INFERENCE={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_VIDEO_INFERENCE')))}
-  · FIRST_BASELINE_READY={html.escape(str((overall.get('runtime_checks') or {}).get('FIRST_BASELINE_READY')))}</p>
+  · FIRST_BASELINE_READY={html.escape(str((overall.get('runtime_checks') or {}).get('FIRST_BASELINE_READY')))}
+  · REAL_BASELINE_COMPLETED={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_BASELINE_COMPLETED')))}</p>
+  <p>real_baseline_run_id: {html.escape(str(audit.get('environment', {}).get('real_baseline_run_id') or '—'))}
+  · model: {html.escape(str(audit.get('environment', {}).get('real_baseline_model_id') or '—'))}
+  · examples_evaluated: {html.escape(str(audit.get('environment', {}).get('real_baseline_examples_evaluated') or 0))}
+  · accuracy: {html.escape(str(audit.get('environment', {}).get('real_baseline_accuracy') or '—'))}</p>
 
   <h2>Pipeline</h2>
   <div class="pipeline">{pipeline_html}</div>
@@ -1744,6 +1859,24 @@ def run_audit(
             "overall": overall,
             "first_baseline_ready": overall["first_baseline_ready"],
             "hidden_state_dataset": dataset_stats,
+            "real_baseline": {
+                "completed": bool(env.get("real_baseline_completed")),
+                "label": "REAL_ZERO_SHOT_BASELINE" if env.get("real_baseline_completed") else None,
+                "run_id": env.get("real_baseline_run_id"),
+                "model_id": env.get("real_baseline_model_id"),
+                "examples_evaluated": env.get("real_baseline_examples_evaluated"),
+                "accuracy": env.get("real_baseline_accuracy"),
+                "evidence_dir": (
+                    "reports/real_zero_shot_baseline"
+                    if env.get("real_baseline_completed")
+                    else None
+                ),
+                "smoke_evidence_dir": (
+                    "reports/real_zero_shot_baseline_smoke"
+                    if env.get("real_smoke_evidence_present")
+                    else None
+                ),
+            },
             "blockers": [b.to_dict() for b in blockers],
             "human_input": [h.to_dict() for h in human],
             "next_actions": actions,
@@ -1831,6 +1964,7 @@ __all__ = [
     "probe_environment",
     "probe_nvidia_smi",
     "load_real_smoke_evidence",
+    "load_real_baseline_evidence",
     "run_smokes",
     "run_audit",
     "derive_overall",
