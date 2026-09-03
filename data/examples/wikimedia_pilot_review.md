@@ -8,8 +8,8 @@ captions name the experimental condition; they are not questions or answers.
 Final `question` / `ground_truth` stay `HUMAN_FILL_REQUIRED`. Do not fill
 those sentinels as hidden-state gold.
 
-See `docs/HIDDEN_STATE_ELIGIBILITY.md` and
-`reports/hidden_state_candidates/index.html`.
+See `docs/WALKTHROUGH.md` for the project summary and gold-label rules.
+Also see `reports/hidden_state_candidates/index.html`.
 
 Shared facts from the local MP4s (all five):
 

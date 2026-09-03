@@ -1,10 +1,10 @@
 {
   "schema": "magic_vlm.hidden_state_candidate_inventory.v1",
   "inspected_at": "2026-09-03",
-  "rubric": "docs/HIDDEN_STATE_ELIGIBILITY.md",
-  "sourcing_guide": "docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md",
+  "rubric": "docs/WALKTHROUGH.md",
+  "sourcing_guide": "docs/WALKTHROUGH.md",
   "gold_labels_written": true,
-  "notes": "Wikimedia cups remain controls. Mac King S6 is human-approved gold. S7 remains PENDING. S1–S5 are reveal/no-object controls.",
+  "notes": "Wikimedia cups remain controls. Mac King S6 is human-approved gold. S7 remains PENDING. S1\u2013S5 are reveal/no-object controls.",
   "readiness": {
     "first_baseline_dataset": "DATA READY",
     "valid_candidates": 1,
@@ -59,7 +59,7 @@
     ],
     "unused_downloads": [],
     "toy_cups_mp4_on_disk": false,
-    "commons_search_2026-09-03": "File namespace search for Perceptual-elements-in-Penn-Tellers-Cups-and-Balls returned six hits: s003–s008. Opaque-cup PeerJ conditions were not found as separate Commons files."
+    "commons_search_2026-09-03": "File namespace search for Perceptual-elements-in-Penn-Tellers-Cups-and-Balls returned six hits: s003\u2013s008. Opaque-cup PeerJ conditions were not found as separate Commons files."
   },
   "candidates": [
     {
@@ -85,7 +85,7 @@
       "thumbnail_relpath": "reports/wikimedia_clip_review/stills/s003_start.jpg",
       "provenance": {
         "source_url": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
-        "title": "Video clip of the magician performing the “Standard” routine",
+        "title": "Video clip of the magician performing the \u201cStandard\u201d routine",
         "author": "Rieiro H, Martinez-Conde S, Macknik S",
         "performer": "Teller (paper statement; not a manifest performer_id)",
         "license": "CC BY 3.0",
@@ -120,7 +120,7 @@
       "thumbnail_relpath": "reports/wikimedia_clip_review/stills/s004_start.jpg",
       "provenance": {
         "source_url": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
-        "title": "Video clip of the magician performing the “No ball” routine",
+        "title": "Video clip of the magician performing the \u201cNo ball\u201d routine",
         "author": "Rieiro H, Martinez-Conde S, Macknik S",
         "performer": "Teller (paper statement; not a manifest performer_id)",
         "license": "CC BY 3.0",
@@ -156,7 +156,7 @@
       "thumbnail_relpath": "reports/wikimedia_clip_review/stills/s005_third_cup.jpg",
       "provenance": {
         "source_url": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
-        "title": "Video clip of the magician performing the “Lift” routine",
+        "title": "Video clip of the magician performing the \u201cLift\u201d routine",
         "author": "Rieiro H, Martinez-Conde S, Macknik S",
         "performer": "Teller (paper statement; not a manifest performer_id)",
         "license": "CC BY 3.0",
@@ -193,7 +193,7 @@
       "pipeline_smoke_clip": true,
       "provenance": {
         "source_url": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
-        "title": "Video clip of the magician performing the “Table” routine",
+        "title": "Video clip of the magician performing the \u201cTable\u201d routine",
         "author": "Rieiro H, Martinez-Conde S, Macknik S",
         "performer": "Teller (paper statement; not a manifest performer_id)",
         "license": "CC BY 3.0",
@@ -227,7 +227,7 @@
       "thumbnail_relpath": "reports/wikimedia_clip_review/stills/s007_third_cup.jpg",
       "provenance": {
         "source_url": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv",
-        "title": "Video clip of the magician performing the “Drop” routine",
+        "title": "Video clip of the magician performing the \u201cDrop\u201d routine",
         "author": "Rieiro H, Martinez-Conde S, Macknik S",
         "performer": "Teller (paper statement; not a manifest performer_id)",
         "license": "CC BY 3.0",
@@ -244,12 +244,12 @@
       "candidate": "peerj_01_19_s008",
       "source": "Wikimedia Commons; Supplemental Movie S6, PeerJ 10.7717/peerj.19",
       "duration_s": 11.0,
-      "duration_notes": "Commons imageinfo reports length 11 s, 720×480. Not probed locally.",
+      "duration_notes": "Commons imageinfo reports length 11 s, 720\u00d7480. Not probed locally.",
       "trick_or_condition": "Stuck (not inspected)",
       "genuine_occlusion": "UNKNOWN",
       "temporal_dependence": "UNKNOWN",
       "ground_truth": "NOT ESTABLISHED (file not local)",
-      "leakage_risk": "UNKNOWN. Sibling files s003–s007 are transparent-cup clips with a late reveal.",
+      "leakage_risk": "UNKNOWN. Sibling files s003\u2013s007 are transparent-cup clips with a late reveal.",
       "status": "MISSING_FROM_REPOSITORY",
       "human_review_flag": false,
       "hidden_state_class": null,
@@ -260,7 +260,7 @@
       "thumbnail_relpath": null,
       "provenance": {
         "source_url": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s008.ogv",
-        "title": "Video clip of the magician performing the “Stuck” routine",
+        "title": "Video clip of the magician performing the \u201cStuck\u201d routine",
         "author": "Rieiro H, Martinez-Conde S, Macknik S",
         "performer": "unknown locally",
         "license": "CC BY 3.0",
@@ -268,14 +268,14 @@
         "original_filename": "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s008.ogv",
         "local_filename": null,
         "conversion": null,
-        "source_notes": "Documented on Commons; not downloaded. Do not award QUALIFIES without frame inspection. Not expected to unlock hidden-state gold if it matches s003–s007.",
+        "source_notes": "Documented on Commons; not downloaded. Do not award QUALIFIES without frame inspection. Not expected to unlock hidden-state gold if it matches s003\u2013s007.",
         "ground_truth_source": "none"
       },
       "collection": "peerj_documented_missing"
     },
     {
       "candidate": "peerj_01_19_opaque_cups",
-      "source": "Rieiro et al. 2013 PeerJ 1:e19 (paper text: opaque-cup experimental conditions). No matching Commons video files found besides s003–s008.",
+      "source": "Rieiro et al. 2013 PeerJ 1:e19 (paper text: opaque-cup experimental conditions). No matching Commons video files found besides s003\u2013s008.",
       "duration_s": null,
       "trick_or_condition": "Opaque-cup cells in the paper's 48-condition design",
       "genuine_occlusion": "UNKNOWN",
@@ -300,7 +300,7 @@
         "original_filename": null,
         "local_filename": null,
         "conversion": null,
-        "source_notes": "Paper describes opaque vs transparent cups. Wikimedia File search on 2026-09-03 listed only s003–s008. Those local files are transparent. Do not invent opaque media or labels.",
+        "source_notes": "Paper describes opaque vs transparent cups. Wikimedia File search on 2026-09-03 listed only s003\u2013s008. Those local files are transparent. Do not invent opaque media or labels.",
         "ground_truth_source": "none"
       },
       "collection": "peerj_documented_missing"
@@ -310,7 +310,7 @@
       "source": "data/examples/toy_manifest.jsonl (synthetic_fixture)",
       "duration_s": 2.0,
       "trick_or_condition": "Synthetic cups_ball questions",
-      "genuine_occlusion": "NO — not real footage",
+      "genuine_occlusion": "NO \u2014 not real footage",
       "temporal_dependence": "n/a",
       "ground_truth": "Fixture strings only; not a research gold set",
       "leakage_risk": "n/a",
@@ -506,7 +506,7 @@
       "trick_or_condition": "No-coin fake toss",
       "genuine_occlusion": "FAIL",
       "temporal_dependence": "FAIL",
-      "ground_truth": "SOURCE_AND_VIDEO — no coin",
+      "ground_truth": "SOURCE_AND_VIDEO \u2014 no coin",
       "leakage_risk": "NO_OBJECT",
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
@@ -535,7 +535,7 @@
         "local_filename": "Movie5.MP4",
         "conversion": null,
         "source_notes": "Tossing gesture with no coin. Reveal: empty left hand. 'Which hand contains the coin?' is ill-posed.",
-        "ground_truth_source": "SOURCE_AND_VIDEO — no coin"
+        "ground_truth_source": "SOURCE_AND_VIDEO \u2014 no coin"
       }
     },
     {
@@ -546,7 +546,7 @@
       "trick_or_condition": "Magic trick without reveal",
       "genuine_occlusion": "PASS",
       "temporal_dependence": "PASS",
-      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point.",
+      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO \u2014 paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point.",
       "leakage_risk": "RESOLVED_BY_HUMAN",
       "status": "QUALIFIES",
       "human_review_flag": false,
@@ -571,8 +571,8 @@
         "original_filename": "Movie6.MP4",
         "local_filename": "Movie6.MP4",
         "conversion": null,
-        "source_notes": "Same performance as S1 until after the apparent toss. Movie6 is 216 frames vs Movie1's 265. Coin is visible in the right hand before the toss (~2.67 s). Apparent right-to-left transfer; coin not seen in flight. Ends with gaze on the left hand; does not include Movie1's later empty-left display (~8.0–8.8 s). Revealed counterpart is S1; do not splice S1's reveal onto this file.",
-        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point."
+        "source_notes": "Same performance as S1 until after the apparent toss. Movie6 is 216 frames vs Movie1's 265. Coin is visible in the right hand before the toss (~2.67 s). Apparent right-to-left transfer; coin not seen in flight. Ends with gaze on the left hand; does not include Movie1's later empty-left display (~8.0\u20138.8 s). Revealed counterpart is S1; do not splice S1's reveal onto this file.",
+        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO \u2014 paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end. Human researcher confirmed laterality at the evaluation point."
       }
     },
     {
@@ -583,7 +583,7 @@
       "trick_or_condition": "Real toss without reveal",
       "genuine_occlusion": "PARTIAL",
       "temporal_dependence": "PASS",
-      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S2/S7 real toss right to left. Video: coin in the right hand before the toss; Movie2 end frames show the coin on the open left palm after a short extra tail that S7 omits.",
+      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO \u2014 paper: S2/S7 real toss right to left. Video: coin in the right hand before the toss; Movie2 end frames show the coin on the open left palm after a short extra tail that S7 omits.",
       "leakage_risk": "PARTIAL",
       "status": "QUALIFIES_WITH_HUMAN_REVIEW",
       "human_review_flag": true,
@@ -611,7 +611,7 @@
         "local_filename": "Movie7.MP4",
         "conversion": null,
         "source_notes": "Same performance as S2 until after the real toss. Movie7 is 230 frames vs Movie2's 246. Coin is visible in the right hand before the toss. Ends with a cupped left hand; Movie2's later frames show the coin on an open left palm. Revealed counterpart is S2; do not splice that reveal onto this file.",
-        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S2/S7 real toss right to left. Video: coin in the right hand before the toss; Movie2 end frames show the coin on the open left palm after a short extra tail that S7 omits."
+        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO \u2014 paper: S2/S7 real toss right to left. Video: coin in the right hand before the toss; Movie2 end frames show the coin on the open left palm after a short extra tail that S7 omits."
       }
     }
   ]

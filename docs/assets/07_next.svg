@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300">
+  <rect width="720" height="300" fill="#fff"/>
+  <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#111">If continued (next steps)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
+    <rect x="160" y="55" width="400" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="78" text-anchor="middle">more approved gold clips</text>
+    <line x1="360" y1="91" x2="360" y2="105" stroke="#111"/>
+    <rect x="160" y="105" width="400" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="128" text-anchor="middle">human preference labels</text>
+    <line x1="360" y1="141" x2="360" y2="155" stroke="#111"/>
+    <rect x="160" y="155" width="400" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="178" text-anchor="middle">DPO and/or GRPO training</text>
+    <line x1="360" y1="191" x2="360" y2="205" stroke="#111"/>
+    <rect x="160" y="205" width="400" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="228" text-anchor="middle">held-out eval + shuffle checks</text>
+    <text x="360" y="275" text-anchor="middle">Goal: see if learning helps without shortcuts</text>
+  </g>
+</svg>

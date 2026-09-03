@@ -1427,7 +1427,7 @@ def build_human_input(
             priority="now",
             what="Provide at least one real magic/mentalism video clip with a hidden-state question and ground-truth label",
             where="data/videos/ (mp4) and a research manifest under data/ (JSONL)",
-            format="mp4 + ExampleRecord JSONL (see docs/DATASET_SCHEMA.md)",
+            format="mp4 + ExampleRecord JSONL (see magic_vlm.schemas / docs/WALKTHROUGH.md)",
             after="magic-vlm-validate --manifest <your_manifest.jsonl>",
         ),
         HumanInputItem(
@@ -1448,7 +1448,7 @@ def build_human_input(
             priority="later",
             what="Human preference judgments (A/B explanations)",
             where="data/annotations/ or preference JSONL",
-            format="PreferencePair schema (docs/PREFERENCE_SCHEMA.md)",
+            format="PreferencePair schema (magic_vlm.preferences / docs/WALKTHROUGH.md)",
             after="magic-vlm-validate-preferences --input <prefs.jsonl>",
         ),
         HumanInputItem(

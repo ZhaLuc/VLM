@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300">
+  <rect width="860" height="300" fill="#fff"/>
+  <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#111">How we planned to improve the model (not completed)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#111">
+    <rect x="20" y="55" width="400" height="210" fill="#f5f5f5" stroke="#111"/>
+    <text x="40" y="90" font-size="15">DPO (for explanations)</text>
+    <text x="40" y="125">Human picks better answer A vs B</text>
+    <text x="40" y="155">Model learns: prefer A-style answers</text>
+    <text x="40" y="185">No separate reward model needed</text>
+    <text x="40" y="215">Needs preference pairs (we have none)</text>
+    <rect x="440" y="55" width="400" height="210" fill="#f5f5f5" stroke="#111"/>
+    <text x="460" y="90" font-size="15">GRPO (for hidden-state answers)</text>
+    <text x="460" y="125">Model writes several answers</text>
+    <text x="460" y="155">Score each (right/wrong style reward)</text>
+    <text x="460" y="185">Learn from relative group scores</text>
+    <text x="460" y="215">Needs more clips + reward runs</text>
+  </g>
+</svg>

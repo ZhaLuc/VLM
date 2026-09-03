@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#fff"/>
+  <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#111">What the code does (top to bottom)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
+    <rect x="180" y="50" width="360" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="74" text-anchor="middle">1. load example (video + question + answer key)</text>
+    <line x1="360" y1="86" x2="360" y2="100" stroke="#111"/>
+    <rect x="180" y="100" width="360" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="124" text-anchor="middle">2. check data is valid (no leakage)</text>
+    <line x1="360" y1="136" x2="360" y2="150" stroke="#111"/>
+    <rect x="180" y="150" width="360" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="174" text-anchor="middle">3. sample frames from the video</text>
+    <line x1="360" y1="186" x2="360" y2="200" stroke="#111"/>
+    <rect x="180" y="200" width="360" height="36" fill="#fff" stroke="#111"/><text x="360" y="224" text-anchor="middle">4. ask the VLM the question</text>
+    <line x1="360" y1="236" x2="360" y2="250" stroke="#111"/>
+    <rect x="180" y="250" width="360" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="274" text-anchor="middle">5. read the text answer</text>
+    <line x1="360" y1="286" x2="360" y2="300" stroke="#111"/>
+    <rect x="180" y="300" width="360" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="324" text-anchor="middle">6. compare to ground truth</text>
+    <line x1="360" y1="336" x2="360" y2="350" stroke="#111"/>
+    <rect x="180" y="350" width="360" height="36" fill="#f5f5f5" stroke="#111"/><text x="360" y="374" text-anchor="middle">7. save the run report</text>
+  </g>
+</svg>

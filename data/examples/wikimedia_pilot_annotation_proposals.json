@@ -19,7 +19,7 @@
     "hidden_state_class_all_five": "NOT_SUITABLE_FOR_HIDDEN_STATE",
     "do_not_write_gold": true,
     "keep_in_repository": true,
-    "rubric": "docs/HIDDEN_STATE_ELIGIBILITY.md"
+    "rubric": "docs/WALKTHROUGH.md"
   },
   "best_first_baseline_clip": {
     "clip_id": "peerj_01_19_s006",

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-03T04:21:54+00:00",
+  "generated_at": "2026-09-03T04:42:03+00:00",
   "root": "C:\\Users\\Lucas\\Downloads\\VLM",
   "environment": {
-    "probed_at": "2026-09-03T04:21:50+00:00",
+    "probed_at": "2026-09-03T04:41:59+00:00",
     "root": "C:\\Users\\Lucas\\Downloads\\VLM",
     "python": {
       "version": "3.11.9",
@@ -399,7 +399,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Package layout, docs, and configs present.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "has_pyproject": true
       }
@@ -412,7 +412,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Torch with CUDA available.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "available": true,
         "version": "2.13.0+cu130",
@@ -437,7 +437,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "ExperimentConfig / initialize_experiment available.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {}
     },
     {
@@ -448,7 +448,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Schema load ok (4 records).",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "ok": true,
         "n_records": 4,
@@ -469,7 +469,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Toy manifest validates structurally; media checks report missing files (findings=5).",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "ok": true,
         "n_records": 4,
@@ -490,7 +490,7 @@
       "evidence_label": "LEVEL 4 - REAL ARTIFACT TEST",
       "notes": "Frame select/shuffle smoke ok; 12 real mp4(s) on disk.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "ok": true,
         "ordered_indices": [
@@ -517,7 +517,7 @@
       "evidence_label": "LEVEL 4 - REAL ARTIFACT TEST",
       "notes": "Stub and real Qwen load succeeded.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "stub": {
           "ok": true,
@@ -543,7 +543,7 @@
       "evidence_label": "LEVEL 5 - REAL RESEARCH RUN",
       "notes": "Formal baseline run_id=baseline-real-v1 evaluated 1 gold example(s) with Qwen/Qwen2.5-VL-3B-Instruct.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "baseline": {
           "label": "REAL_ZERO_SHOT_BASELINE",
@@ -665,7 +665,7 @@
       "evidence_label": "LEVEL 5 - REAL RESEARCH RUN",
       "notes": "REAL_ZERO_SHOT_BASELINE complete (run_id=baseline-real-v1, n=1, accuracy=1.0). Distinct from REAL_ZERO_SHOT_BASELINE_SMOKE_TEST.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "baseline": {
           "label": "REAL_ZERO_SHOT_BASELINE",
@@ -814,7 +814,7 @@
       "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
       "notes": "Preference schema/module importable; no human preference labels collected.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {}
     },
     {
@@ -869,7 +869,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "hidden_state_exact_match good/bad smoke passed.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "ok": true,
         "good_value": 1.0,
@@ -886,7 +886,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Temporal shuffle applied in index smoke; real-video diagnostic not run.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "ok": true,
         "ordered_indices": [
@@ -968,7 +968,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "ReportConfig + build_experiment_report smoke on experiment_report_toy.",
       "tested": true,
-      "last_test": "2026-09-03T04:21:54+00:00",
+      "last_test": "2026-09-03T04:42:03+00:00",
       "details": {
         "ok": true,
         "keys": [
@@ -1086,7 +1086,7 @@
       "priority": "later",
       "what": "Human preference judgments (A/B explanations)",
       "where": "data/annotations/ or preference JSONL",
-      "format": "PreferencePair schema (docs/PREFERENCE_SCHEMA.md)",
+      "format": "PreferencePair schema (magic_vlm.preferences / docs/WALKTHROUGH.md)",
       "after": "magic-vlm-validate-preferences --input <prefs.jsonl>"
     },
     {

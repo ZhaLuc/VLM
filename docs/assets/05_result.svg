@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="260" viewBox="0 0 720 260">
+  <rect width="720" height="260" fill="#fff"/>
+  <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#111">The real result (n = 1)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#111">
+    <text x="40" y="80">Question: Which hand contains the coin after the apparent transfer?</text>
+    <text x="40" y="120">Model said:   right</text>
+    <text x="40" y="150">Answer key:   right</text>
+    <text x="40" y="190">Correct: yes     Accuracy: 1.0     Sample size: 1</text>
+    <text x="40" y="230">This proves the pipeline works. It does not prove strong reasoning.</text>
+  </g>
+</svg>

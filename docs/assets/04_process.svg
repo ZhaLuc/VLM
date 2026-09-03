@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320">
+  <rect width="860" height="320" fill="#fff"/>
+  <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#111">What I actually did (process)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#111">
+    <rect x="20" y="55" width="190" height="100" fill="#f5f5f5" stroke="#111"/>
+    <text x="115" y="90" text-anchor="middle">1. Build repo</text>
+    <text x="115" y="115" text-anchor="middle">schema, tests,</text>
+    <text x="115" y="135" text-anchor="middle">video tools</text>
+    <rect x="230" y="55" width="190" height="100" fill="#f5f5f5" stroke="#111"/>
+    <text x="325" y="90" text-anchor="middle">2. Review clips</text>
+    <text x="325" y="115" text-anchor="middle">reject leaky ones</text>
+    <text x="325" y="135" text-anchor="middle">approve S6</text>
+    <rect x="440" y="55" width="190" height="100" fill="#f5f5f5" stroke="#111"/>
+    <text x="535" y="90" text-anchor="middle">3. Set up CUDA</text>
+    <text x="535" y="115" text-anchor="middle">load Qwen</text>
+    <text x="535" y="135" text-anchor="middle">2.5-VL-3B</text>
+    <rect x="650" y="55" width="190" height="100" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="745" y="90" text-anchor="middle">4. Run baseline</text>
+    <text x="745" y="115" text-anchor="middle">real video</text>
+    <text x="745" y="135" text-anchor="middle">correct answer</text>
+    <rect x="20" y="180" width="820" height="110" fill="#f5f5f5" stroke="#111"/>
+    <text x="40" y="215">5. Stop before post-training: only 1 gold clip, no preference labels, time limit</text>
+    <text x="40" y="245">DPO / GRPO code exists as scaffolding, but was not trained on real data.</text>
+    <text x="40" y="275">Status: paused prototype, not a finished learning study.</text>
+  </g>
+</svg>

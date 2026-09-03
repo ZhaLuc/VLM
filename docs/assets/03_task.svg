@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="380" viewBox="0 0 720 380">
+  <rect width="720" height="380" fill="#fff"/>
+  <text x="20" y="30" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#111">The task (Mac King S6)</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#111">
+    <rect x="200" y="55" width="320" height="40" fill="#f5f5f5" stroke="#111"/><text x="360" y="80" text-anchor="middle">coin shown in right hand</text>
+    <line x1="360" y1="95" x2="360" y2="110" stroke="#111"/><polygon points="355,110 360,120 365,110" fill="#111"/>
+    <rect x="200" y="120" width="320" height="40" fill="#f5f5f5" stroke="#111"/><text x="360" y="145" text-anchor="middle">fake toss (looks like left)</text>
+    <line x1="360" y1="160" x2="360" y2="175" stroke="#111"/><polygon points="355,175 360,185 365,175" fill="#111"/>
+    <rect x="200" y="185" width="320" height="40" fill="#f5f5f5" stroke="#111"/><text x="360" y="210" text-anchor="middle">coin stays hidden</text>
+    <line x1="360" y1="225" x2="360" y2="240" stroke="#111"/><polygon points="355,240 360,250 365,240" fill="#111"/>
+    <rect x="200" y="250" width="320" height="40" fill="#f5f5f5" stroke="#111"/><text x="360" y="275" text-anchor="middle">clip ends (no reveal)</text>
+    <line x1="360" y1="290" x2="360" y2="305" stroke="#111"/><polygon points="355,305 360,315 365,305" fill="#111"/>
+    <rect x="140" y="315" width="440" height="45" fill="#fff" stroke="#111" stroke-width="2"/>
+    <text x="360" y="343" text-anchor="middle">Which hand has the coin?  Answer key: right</text>
+  </g>
+</svg>

@@ -7,7 +7,7 @@
 - Overall: `PASS`
 - First real baseline ready: `YES`
 - Reason: Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Post-training (preferences/DPO/GRPO) was not completed. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization. Research paused for time/scope.
-- Generated: 2026-09-03T04:21:54+00:00
+- Generated: 2026-09-03T04:42:03+00:00
 
 ## Pipeline
 
@@ -65,7 +65,7 @@
 
 1. **What:** Human preference judgments (A/B explanations)
    - Where: data/annotations/ or preference JSONL
-   - Format: PreferencePair schema (docs/PREFERENCE_SCHEMA.md)
+   - Format: PreferencePair schema (magic_vlm.preferences / docs/WALKTHROUGH.md)
    - After: `magic-vlm-validate-preferences --input <prefs.jsonl>`
 2. **What:** Causal / temporal span annotations for advanced rewards
    - Where: Manifest causal/temporal fields
