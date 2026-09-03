@@ -12,6 +12,7 @@ Weights are never modified here. No LoRA / DPO / GRPO / PPO.
 
 from __future__ import annotations
 
+import os
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
@@ -92,6 +93,28 @@ class EchoStubVLM:
         )
 
 
+def _looks_like_local_path(model_id: str) -> bool:
+    return Path(model_id).exists()
+
+
+def _hf_hub_root() -> Path:
+    if os.environ.get("HF_HUB_CACHE"):
+        return Path(os.environ["HF_HUB_CACHE"])
+    hf_home = os.environ.get("HF_HOME")
+    if hf_home:
+        return Path(hf_home) / "hub"
+    return Path.home() / ".cache" / "huggingface" / "hub"
+
+
+def _hf_repo_cached(model_id: str) -> bool:
+    """True when a Hugging Face hub snapshot for ``model_id`` exists locally."""
+    repo = _hf_hub_root() / ("models--" + model_id.replace("/", "--"))
+    snaps = repo / "snapshots"
+    if not snaps.is_dir():
+        return False
+    return any((snap / "config.json").is_file() for snap in snaps.iterdir() if snap.is_dir())
+
+
 def load_vlm(
     spec: ModelSpec,
     *,
@@ -101,7 +124,8 @@ def load_vlm(
     """Load a VLM for inference only (eval mode; weights not trained).
 
     ``stub/`` model ids never touch Hugging Face. Real checkpoints require
-    ``magic-vlm[models]`` and either a local path or explicit ``allow_download=True``.
+    ``magic-vlm[models]`` and either a local path, a local HF hub cache hit, or
+    explicit ``allow_download=True``.
     """
     resolved: DeviceInfo | None
     if isinstance(device, DeviceInfo):
@@ -122,12 +146,13 @@ def load_vlm(
             "transformers is required for real model loading. Install magic-vlm[models]."
         ) from exc
 
-    local_only = (not allow_download) and (not _looks_like_local_path(spec.model_id))
-    if local_only:
+    is_local_path = _looks_like_local_path(spec.model_id)
+    cached = (not is_local_path) and _hf_repo_cached(spec.model_id)
+    if (not allow_download) and (not is_local_path) and (not cached):
         raise RuntimeError(
             "Refusing to download weights during load_vlm(allow_download=False). "
             "Pass allow_download=True once intentionally ready, or point model_id "
-            "at a local directory."
+            "at a local directory, or place the hub snapshot in the HF cache."
         )
 
     local_files_only = not allow_download
@@ -203,10 +228,6 @@ def _infer_model_device_str(model: Any) -> str:
         return str(next(model.parameters()).device)
     except StopIteration:
         return "cpu"
-
-
-def _looks_like_local_path(model_id: str) -> bool:
-    return Path(model_id).exists()
 
 
 @dataclass

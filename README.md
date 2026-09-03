@@ -12,7 +12,9 @@ Five local Wikimedia / PeerJ cups-and-balls clips are **pilot/control**
 footage (`NOT_SUITABLE_FOR_HIDDEN_STATE`). Mac King S6
 (`data/videos/Movie6.MP4`) is the first human-approved hidden-state gold
 example. S7 remains pending. Hidden-state gold: **1 of 5** for a pilot.
-Sourcing: `docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`. Review:
+CUDA + Qwen2.5-VL-3B smoke: see `docs/CUDA_ENVIRONMENT.md` and
+`reports/real_zero_shot_baseline_smoke/`. Sourcing:
+`docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`. Review:
 `reports/hidden_state_candidates/index.html`. Gold manifest:
 `data/examples/hidden_state_pilot.jsonl`.
 
@@ -206,9 +208,10 @@ See `docs/REPRODUCIBILITY.md` for metadata fields and determinism policy.
 ## Recommended first real experiment
 
 1. S6 gold is recorded in `data/examples/hidden_state_pilot.jsonl`.
-2. Install CUDA-enabled PyTorch and obtain local Qwen2.5-VL-3B or 7B Instruct
-   weights (do not run Qwen on CPU-only hosts).
-3. Run zero-shot: `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --load-frames`.
+2. Use CUDA-enabled PyTorch and local Qwen2.5-VL-3B Instruct weights
+   (see `docs/CUDA_ENVIRONMENT.md`).
+3. Run zero-shot:
+   `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames`.
 
 ## License
 

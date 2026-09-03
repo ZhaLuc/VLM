@@ -42,14 +42,31 @@ def test_run_audit_quick_writes_artifacts() -> None:
 def test_derive_overall_requires_approved_gold() -> None:
     env = {
         "real_mp4_count": 12,
+        "gpu_available": True,
         "torch": {"cuda_available": True},
         "qwen_cache_present": True,
     }
     smokes = {"real_qwen_load": {"loaded": True}, "stub_baseline": {"ok": True}}
     blocked = derive_overall(env, [], smokes, {"approved_gold_examples": 0})
     assert blocked["first_baseline_ready"] == "NO"
+    assert blocked["readiness_status"] == "DATA_BLOCKED"
     ready = derive_overall(env, [], smokes, {"approved_gold_examples": 1})
     assert ready["first_baseline_ready"] == "YES"
+    assert ready["readiness_status"] == "READY_FOR_REAL_BASELINE"
+    assert ready["runtime_checks"]["FIRST_BASELINE_READY"] is True
+
+
+def test_derive_overall_gpu_blocked_when_no_cuda() -> None:
+    env = {
+        "real_mp4_count": 12,
+        "gpu_available": False,
+        "torch": {"cuda_available": False},
+        "qwen_cache_present": True,
+    }
+    smokes = {"real_qwen_load": {"loaded": False}, "stub_baseline": {"ok": True}}
+    out = derive_overall(env, [], smokes, {"approved_gold_examples": 1})
+    assert out["first_baseline_ready"] == "PARTIALLY"
+    assert out["readiness_status"] == "GPU_BLOCKED"
 
 
 def test_html_contains_status_banner() -> None:
@@ -113,7 +130,10 @@ def test_html_and_markdown_include_hidden_state_collections() -> None:
     qwen = bool(audit["environment"].get("qwen_cache_present")) or bool(
         (audit.get("smokes") or {}).get("real_qwen_load", {}).get("loaded")
     )
+    assert "runtime_checks" in audit["overall"]
+    assert "readiness_status" in audit["overall"]
     if cuda and qwen:
         assert audit["first_baseline_ready"] == "YES"
+        assert audit["overall"]["readiness_status"] == "READY_FOR_REAL_BASELINE"
     else:
         assert audit["first_baseline_ready"] == "PARTIALLY"

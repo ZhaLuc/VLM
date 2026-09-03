@@ -16,8 +16,11 @@ The baseline evaluates an **untouched** VLM on the **fixed** `held_out` split.
 ```bash
 magic-vlm-baseline --config configs/baseline_stub.yaml --run-id baseline-stub-heldout
 # Real model (when CUDA + weights available):
-magic-vlm-baseline --config configs/baseline_qwen25vl_7b.yaml --load-frames --allow-download
+magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames
 ```
+
+See `docs/CUDA_ENVIRONMENT.md` for the verified Windows CUDA torch install and the
+`REAL_ZERO_SHOT_BASELINE_SMOKE_TEST` one-example smoke.
 
 ## Outputs (`runs/<run_id>/`)
 

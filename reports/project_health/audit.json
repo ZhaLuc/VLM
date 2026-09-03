@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-03T02:58:17+00:00",
+  "generated_at": "2026-09-03T03:58:31+00:00",
   "root": "C:\\Users\\Lucas\\Downloads\\VLM",
   "environment": {
-    "probed_at": "2026-09-03T02:58:09+00:00",
+    "probed_at": "2026-09-03T03:58:22+00:00",
     "root": "C:\\Users\\Lucas\\Downloads\\VLM",
     "python": {
       "version": "3.11.9",
@@ -11,12 +11,34 @@
     },
     "torch": {
       "available": true,
-      "version": "2.13.0+cpu",
+      "version": "2.13.0+cu130",
       "error": null,
-      "cuda_available": false,
-      "cuda_device_count": 0,
-      "cpu_only": true
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_build_version": "13.0",
+      "cpu_only": false,
+      "gpu_names": [
+        "NVIDIA GeForce RTX 3060"
+      ],
+      "gpu_memory_bytes": [
+        12884377600
+      ]
     },
+    "nvidia_smi": {
+      "available": true,
+      "executable": "C:\\WINDOWS\\system32\\nvidia-smi.EXE",
+      "returncode": 0,
+      "gpus": [
+        {
+          "name": "NVIDIA GeForce RTX 3060",
+          "memory_total_mib": "12288",
+          "driver_version": "610.88"
+        }
+      ],
+      "stderr_tail": "",
+      "error": null
+    },
+    "gpu_available": true,
     "transformers": {
       "available": true,
       "version": "5.16.1",
@@ -45,8 +67,98 @@
     "real_mp4_count": 12,
     "videos_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\data\\videos",
     "hf_hub_cache": "C:\\Users\\Lucas\\.cache\\huggingface\\hub",
-    "qwen_cache_dirs": [],
-    "qwen_cache_present": false
+    "qwen_cache_dirs": [
+      "models--Qwen--Qwen2.5-VL-3B-Instruct"
+    ],
+    "qwen_cache_present": true,
+    "real_smoke_evidence": {
+      "label": "REAL_ZERO_SHOT_BASELINE_SMOKE_TEST",
+      "run_id": "REAL_ZERO_SHOT_BASELINE_SMOKE_TEST",
+      "status": "PASS",
+      "clip_id": "mac_king_s006",
+      "example_id": "mac_king_s006_q1",
+      "question": "Which hand contains the coin after the apparent transfer?",
+      "ground_truth": "right",
+      "raw_text": "right",
+      "parsed_answer": "right",
+      "correct": true,
+      "latency_s": 2.911294199999247,
+      "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+      "checkpoint": {
+        "kind": "base",
+        "label": "untouched_base_3b",
+        "hf_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+        "revision": null,
+        "local_cache": "HF hub cache models--Qwen--Qwen2.5-VL-3B-Instruct"
+      },
+      "generation": {
+        "max_new_tokens": 128,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "top_k": 0,
+        "do_sample": false,
+        "sampling_mode": "greedy"
+      },
+      "preprocessing": {
+        "source_path": "C:\\Users\\Lucas\\Downloads\\VLM\\data\\videos\\Movie6.MP4",
+        "ordered_indices": [
+          0,
+          31,
+          61,
+          92,
+          123,
+          154,
+          184,
+          215
+        ],
+        "frame_indices": [
+          0,
+          31,
+          61,
+          92,
+          123,
+          154,
+          184,
+          215
+        ],
+        "temporal_shuffled": false,
+        "shuffle_seed": null,
+        "sample_strategy": "uniform",
+        "max_frames": 8,
+        "n_frames": 8,
+        "resize": null,
+        "source_fps": 29.97002997002997,
+        "source_content_hash": "de8e1768face5c12b784ae2d92f4e1afc7dfaafcb989d3d70f79337c09dd8db7",
+        "video_input_mode": "project_sampled_frames"
+      },
+      "device": {
+        "requested": "auto",
+        "resolved": "cuda:0",
+        "torch_available": true,
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "device_name": "NVIDIA GeForce RTX 3060"
+      },
+      "hardware_runtime": {
+        "torch_version": "2.13.0+cu130",
+        "cuda_version": "13.0",
+        "cuda_available": true,
+        "device_names": [
+          "NVIDIA GeForce RTX 3060"
+        ],
+        "python_executable": "C:\\Users\\Lucas\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "platform": {
+          "system": "Windows",
+          "release": "10",
+          "machine": "AMD64",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "config": "configs/baseline_qwen25vl_3b.yaml",
+      "manifest": "data/examples/hidden_state_pilot.jsonl",
+      "note": "One-example smoke only. Not a multi-clip pilot evaluation. Full run artifacts remain under runs/ (gitignored)."
+    },
+    "real_smoke_evidence_present": true
   },
   "tests": {
     "ran": false,
@@ -95,11 +207,12 @@
     },
     "real_qwen_load": {
       "ok": true,
-      "loaded": false,
+      "loaded": true,
       "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
-      "expected_fail": true,
-      "error": "RuntimeError: Refusing to download weights during load_vlm(allow_download=False). Pass allow_download=True once intentionally ready, or point model_id at a local directory.",
-      "note": "Real Qwen load refused or failed with allow_download=False."
+      "expected_fail": false,
+      "error": null,
+      "note": "Unexpected success without download \u2014 local weights present.",
+      "device": "cuda:0"
     },
     "entry_points": {
       "ok": true,
@@ -158,8 +271,8 @@
     },
     "stub_baseline": {
       "ok": true,
-      "run_id": "health_stub_2026-09-03T025816_0000",
-      "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T025816_0000",
+      "run_id": "health_stub_2026-09-03T035831_0000",
+      "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T035831_0000",
       "split": "held_out",
       "n_examples": 1,
       "overall_accuracy": 0.0,
@@ -176,7 +289,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Package layout, docs, and configs present.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "has_pyproject": true
       }
@@ -184,19 +297,26 @@
     {
       "id": "environment",
       "name": "Environment setup",
-      "status": "BLOCKED",
+      "status": "PASS",
       "evidence_level": 3,
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
-      "notes": "Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.",
+      "notes": "Torch with CUDA available.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "available": true,
-        "version": "2.13.0+cpu",
+        "version": "2.13.0+cu130",
         "error": null,
-        "cuda_available": false,
-        "cuda_device_count": 0,
-        "cpu_only": true
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "cuda_build_version": "13.0",
+        "cpu_only": false,
+        "gpu_names": [
+          "NVIDIA GeForce RTX 3060"
+        ],
+        "gpu_memory_bytes": [
+          12884377600
+        ]
       }
     },
     {
@@ -207,7 +327,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "ExperimentConfig / initialize_experiment available.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {}
     },
     {
@@ -218,7 +338,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Schema load ok (4 records).",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
         "n_records": 4,
@@ -239,7 +359,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Toy manifest validates structurally; media checks report missing files (findings=5).",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
         "n_records": 4,
@@ -260,7 +380,7 @@
       "evidence_label": "LEVEL 4 - REAL ARTIFACT TEST",
       "notes": "Frame select/shuffle smoke ok; 12 real mp4(s) on disk.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
         "ordered_indices": [
@@ -282,12 +402,12 @@
     {
       "id": "vlm_loading",
       "name": "VLM model loading",
-      "status": "BLOCKED",
-      "evidence_level": 3,
-      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
-      "notes": "Stub load works; real Qwen load with allow_download=False failed (cache_present=False).",
+      "status": "PASS",
+      "evidence_level": 4,
+      "evidence_label": "LEVEL 4 - REAL ARTIFACT TEST",
+      "notes": "Stub and real Qwen load succeeded.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "stub": {
           "ok": true,
@@ -296,42 +416,39 @@
         },
         "real": {
           "ok": true,
-          "loaded": false,
+          "loaded": true,
           "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
-          "expected_fail": true,
-          "error": "RuntimeError: Refusing to download weights during load_vlm(allow_download=False). Pass allow_download=True once intentionally ready, or point model_id at a local directory.",
-          "note": "Real Qwen load refused or failed with allow_download=False."
+          "expected_fail": false,
+          "error": null,
+          "note": "Unexpected success without download \u2014 local weights present.",
+          "device": "cuda:0"
         }
       }
     },
     {
       "id": "vlm_inference",
       "name": "VLM video inference",
-      "status": "BLOCKED",
-      "evidence_level": 2,
-      "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
-      "notes": "Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).",
-      "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
-      "details": {
-        "stub_ok": true,
-        "real_loaded": false,
-        "real_mp4": 12
-      }
+      "status": "PARTIAL",
+      "evidence_level": 3,
+      "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
+      "notes": "Weights/CUDA/mp4 present; full video\u2192answer path not executed in this audit.",
+      "tested": false,
+      "last_test": null,
+      "details": {}
     },
     {
       "id": "zero_shot_baseline",
       "name": "Zero-shot baseline",
-      "status": "BLOCKED",
+      "status": "PARTIAL",
       "evidence_level": 3,
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
-      "notes": "Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).",
+      "notes": "Stub baseline ok and hardware/cache look ready \u2014 confirm a real Qwen run separately.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
-        "run_id": "health_stub_2026-09-03T025816_0000",
-        "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T025816_0000",
+        "run_id": "health_stub_2026-09-03T035831_0000",
+        "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T035831_0000",
         "split": "held_out",
         "n_examples": 1,
         "overall_accuracy": 0.0,
@@ -369,7 +486,7 @@
       "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
       "notes": "Preference schema/module importable; no human preference labels collected.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {}
     },
     {
@@ -424,7 +541,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "hidden_state_exact_match good/bad smoke passed.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
         "good_value": 1.0,
@@ -441,7 +558,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Temporal shuffle applied in index smoke; real-video diagnostic not run.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
         "ordered_indices": [
@@ -523,7 +640,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "ReportConfig + build_experiment_report smoke on experiment_report_toy.",
       "tested": true,
-      "last_test": "2026-09-03T02:58:17+00:00",
+      "last_test": "2026-09-03T03:58:31+00:00",
       "details": {
         "ok": true,
         "keys": [
@@ -554,22 +671,34 @@
     }
   ],
   "overall": {
-    "overall_status": "BLOCKED",
-    "first_baseline_ready": "PARTIALLY",
-    "banner": "NOT READY FOR RESEARCH RUN",
-    "reason": "Approved hidden-state gold exists, but first real VLM baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache",
+    "overall_status": "PASS",
+    "first_baseline_ready": "YES",
+    "readiness_status": "READY_FOR_REAL_BASELINE",
+    "banner": "READY FOR FIRST BASELINE",
+    "reason": "1 approved gold example(s), real mp4(s) present, CUDA available, and Qwen cache/load evidence found.",
+    "runtime_checks": {
+      "GPU_AVAILABLE": true,
+      "CUDA_AVAILABLE": true,
+      "QWEN_WEIGHTS_AVAILABLE": true,
+      "REAL_VLM_LOAD": true,
+      "REAL_VIDEO_INFERENCE": true,
+      "FIRST_BASELINE_READY": true
+    },
     "criteria": {
       "approved_gold": true,
       "approved_gold_examples": 1,
       "real_mp4": true,
-      "cuda": false,
-      "qwen_cache_or_load": false,
+      "gpu_available": true,
+      "cuda": true,
+      "qwen_cache_or_load": true,
+      "real_vlm_load": true,
+      "real_video_inference": true,
       "stub_baseline_ok": true
     },
-    "n_blocked": 6,
+    "n_blocked": 2,
     "n_failed": 0
   },
-  "first_baseline_ready": "PARTIALLY",
+  "first_baseline_ready": "YES",
   "hidden_state_dataset": {
     "hidden_state_candidates": 7,
     "approved_gold_examples": 1,
@@ -596,18 +725,6 @@
   },
   "blockers": [
     {
-      "id": "cuda",
-      "why": "Torch reports CUDA unavailable (CPU-only)",
-      "need": "GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs",
-      "priority": "now"
-    },
-    {
-      "id": "qwen_weights",
-      "why": "No HF Qwen cache and load_vlm(allow_download=False) did not load",
-      "need": "Download Qwen2.5-VL locally or point model_id at a local directory",
-      "priority": "now"
-    },
-    {
       "id": "human_labels",
       "why": "1 approved hidden-state gold example(s); 1 pending review; 4 more clip(s) needed for a 5-clip pilot",
       "need": "Leave S7 PENDING. Do not gold-label Wikimedia clips. Additional gold clips are later, not the first zero-shot baseline",
@@ -621,20 +738,6 @@
     }
   ],
   "human_input": [
-    {
-      "priority": "now",
-      "what": "Obtain a CUDA GPU environment and CUDA-enabled PyTorch",
-      "where": "Training/inference host (not this CPU-only audit host)",
-      "format": "NVIDIA GPU + matching CUDA torch wheel",
-      "after": "python -c \"import torch; print(torch.cuda.is_available())\""
-    },
-    {
-      "priority": "now",
-      "what": "Place local Qwen2.5-VL weights (3B or 7B Instruct)",
-      "where": "HF hub cache or a local directory referenced by model_id",
-      "format": "Transformers checkpoint directory for Qwen2.5-VL",
-      "after": "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --load-frames"
-    },
     {
       "priority": "later",
       "what": "Human preference judgments (A/B explanations)",
@@ -661,13 +764,11 @@
       "what": "S6 is approved gold. Leave S7 PENDING. Source 4 more hidden-state clip(s) for a 5-clip pilot. Do not gold-label Wikimedia clips.",
       "where": "reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
       "format": "Human decision on pending proposals only; no unverified ground_truth",
-      "after": "Do not run Qwen until CUDA and local weights exist"
+      "after": "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames"
     }
   ],
   "next_actions": [
-    "GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs",
-    "Download Qwen2.5-VL locally or point model_id at a local directory",
-    "Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights"
+    "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames"
   ],
   "entry_points": {
     "ok": true,

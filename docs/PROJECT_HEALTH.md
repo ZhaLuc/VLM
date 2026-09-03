@@ -29,4 +29,8 @@ python scripts/project_health.py --skip-stub-baseline
   Pending candidates are not counted as gold. First-baseline `YES` also
   requires approved gold, CUDA, and local Qwen weights. After S6 approval,
   remaining first-baseline blockers are ENVIRONMENT (CUDA GPU) and MODEL
-  (local Qwen2.5-VL weights), not DATA.
+  (local Qwen2.5-VL weights), not DATA, until those probes pass.
+  Audit JSON also reports `readiness_status` and `runtime_checks`
+  (`GPU_AVAILABLE`, `CUDA_AVAILABLE`, `QWEN_WEIGHTS_AVAILABLE`,
+  `REAL_VLM_LOAD`, `REAL_VIDEO_INFERENCE`, `FIRST_BASELINE_READY`) from
+  executed probes only.

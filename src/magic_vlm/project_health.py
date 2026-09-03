@@ -253,6 +253,69 @@ def hidden_state_dataset_stats(inventory: dict[str, Any] | None) -> dict[str, An
     }
 
 
+def probe_nvidia_smi() -> dict[str, Any]:
+    """Best-effort ``nvidia-smi`` probe. Never invents a GPU."""
+    exe = shutil.which("nvidia-smi")
+    if not exe:
+        return {
+            "available": False,
+            "executable": None,
+            "returncode": None,
+            "gpus": [],
+            "error": "nvidia-smi not found on PATH",
+        }
+    try:
+        proc = subprocess.run(
+            [
+                exe,
+                "--query-gpu=name,memory.total,driver_version",
+                "--format=csv,noheader,nounits",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+        gpus: list[dict[str, Any]] = []
+        for line in (proc.stdout or "").splitlines():
+            parts = [p.strip() for p in line.split(",")]
+            if len(parts) >= 3:
+                gpus.append(
+                    {
+                        "name": parts[0],
+                        "memory_total_mib": parts[1],
+                        "driver_version": parts[2],
+                    }
+                )
+        return {
+            "available": proc.returncode == 0 and len(gpus) > 0,
+            "executable": exe,
+            "returncode": proc.returncode,
+            "gpus": gpus,
+            "stderr_tail": (proc.stderr or "")[-500:],
+            "error": None if proc.returncode == 0 else (proc.stderr or "nvidia-smi failed"),
+        }
+    except Exception as exc:  # noqa: BLE001
+        return {
+            "available": False,
+            "executable": exe,
+            "returncode": None,
+            "gpus": [],
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+
+
+def load_real_smoke_evidence(root: Path) -> dict[str, Any] | None:
+    """Load committed REAL_ZERO_SHOT_BASELINE_SMOKE_TEST evidence if present."""
+    path = Path(root) / "reports" / "real_zero_shot_baseline_smoke" / "summary.json"
+    if not path.is_file():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def probe_environment(root: Path | None = None) -> dict[str, Any]:
     """Probe Python, torch/CUDA, optional stacks, video deps, media, HF cache."""
     root = Path(root or Path.cwd()).resolve()
@@ -260,6 +323,9 @@ def probe_environment(root: Path | None = None) -> dict[str, Any]:
     cuda_available = False
     cuda_device_count = 0
     torch_version = torch_info.get("version")
+    cuda_build_version = None
+    gpu_names: list[str] = []
+    gpu_memory_bytes: list[int] = []
     if torch_info["available"]:
         try:
             import torch
@@ -267,11 +333,19 @@ def probe_environment(root: Path | None = None) -> dict[str, Any]:
             cuda_available = bool(torch.cuda.is_available())
             cuda_device_count = int(torch.cuda.device_count()) if cuda_available else 0
             torch_version = str(torch.__version__)
+            cuda_build_version = getattr(torch.version, "cuda", None)
+            if cuda_available:
+                for idx in range(cuda_device_count):
+                    gpu_names.append(str(torch.cuda.get_device_name(idx)))
+                    props = torch.cuda.get_device_properties(idx)
+                    gpu_memory_bytes.append(int(props.total_memory))
         except Exception as exc:  # noqa: BLE001
             torch_info["error"] = f"{type(exc).__name__}: {exc}"
 
+    nvidia = probe_nvidia_smi()
     qwen_dirs = list_qwen_cache_dirs()
     real_mp4_count = count_real_mp4(root)
+    smoke_evidence = load_real_smoke_evidence(root)
 
     return {
         "probed_at": utc_now_iso(),
@@ -286,8 +360,13 @@ def probe_environment(root: Path | None = None) -> dict[str, Any]:
             "version": torch_version,
             "cuda_available": cuda_available,
             "cuda_device_count": cuda_device_count,
+            "cuda_build_version": cuda_build_version,
             "cpu_only": bool(torch_info["available"]) and not cuda_available,
+            "gpu_names": gpu_names,
+            "gpu_memory_bytes": gpu_memory_bytes,
         },
+        "nvidia_smi": nvidia,
+        "gpu_available": bool(nvidia.get("available")) or (cuda_available and cuda_device_count > 0),
         "transformers": _try_import("transformers"),
         "trl": _try_import("trl"),
         "peft": _try_import("peft"),
@@ -298,6 +377,8 @@ def probe_environment(root: Path | None = None) -> dict[str, Any]:
         "hf_hub_cache": str(hf_hub_root()),
         "qwen_cache_dirs": qwen_dirs,
         "qwen_cache_present": len(qwen_dirs) > 0,
+        "real_smoke_evidence": smoke_evidence,
+        "real_smoke_evidence_present": smoke_evidence is not None,
     }
 
 
@@ -1030,18 +1111,33 @@ def derive_overall(
 ) -> dict[str, Any]:
     """Derive first-baseline readiness and banner from hard acceptance criteria."""
     real_mp4 = int(env.get("real_mp4_count") or 0) > 0
+    gpu_available = bool(env.get("gpu_available"))
     cuda = bool(env.get("torch", {}).get("cuda_available"))
     qwen_cache = bool(env.get("qwen_cache_present"))
     qwen_loaded = bool((smokes.get("real_qwen_load") or {}).get("loaded"))
     qwen_ready = qwen_cache or qwen_loaded
+    real_infer = bool(env.get("real_smoke_evidence_present")) or bool(
+        ((env.get("real_smoke_evidence") or {}).get("correct") is True)
+    )
     stub_ok = bool((smokes.get("stub_baseline") or {}).get("ok"))
     approved_gold = int((dataset_stats or {}).get("approved_gold_examples") or 0)
     has_gold = approved_gold >= 1
+
+    runtime_checks = {
+        "GPU_AVAILABLE": gpu_available,
+        "CUDA_AVAILABLE": cuda,
+        "QWEN_WEIGHTS_AVAILABLE": qwen_ready,
+        "REAL_VLM_LOAD": qwen_loaded,
+        "REAL_VIDEO_INFERENCE": real_infer,
+        "FIRST_BASELINE_READY": False,
+    }
 
     if has_gold and real_mp4 and cuda and qwen_ready:
         first_baseline = "YES"
         banner = "READY FOR FIRST BASELINE"
         overall = "PASS"
+        readiness_status = "READY_FOR_REAL_BASELINE"
+        runtime_checks["FIRST_BASELINE_READY"] = True
         reason = (
             f"{approved_gold} approved gold example(s), real mp4(s) present, "
             "CUDA available, and Qwen cache/load evidence found."
@@ -1051,10 +1147,18 @@ def derive_overall(
         banner = "NOT READY FOR RESEARCH RUN"
         overall = "BLOCKED"
         missing = []
-        if not cuda:
-            missing.append("CUDA GPU (torch.cuda)")
-        if not qwen_ready:
+        if not gpu_available and not cuda:
+            readiness_status = "GPU_BLOCKED"
+            missing.append("NVIDIA GPU / CUDA torch")
+        elif not cuda:
+            readiness_status = "GPU_BLOCKED"
+            missing.append("CUDA-enabled PyTorch (torch.cuda)")
+        elif not qwen_ready:
+            readiness_status = "MODEL_BLOCKED"
             missing.append("local Qwen2.5-VL weights / HF cache")
+        else:
+            readiness_status = "VLM_LOAD_BLOCKED"
+            missing.append("incomplete VLM stack")
         reason = (
             "Approved hidden-state gold exists, but first real VLM baseline "
             "still blocked by: "
@@ -1067,12 +1171,19 @@ def derive_overall(
         missing = []
         if not has_gold:
             missing.append("approved hidden-state gold example")
-        if not real_mp4:
+            readiness_status = "DATA_BLOCKED"
+        elif not real_mp4:
             missing.append("real mp4 under data/videos")
-        if not cuda:
+            readiness_status = "DATA_BLOCKED"
+        elif not cuda:
             missing.append("CUDA GPU (torch.cuda)")
-        if not qwen_ready:
+            readiness_status = "GPU_BLOCKED"
+        elif not qwen_ready:
             missing.append("local Qwen2.5-VL weights / HF cache")
+            readiness_status = "MODEL_BLOCKED"
+        else:
+            readiness_status = "VLM_LOAD_BLOCKED"
+            missing.append("incomplete VLM stack")
         reason = (
             "First real hidden-state baseline cannot run. Missing: "
             + ", ".join(missing)
@@ -1087,14 +1198,19 @@ def derive_overall(
     return {
         "overall_status": overall,
         "first_baseline_ready": first_baseline,
+        "readiness_status": readiness_status,
         "banner": banner,
         "reason": reason,
+        "runtime_checks": runtime_checks,
         "criteria": {
             "approved_gold": has_gold,
             "approved_gold_examples": approved_gold,
             "real_mp4": real_mp4,
+            "gpu_available": gpu_available,
             "cuda": cuda,
             "qwen_cache_or_load": qwen_ready,
+            "real_vlm_load": qwen_loaded,
+            "real_video_inference": real_infer,
             "stub_baseline_ok": stub_ok,
         },
         "n_blocked": len(blocked),
@@ -1224,6 +1340,8 @@ def build_human_input(
 ) -> list[HumanInputItem]:
     approved_gold = int((dataset_stats or {}).get("approved_gold_examples") or 0)
     clips_needed = int((dataset_stats or {}).get("clips_needed") or 0)
+    cuda = bool(env.get("torch", {}).get("cuda_available"))
+    qwen_ready = bool(env.get("qwen_cache_present"))
     items = [
         HumanInputItem(
             priority="now",
@@ -1270,6 +1388,11 @@ def build_human_input(
     ]
     if int(env.get("real_mp4_count") or 0) > 0:
         items = [i for i in items if "real magic" not in i.what.lower()]
+    if cuda:
+        items = [i for i in items if "CUDA GPU environment" not in i.what]
+    if qwen_ready:
+        items = [i for i in items if "Qwen2.5-VL weights" not in i.what]
+    if int(env.get("real_mp4_count") or 0) > 0:
         if approved_gold >= 1:
             items.append(
                 HumanInputItem(
@@ -1281,7 +1404,12 @@ def build_human_input(
                     ),
                     where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
                     format="Human decision on pending proposals only; no unverified ground_truth",
-                    after="Do not run Qwen until CUDA and local weights exist",
+                    after=(
+                        "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml "
+                        "--run-id baseline-real-v1 --load-frames"
+                        if cuda and qwen_ready
+                        else "Do not run Qwen until CUDA and local weights exist"
+                    ),
                 )
             )
         else:
@@ -1307,6 +1435,12 @@ def next_actions(
     blockers: list[Blocker],
 ) -> list[str]:
     actions: list[str] = []
+    if overall.get("readiness_status") == "READY_FOR_REAL_BASELINE":
+        actions.append(
+            "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml "
+            "--run-id baseline-real-v1 --load-frames"
+        )
+        return actions[:5]
     now_blockers = [b for b in blockers if b.priority == "now"]
     for b in now_blockers[:4]:
         actions.append(b.need)
@@ -1373,6 +1507,19 @@ def render_markdown(audit: dict[str, Any]) -> str:
     )
     lines.append(f"- Real mp4 count: {env['real_mp4_count']}")
     lines.append(f"- Qwen HF cache present: {env['qwen_cache_present']}")
+    lines.append(f"- GPU available (nvidia-smi/torch): {env.get('gpu_available')}")
+    lines.extend(["", "## Runtime checks", ""])
+    checks = overall.get("runtime_checks") or {}
+    for key in (
+        "GPU_AVAILABLE",
+        "CUDA_AVAILABLE",
+        "QWEN_WEIGHTS_AVAILABLE",
+        "REAL_VLM_LOAD",
+        "REAL_VIDEO_INFERENCE",
+        "FIRST_BASELINE_READY",
+    ):
+        lines.append(f"- {key}: `{checks.get(key)}`")
+    lines.append(f"- readiness_status: `{overall.get('readiness_status')}`")
     lines.extend(["", "## Hidden-state dataset", ""])
     hs = audit.get("hidden_state_dataset") or {}
     wiki = hs.get("wikimedia_controls") or {}
@@ -1505,6 +1652,13 @@ th {{ background: #efeae2; }}
 </header>
 <main>
   <p>{html.escape(str(overall.get('reason') or ''))}</p>
+  <p>readiness_status: {html.escape(str(overall.get('readiness_status') or ''))}</p>
+  <p>GPU_AVAILABLE={html.escape(str((overall.get('runtime_checks') or {}).get('GPU_AVAILABLE')))}
+  · CUDA_AVAILABLE={html.escape(str((overall.get('runtime_checks') or {}).get('CUDA_AVAILABLE')))}
+  · QWEN_WEIGHTS_AVAILABLE={html.escape(str((overall.get('runtime_checks') or {}).get('QWEN_WEIGHTS_AVAILABLE')))}
+  · REAL_VLM_LOAD={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_VLM_LOAD')))}
+  · REAL_VIDEO_INFERENCE={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_VIDEO_INFERENCE')))}
+  · FIRST_BASELINE_READY={html.escape(str((overall.get('runtime_checks') or {}).get('FIRST_BASELINE_READY')))}</p>
 
   <h2>Pipeline</h2>
   <div class="pipeline">{pipeline_html}</div>
@@ -1675,6 +1829,8 @@ __all__ = [
     "Blocker",
     "HumanInputItem",
     "probe_environment",
+    "probe_nvidia_smi",
+    "load_real_smoke_evidence",
     "run_smokes",
     "run_audit",
     "derive_overall",

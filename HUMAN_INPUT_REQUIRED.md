@@ -1,11 +1,9 @@
 # Human input required now
 
-S6 decision recorded by the human researcher: `APPROVE`.
+Environment and S6 smoke are ready on this host.
 
-Clip: mac_king_s006 / Movie6.MP4
-Question: Which hand contains the coin after the apparent transfer?
-Ground truth: right
-Human approval: APPROVED
+Clip: mac_king_s006 / Movie6.MP4 — APPROVED gold (`right`)
+Smoke run: REAL_ZERO_SHOT_BASELINE_SMOKE_TEST (correct=true)
 
 Clip: mac_king_s007 / Movie7.MP4 — leave pending.
 Candidate question: Which hand contains the coin after the transfer?
@@ -15,8 +13,7 @@ APPROVE / EDIT / REJECT
 Do not gold-label Wikimedia clips. Do not splice S1/S2 onto S6/S7.
 Approved gold: 1 of 5.
 
-Remaining first-baseline blockers:
+Remaining first-baseline blockers: none for a one-example CUDA run.
 
-DATA: S6 approved and benchmark-eligible. 4 more clips for a 5-clip pilot (later).
-ENVIRONMENT: CUDA-enabled PyTorch and NVIDIA GPU required.
-MODEL: Local Qwen2.5-VL-3B-Instruct or 7B-Instruct weights required.
+Optional: set HF_TOKEN for faster Hugging Face downloads.
+Later: review S7; source 4 more hidden-state clips for a 5-clip pilot.

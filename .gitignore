@@ -27,6 +27,7 @@ artifacts/
 runs/
 outputs/
 reports/project_health/stub_baseline_runs/
+reports/project_health/real_smoke_baseline.log
 *.pt
 *.bin
 *.safetensors

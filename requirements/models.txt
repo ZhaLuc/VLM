@@ -1,6 +1,15 @@
 -r base.txt
 # Choose a torch wheel for your platform from https://pytorch.org
-# Example CPU (Windows/Linux): pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# CPU example (Windows/Linux):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# CUDA 13.0 example matching PyTorch 2.13 on Windows (verified 2026-09-03 on RTX 3060):
+#   pip uninstall -y torch
+#   pip install --no-cache-dir torch==2.13.0 --index-url https://download.pytorch.org/whl/cu130
+#
+# Do not install a random CUDA wheel. Match the official pytorch.org index for your OS.
+# Driver CUDA UMD can be newer than the torch CUDA build (backward compatible).
 torch
 transformers>=4.45
 accelerate

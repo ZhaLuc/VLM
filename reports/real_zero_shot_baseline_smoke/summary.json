@@ -1,0 +1,87 @@
+{
+  "label": "REAL_ZERO_SHOT_BASELINE_SMOKE_TEST",
+  "run_id": "REAL_ZERO_SHOT_BASELINE_SMOKE_TEST",
+  "status": "PASS",
+  "clip_id": "mac_king_s006",
+  "example_id": "mac_king_s006_q1",
+  "question": "Which hand contains the coin after the apparent transfer?",
+  "ground_truth": "right",
+  "raw_text": "right",
+  "parsed_answer": "right",
+  "correct": true,
+  "latency_s": 2.911294199999247,
+  "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+  "checkpoint": {
+    "kind": "base",
+    "label": "untouched_base_3b",
+    "hf_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "revision": null,
+    "local_cache": "HF hub cache models--Qwen--Qwen2.5-VL-3B-Instruct"
+  },
+  "generation": {
+    "max_new_tokens": 128,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 0,
+    "do_sample": false,
+    "sampling_mode": "greedy"
+  },
+  "preprocessing": {
+    "source_path": "C:\\Users\\Lucas\\Downloads\\VLM\\data\\videos\\Movie6.MP4",
+    "ordered_indices": [
+      0,
+      31,
+      61,
+      92,
+      123,
+      154,
+      184,
+      215
+    ],
+    "frame_indices": [
+      0,
+      31,
+      61,
+      92,
+      123,
+      154,
+      184,
+      215
+    ],
+    "temporal_shuffled": false,
+    "shuffle_seed": null,
+    "sample_strategy": "uniform",
+    "max_frames": 8,
+    "n_frames": 8,
+    "resize": null,
+    "source_fps": 29.97002997002997,
+    "source_content_hash": "de8e1768face5c12b784ae2d92f4e1afc7dfaafcb989d3d70f79337c09dd8db7",
+    "video_input_mode": "project_sampled_frames"
+  },
+  "device": {
+    "requested": "auto",
+    "resolved": "cuda:0",
+    "torch_available": true,
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "device_name": "NVIDIA GeForce RTX 3060"
+  },
+  "hardware_runtime": {
+    "torch_version": "2.13.0+cu130",
+    "cuda_version": "13.0",
+    "cuda_available": true,
+    "device_names": [
+      "NVIDIA GeForce RTX 3060"
+    ],
+    "python_executable": "C:\\Users\\Lucas\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+    }
+  },
+  "config": "configs/baseline_qwen25vl_3b.yaml",
+  "manifest": "data/examples/hidden_state_pilot.jsonl",
+  "note": "One-example smoke only. Not a multi-clip pilot evaluation. Full run artifacts remain under runs/ (gitignored)."
+}

@@ -1,0 +1,28 @@
+{
+  "run_id": "REAL_ZERO_SHOT_BASELINE_SMOKE_TEST",
+  "run_dir": "runs\\REAL_ZERO_SHOT_BASELINE_SMOKE_TEST",
+  "split": "held_out",
+  "immutable": true,
+  "prompt_template_id": "hidden_state_v1",
+  "prompt_template": "You are analyzing a short magic or mentalism demonstration.\nQuestion: {question}\nAnswer briefly and concretely.",
+  "summary": {
+    "metric": "exact_match",
+    "n_examples": 1,
+    "n_correct": 1,
+    "overall_accuracy": 1.0,
+    "n_parse_failures": 0,
+    "parse_failure_rate": 0.0,
+    "per_trick_accuracy": {
+      "coin_fake_toss": 1.0
+    },
+    "per_trick_counts": {
+      "coin_fake_toss": 1
+    },
+    "mean_latency_s": 2.911294199999247,
+    "split": "held_out",
+    "example_ids": [
+      "mac_king_s006_q1"
+    ]
+  },
+  "n_predictions": 1
+}

@@ -2,24 +2,24 @@
 
 ## Overall Status
 
-**NOT READY FOR RESEARCH RUN**
+**READY FOR FIRST BASELINE**
 
-- Overall: `BLOCKED`
-- First real baseline ready: `PARTIALLY`
-- Reason: Approved hidden-state gold exists, but first real VLM baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
-- Generated: 2026-09-03T02:58:17+00:00
+- Overall: `PASS`
+- First real baseline ready: `YES`
+- Reason: 1 approved gold example(s), real mp4(s) present, CUDA available, and Qwen cache/load evidence found.
+- Generated: 2026-09-03T03:58:31+00:00
 
 ## Pipeline
 
 - `PASS` **Repository architecture** (evidence 3) — Package layout, docs, and configs present.
-- `BLOCKED` **Environment setup** (evidence 3) — Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
+- `PASS` **Environment setup** (evidence 3) — Torch with CUDA available.
 - `PASS` **Reproducibility / configuration** (evidence 3) — ExperimentConfig / initialize_experiment available.
 - `PASS` **Dataset schema** (evidence 3) — Schema load ok (4 records).
 - `PARTIAL` **Dataset validation** (evidence 3) — Toy manifest validates structurally; media checks report missing files (findings=5).
 - `PASS` **Video preprocessing** (evidence 4) — Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
-- `BLOCKED` **VLM model loading** (evidence 3) — Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
-- `BLOCKED` **VLM video inference** (evidence 2) — Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
-- `BLOCKED` **Zero-shot baseline** (evidence 3) — Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
+- `PASS` **VLM model loading** (evidence 4) — Stub and real Qwen load succeeded.
+- `PARTIAL` **VLM video inference** (evidence 3) — Weights/CUDA/mp4 present; full video→answer path not executed in this audit.
+- `PARTIAL` **Zero-shot baseline** (evidence 3) — Stub baseline ok and hardware/cache look ready — confirm a real Qwen run separately.
 - `PARTIAL` **Baseline evaluation** (evidence 2) — Evaluation helpers exist; no real baseline metrics produced by this audit.
 - `PARTIAL` **Failure analysis** (evidence 2) — Analysis module present; not exercised on a real baseline run.
 - `PASS` **Preference schema** (evidence 2) — Preference schema/module importable; no human preference labels collected.
@@ -39,19 +39,17 @@
 ## What Works
 
 - Repository architecture: Package layout, docs, and configs present.
+- Environment setup: Torch with CUDA available.
 - Reproducibility / configuration: ExperimentConfig / initialize_experiment available.
 - Dataset schema: Schema load ok (4 records).
 - Video preprocessing: Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
+- VLM model loading: Stub and real Qwen load succeeded.
 - Preference schema: Preference schema/module importable; no human preference labels collected.
 - Reward interface: hidden_state_exact_match good/bad smoke passed.
 - Research reporting: ReportConfig + build_experiment_report smoke on experiment_report_toy.
 
 ## What Does Not Work / Blocked
 
-- [BLOCKED] Environment setup: Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
-- [BLOCKED] VLM model loading: Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
-- [BLOCKED] VLM video inference: Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
-- [BLOCKED] Zero-shot baseline: Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
 - [BLOCKED] DPO: DPO stack code exists; real Qwen DPO needs CUDA + weights + preferences.
 - [BLOCKED] GRPO: GRPO code exists; real VLM GRPO blocked without CUDA/weights/rewards data.
 
@@ -59,14 +57,7 @@
 
 ### I need to provide this now
 
-1. **What:** Obtain a CUDA GPU environment and CUDA-enabled PyTorch
-   - Where: Training/inference host (not this CPU-only audit host)
-   - Format: NVIDIA GPU + matching CUDA torch wheel
-   - After: `python -c "import torch; print(torch.cuda.is_available())"`
-2. **What:** Place local Qwen2.5-VL weights (3B or 7B Instruct)
-   - Where: HF hub cache or a local directory referenced by model_id
-   - Format: Transformers checkpoint directory for Qwen2.5-VL
-   - After: `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --load-frames`
+- (none)
 
 ### I need to provide this later
 
@@ -81,7 +72,7 @@
 3. **What:** S6 is approved gold. Leave S7 PENDING. Source 4 more hidden-state clip(s) for a 5-clip pilot. Do not gold-label Wikimedia clips.
    - Where: reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md
    - Format: Human decision on pending proposals only; no unverified ground_truth
-   - After: `Do not run Qwen until CUDA and local weights exist`
+   - After: `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames`
 
 ### Optional
 
@@ -92,9 +83,20 @@
 
 ## Environment Requirements
 
-- Python 3.11.9; torch 2.13.0+cpu cuda=False
+- Python 3.11.9; torch 2.13.0+cu130 cuda=True
 - Real mp4 count: 12
-- Qwen HF cache present: False
+- Qwen HF cache present: True
+- GPU available (nvidia-smi/torch): True
+
+## Runtime checks
+
+- GPU_AVAILABLE: `True`
+- CUDA_AVAILABLE: `True`
+- QWEN_WEIGHTS_AVAILABLE: `True`
+- REAL_VLM_LOAD: `True`
+- REAL_VIDEO_INFERENCE: `True`
+- FIRST_BASELINE_READY: `True`
+- readiness_status: `READY_FOR_REAL_BASELINE`
 
 ## Hidden-state dataset
 
@@ -126,10 +128,8 @@
 
 ## First Research Experiment Readiness
 
-`PARTIALLY` — Approved hidden-state gold exists, but first real VLM baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
+`YES` — 1 approved gold example(s), real mp4(s) present, CUDA available, and Qwen cache/load evidence found.
 
 ## Next Actions
 
-1. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
-2. Download Qwen2.5-VL locally or point model_id at a local directory
-3. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights
+1. magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames

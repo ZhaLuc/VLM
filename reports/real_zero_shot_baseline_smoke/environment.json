@@ -1,0 +1,38 @@
+{
+  "captured_at": "2026-09-03T03:50:22+00:00",
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\Lucas\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+  },
+  "package_version": "0.1.21",
+  "git_commit": "3b2f7cabe59a5c0a00b3a28c0ba17e6010d03d06",
+  "git_dirty": false,
+  "device": {
+    "requested": "auto",
+    "resolved": "cuda:0",
+    "torch_available": true,
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "device_name": "NVIDIA GeForce RTX 3060"
+  },
+  "torch": {
+    "torch_available": true,
+    "torch_version": "2.13.0+cu130",
+    "cuda_compiled": true,
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_version": "13.0",
+    "cudnn_version": 92000,
+    "device_names": [
+      "NVIDIA GeForce RTX 3060"
+    ]
+  },
+  "env_subset": {
+    "CUDA_VISIBLE_DEVICES": null,
+    "PYTHONHASHSEED": null
+  }
+}

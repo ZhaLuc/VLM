@@ -1,0 +1,8 @@
+{
+  "requested": "auto",
+  "resolved": "cuda:0",
+  "torch_available": true,
+  "cuda_available": true,
+  "cuda_device_count": 1,
+  "device_name": "NVIDIA GeForce RTX 3060"
+}
