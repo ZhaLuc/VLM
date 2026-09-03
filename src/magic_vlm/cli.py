@@ -601,6 +601,62 @@ def train_reward_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def report_main(argv: list[str] | None = None) -> int:
+    """Generate a research-quality experiment report from stored artifacts."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Aggregate stored experiment artifacts into deterministic markdown + "
+            "JSON research reports. Missing metadata is marked unavailable. "
+            "Does not invent conclusions or claim reasoning improved."
+        )
+    )
+    parser.add_argument("--config", type=Path, default=None)
+    parser.add_argument("--run-dir", type=Path, default=None, help="Single run directory.")
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=None,
+        help="Override output_dir (default from config or runs/reports).",
+    )
+    parser.add_argument("--run-id", type=str, default=None)
+    parser.add_argument(
+        "--generated-at",
+        type=str,
+        default=None,
+        help="Freeze generated_at timestamp for deterministic output.",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.reporting import ReportConfig, generate_experiment_report
+
+    if args.config is None and args.run_dir is None:
+        args.config = Path("configs/experiment_report_toy.yaml")
+
+    if args.config is not None:
+        config = ReportConfig.from_yaml(args.config)
+        payload = config.to_dict()
+    else:
+        payload = ReportConfig.from_run_dir(args.run_dir).to_dict()
+
+    if args.out_dir is not None:
+        payload["output_dir"] = str(args.out_dir)
+    if args.run_id:
+        payload["run_id"] = args.run_id
+    if args.generated_at:
+        payload["generated_at"] = args.generated_at
+    if args.run_dir is not None and args.config is None:
+        payload["primary_run_dir"] = str(args.run_dir)
+
+    result = generate_experiment_report(ReportConfig.from_dict(payload))
+    print(
+        f"report ok run_dir={result.run_dir} "
+        f"unresolved={len(result.report.get('unresolved_issues') or [])} "
+        f"md={result.markdown_path}"
+    )
+    print(result.report["integrity_disclaimer"])
+    return 0
+
+
 def analyze_reward_hacking_main(argv: list[str] | None = None) -> int:
     """Diagnose possible reward–quality divergences (not single-example proof)."""
     parser = argparse.ArgumentParser(

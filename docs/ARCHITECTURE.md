@@ -64,6 +64,8 @@ move examples into/out of `held_out` after baseline numbers are published.
   protocol; accuracy / generalization / temporal / reward kept separate).
 - Reward-hacking diagnostics: `docs/REWARD_HACKING.md` (reward vs independent
   accuracy / RM / human; observational `possible_*` tags only).
+- Research reporting: `docs/REPORTING.md` (deterministic markdown/JSON summaries
+  from stored artifacts; never invents conclusions).
 - Objective rewards: `docs/OBJECTIVE_REWARDS.md`
   (`hidden_state_exact_match` and `temporal_iou` v1.0.0). Not reasoning metrics;
   no hybrid weighting. Causal annotation status is exposed in reports

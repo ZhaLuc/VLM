@@ -1,0 +1,32 @@
+# Research report over synthetic comparison / GRPO / temporal fixtures.
+# Missing arms stay unavailable (never invented).
+
+experiment_type: research_report
+output_dir: runs/reports
+run_id: report_toy_synthetic
+generated_at: "2026-09-02T00:00:00+00:00"
+
+protocol:
+  manifest: data/examples/toy_manifest.jsonl
+  dataset_version: toy-v0
+  task: hidden_state
+  split: held_out
+
+artifacts:
+  baseline: tests/fixtures/comparison/zero_shot
+  grpo: tests/fixtures/comparison/grpo
+  temporal: tests/fixtures/comparison/temporal
+  comparison: null
+  reward_hacking: null
+  dpo: null
+  reward_model: null
+
+example_selection:
+  max_successes: 5
+  max_failures: 5
+  sort_keys: [trick_id, example_id]
+  diversity_key: trick_id
+  raw_text_max_chars: 400
+
+notes: >
+  Synthetic report bundle for validation. Does not claim reasoning improvement.

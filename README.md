@@ -154,6 +154,13 @@ See `docs/REWARD_HACKING.md`. Flags possible reward–quality divergences;
 a single example is never proof of reward hacking.
 
 ```bash
+magic-vlm-report --config configs/experiment_report_toy.yaml
+```
+
+See `docs/REPORTING.md`. Deterministic research summaries from stored artifacts;
+missing fields stay `unavailable`.
+
+```bash
 magic-vlm-compare-objective \
   --manifest data/examples/toy_temporal_causal.jsonl \
   --predictions path/to/predictions.jsonl \
