@@ -769,12 +769,19 @@ def build_component_results(
             details=base,
         )
     elif base.get("ok"):
+        missing = []
+        if real_mp4 <= 0:
+            missing.append("no real mp4")
+        if not cuda:
+            missing.append("no CUDA")
+        if not (qwen_cache or real.get("loaded")):
+            missing.append("no Qwen cache")
         put(
             "zero_shot_baseline",
             "BLOCKED",
             3,
             "Stub baseline smoke passed; real hidden-state baseline blocked "
-            "(no real mp4 and/or no CUDA and/or no Qwen cache).",
+            f"({', '.join(missing) if missing else 'incomplete VLM stack'}).",
             tested=True,
             details=base,
         )
@@ -1091,8 +1098,13 @@ def build_blockers(env: dict[str, Any], smokes: dict[str, Any]) -> list[Blocker]
         Blocker(
             id="human_labels",
             why="Real ground-truth / preference / causal annotations not yet collected",
-            need="Author research labels after videos exist",
-            priority="later",
+            need=(
+                "Author hidden-state question + ground_truth on the Wikimedia pilot "
+                "manifest (replace HUMAN_FILL_REQUIRED)"
+                if int(env.get("real_mp4_count") or 0) > 0
+                else "Author research labels after videos exist"
+            ),
+            priority="now" if int(env.get("real_mp4_count") or 0) > 0 else "later",
         )
     )
     blockers.append(
@@ -1153,6 +1165,21 @@ def build_human_input(env: dict[str, Any]) -> list[HumanInputItem]:
     ]
     if int(env.get("real_mp4_count") or 0) > 0:
         items = [i for i in items if "real magic" not in i.what.lower()]
+        template = Path(env.get("root") or ".") / "data" / "examples" / "wikimedia_pilot_manifest.template.jsonl"
+        if template.is_file():
+            items.insert(
+                0,
+                HumanInputItem(
+                    priority="now",
+                    what=(
+                        "Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot "
+                        "(trick_id, performer_id, camera_id, question, ground_truth)"
+                    ),
+                    where="data/examples/wikimedia_pilot_manifest.template.jsonl",
+                    format="ExampleRecord JSONL (docs/DATASET_SCHEMA.md)",
+                    after="magic-vlm-validate --manifest data/examples/wikimedia_pilot_manifest.jsonl",
+                ),
+            )
     return items
 
 

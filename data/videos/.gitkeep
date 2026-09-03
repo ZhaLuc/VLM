@@ -1,1 +1,2 @@
-# data/raw and data/videos are gitignored. Keep manifests and schemas in-repo.
+# Local clips live here and are gitignored (*.ogv, *.mp4).
+# Keep manifests, provenance JSON, and schemas in-repo; do not commit video bytes.

@@ -1,0 +1,237 @@
+{
+  "schema": "magic_vlm.local_clip_provenance.v1",
+  "collection_id": "wikimedia_peerj_01_19",
+  "provenance_type": "wikimedia_commons_open_access_supplement",
+  "paper": {
+    "title": "Perceptual elements in Penn & Teller's \"Cups and Balls\" magic trick",
+    "authors": ["Rieiro H", "Martinez-Conde S", "Macknik S"],
+    "year": 2013,
+    "doi": "10.7717/peerj.19",
+    "pmid": "23638353",
+    "pmc": "PMC3628988"
+  },
+  "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "source": "Wikimedia Commons extmetadata LicenseShortName/LicenseUrl (retrieved 2026-09-03)"
+  },
+  "access": {
+    "host": "Wikimedia Commons",
+    "retrieved_metadata_at": "2026-09-03",
+    "api": "https://commons.wikimedia.org/w/api.php",
+    "notes": "Local OGV byte size and SHA-1 match Commons imageinfo for every clip below. That verifies file identity against Commons, not research labels."
+  },
+  "conversion": {
+    "originals_retained": true,
+    "overwrite_originals": false,
+    "command_template": "ffmpeg -hide_banner -y -i INPUT.ogv -an -c:v libx264 -pix_fmt yuv420p -preset medium -crf 18 -movflags +faststart OUTPUT.mp4",
+    "script": "scripts/convert_ogv_to_mp4.py",
+    "ffmpeg_version": "7.1-essentials_build-www.gyan.dev",
+    "ffmpeg_source": "imageio-ffmpeg 0.6.0 bundled binary (ffmpeg was not on PATH)",
+    "audio": "dropped (-an); source streams were video-only Theora",
+    "ffmpeg_ogg_warning": "FFmpeg printed 'Broken file, keyframe not correctly marked' on each OGV; OpenCV still decoded nonzero frames from both OGV and MP4."
+  },
+  "research_labels": {
+    "status": "not_authored",
+    "do_not_treat_commons_captions_as_ground_truth": true,
+    "human_fill_required": [
+      "trick_id",
+      "performer_id",
+      "camera_id",
+      "question",
+      "ground_truth"
+    ],
+    "pipeline_conventions_pending_human_confirm": {
+      "task": "hidden_state",
+      "split": "held_out",
+      "reason": "First zero-shot baseline evaluates held_out hidden-state items. These are pipeline conventions, not observed labels."
+    }
+  },
+  "clips": [
+    {
+      "clip_id": "peerj_01_19_s003",
+      "local_ogv": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
+      "local_mp4": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.mp4",
+      "format_source": "ogv",
+      "format_converted": "mp4",
+      "ogv_bytes": 1523480,
+      "mp4_bytes": 1348622,
+      "ogv_sha1": "c99c4fcda131d2f6e97aed6cf1a509355512aa0c",
+      "ogv_sha1_matches_commons": true,
+      "ogv_sha256": "66b14d9e143bfb150b181d6528daab9d2531c2ecae42f87863b0c7de17e38b37",
+      "mp4_sha256": "da870aab768465b68cbdbb01e6986399ab38b4800b9bf0f50efcf11ad000f557",
+      "probe_ogv": {"num_frames": 340, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 11.344666666666667},
+      "probe_mp4": {"num_frames": 340, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 11.344666666666667},
+      "pipeline_can_process_ogv": true,
+      "pipeline_can_process_mp4": true,
+      "readable": true,
+      "commons": {
+        "file_page": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Perceptual-elements-in-Penn-%26-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
+        "page_id": 26004288,
+        "original_filename": "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
+        "image_description": "Video clip of the magician performing the “Standard” routine",
+        "credit": "Supplemental Movie S1 from Rieiro H, Martinez-Conde S, Macknik S (2013). PeerJ 10.7717/peerj.19",
+        "artist": "Rieiro H, Martinez-Conde S, Macknik S",
+        "license_short_name": "CC BY 3.0",
+        "commons_duration_s": 11.344666666666667
+      },
+      "human_verification_required": [
+        "trick_id",
+        "performer_id",
+        "camera_id",
+        "hidden-state question",
+        "ground_truth",
+        "whether Commons 'Standard' caption is the intended research condition label"
+      ]
+    },
+    {
+      "clip_id": "peerj_01_19_s004",
+      "local_ogv": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
+      "local_mp4": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.mp4",
+      "format_source": "ogv",
+      "format_converted": "mp4",
+      "ogv_bytes": 1627037,
+      "mp4_bytes": 1474884,
+      "ogv_sha1": "92eea53913572c22ed6595af77ad751e25acaf57",
+      "ogv_sha1_matches_commons": true,
+      "ogv_sha256": "be576d0304ebf5d1f32ca38abbf34b6d925ddfcdbfbfa42048ef9ae82da53921",
+      "mp4_sha256": "453faca2f6bfb2f2942bc113e62571211b4a5a129313f12ef57f82653fc495f4",
+      "probe_ogv": {"num_frames": 323, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 10.777433333333333},
+      "probe_mp4": {"num_frames": 323, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 10.777433333333333},
+      "pipeline_can_process_ogv": true,
+      "pipeline_can_process_mp4": true,
+      "readable": true,
+      "commons": {
+        "file_page": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Perceptual-elements-in-Penn-%26-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
+        "page_id": 26004306,
+        "original_filename": "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
+        "image_description": "Video clip of the magician performing the “No ball” routine",
+        "credit": "Supplemental Movie S2 from Rieiro H, Martinez-Conde S, Macknik S (2013). PeerJ 10.7717/peerj.19",
+        "artist": "Rieiro H, Martinez-Conde S, Macknik S",
+        "license_short_name": "CC BY 3.0",
+        "commons_duration_s": 10.777433333333333
+      },
+      "human_verification_required": [
+        "trick_id",
+        "performer_id",
+        "camera_id",
+        "hidden-state question",
+        "ground_truth",
+        "whether Commons 'No ball' caption is the intended research condition label"
+      ]
+    },
+    {
+      "clip_id": "peerj_01_19_s005",
+      "local_ogv": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
+      "local_mp4": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.mp4",
+      "format_source": "ogv",
+      "format_converted": "mp4",
+      "ogv_bytes": 1386645,
+      "mp4_bytes": 1242675,
+      "ogv_sha1": "a40073848b2cbb2ddf19deb4d63738cad8ce683c",
+      "ogv_sha1_matches_commons": true,
+      "ogv_sha256": "0e025fb80a2c23258d9734c14acf8687e7b073628c52ea21c7e6245962ea11df",
+      "mp4_sha256": "80a26551d4a2bfe0eafb0623bf817e019a2f3fb9d52fc968aed366e5364dee18",
+      "probe_ogv": {"num_frames": 333, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 11.1111},
+      "probe_mp4": {"num_frames": 333, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 11.1111},
+      "pipeline_can_process_ogv": true,
+      "pipeline_can_process_mp4": true,
+      "readable": true,
+      "commons": {
+        "file_page": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Perceptual-elements-in-Penn-%26-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
+        "page_id": 26004322,
+        "original_filename": "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
+        "image_description": "Video clip of the magician performing the “Lift” routine",
+        "credit": "Supplemental Movie S3 from Rieiro H, Martinez-Conde S, Macknik S (2013). PeerJ 10.7717/peerj.19",
+        "artist": "Rieiro H, Martinez-Conde S, Macknik S",
+        "license_short_name": "CC BY 3.0",
+        "commons_duration_s": 11.1111
+      },
+      "human_verification_required": [
+        "trick_id",
+        "performer_id",
+        "camera_id",
+        "hidden-state question",
+        "ground_truth",
+        "whether Commons 'Lift' caption is the intended research condition label"
+      ]
+    },
+    {
+      "clip_id": "peerj_01_19_s006",
+      "local_ogv": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
+      "local_mp4": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.mp4",
+      "format_source": "ogv",
+      "format_converted": "mp4",
+      "ogv_bytes": 1418197,
+      "mp4_bytes": 1275589,
+      "ogv_sha1": "b4bb7f23a525d5090bae848a0baa3dd08a4a5020",
+      "ogv_sha1_matches_commons": true,
+      "ogv_sha256": "bd0469980313bdbccab317014717c1f035d0c486e1f1300f1241fea37fa58529",
+      "mp4_sha256": "59bdf0a120b4f1bea4d34d2d1f293ca33f0978b631e45f6a0f13ccda0a8790ea",
+      "probe_ogv": {"num_frames": 337, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 11.244566666666667},
+      "probe_mp4": {"num_frames": 337, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 11.244566666666667},
+      "pipeline_can_process_ogv": true,
+      "pipeline_can_process_mp4": true,
+      "readable": true,
+      "commons": {
+        "file_page": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Perceptual-elements-in-Penn-%26-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
+        "page_id": 26004338,
+        "original_filename": "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
+        "image_description": "Video clip of the magician performing the “Table” routine",
+        "credit": "Supplemental Movie S4 from Rieiro H, Martinez-Conde S, Macknik S (2013). PeerJ 10.7717/peerj.19",
+        "artist": "Rieiro H, Martinez-Conde S, Macknik S",
+        "license_short_name": "CC BY 3.0",
+        "commons_duration_s": 11.244566666666667
+      },
+      "human_verification_required": [
+        "trick_id",
+        "performer_id",
+        "camera_id",
+        "hidden-state question",
+        "ground_truth",
+        "whether Commons 'Table' caption is the intended research condition label"
+      ]
+    },
+    {
+      "clip_id": "peerj_01_19_s007",
+      "local_ogv": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv",
+      "local_mp4": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4",
+      "format_source": "ogv",
+      "format_converted": "mp4",
+      "ogv_bytes": 1383777,
+      "mp4_bytes": 1229798,
+      "ogv_sha1": "acfa1bce5806d9a6bf4dfb584044067eb0447d59",
+      "ogv_sha1_matches_commons": true,
+      "ogv_sha256": "77ab41fb0263ad7a20a24f13ba771587fe835c982071d5bb567c1db5a8234118",
+      "mp4_sha256": "05737d5b0457f4dea448839661d5e0c11017972d6dce3e559e32b14a5631262e",
+      "probe_ogv": {"num_frames": 329, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 10.977633333333333},
+      "probe_mp4": {"num_frames": 329, "fps": 29.97002997002997, "width": 720, "height": 480, "duration_s": 10.977633333333333},
+      "pipeline_can_process_ogv": true,
+      "pipeline_can_process_mp4": true,
+      "readable": true,
+      "commons": {
+        "file_page": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv",
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Perceptual-elements-in-Penn-%26-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv",
+        "page_id": 26004349,
+        "original_filename": "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv",
+        "image_description": "Video clip of the magician performing the “Drop” routine",
+        "credit": "Supplemental Movie S5 from Rieiro H, Martinez-Conde S, Macknik S (2013). PeerJ 10.7717/peerj.19",
+        "artist": "Rieiro H, Martinez-Conde S, Macknik S",
+        "license_short_name": "CC BY 3.0",
+        "commons_duration_s": 10.977633333333333
+      },
+      "human_verification_required": [
+        "trick_id",
+        "performer_id",
+        "camera_id",
+        "hidden-state question",
+        "ground_truth",
+        "whether Commons 'Drop' caption is the intended research condition label"
+      ]
+    }
+  ]
+}

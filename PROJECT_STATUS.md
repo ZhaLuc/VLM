@@ -5,21 +5,21 @@
 **NOT READY FOR RESEARCH RUN**
 
 - Overall: `BLOCKED`
-- First real baseline ready: `NO`
-- Reason: First real hidden-state baseline cannot run. Missing: real mp4 under data/videos, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
-- Generated: 2026-09-03T00:50:38+00:00
+- First real baseline ready: `PARTIALLY`
+- Reason: Real video present, but first baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
+- Generated: 2026-09-03T01:25:57+00:00
 
 ## Pipeline
 
 - `PASS` **Repository architecture** (evidence 3) — Package layout, docs, and configs present.
-- `BLOCKED` **Environment setup** (evidence 3) — Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
+- `BLOCKED` **Environment setup** (evidence 3) — Torch is CPU-only; real Qwen2.5-VL research runs need CUDA. pytest: 212 passed, 3 warnings in 12.08s
 - `PASS` **Reproducibility / configuration** (evidence 3) — ExperimentConfig / initialize_experiment available.
 - `PASS` **Dataset schema** (evidence 3) — Schema load ok (4 records).
 - `PARTIAL` **Dataset validation** (evidence 3) — Toy manifest validates structurally; media checks report missing files (findings=5).
-- `PARTIAL` **Video preprocessing** (evidence 3) — Index sampling + temporal shuffle smoke ok; no real mp4 under data/videos.
+- `PASS` **Video preprocessing** (evidence 4) — Frame select/shuffle smoke ok; 5 real mp4(s) on disk.
 - `BLOCKED` **VLM model loading** (evidence 3) — Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
 - `BLOCKED` **VLM video inference** (evidence 2) — Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
-- `PARTIAL` **Zero-shot baseline** (evidence 1) — Stub baseline smoke skipped; real baseline still blocked.
+- `BLOCKED` **Zero-shot baseline** (evidence 3) — Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
 - `PARTIAL` **Baseline evaluation** (evidence 2) — Evaluation helpers exist; no real baseline metrics produced by this audit.
 - `PARTIAL` **Failure analysis** (evidence 2) — Analysis module present; not exercised on a real baseline run.
 - `PASS` **Preference schema** (evidence 2) — Preference schema/module importable; no human preference labels collected.
@@ -41,15 +41,17 @@
 - Repository architecture: Package layout, docs, and configs present.
 - Reproducibility / configuration: ExperimentConfig / initialize_experiment available.
 - Dataset schema: Schema load ok (4 records).
+- Video preprocessing: Frame select/shuffle smoke ok; 5 real mp4(s) on disk.
 - Preference schema: Preference schema/module importable; no human preference labels collected.
 - Reward interface: hidden_state_exact_match good/bad smoke passed.
 - Research reporting: ReportConfig + build_experiment_report smoke on experiment_report_toy.
 
 ## What Does Not Work / Blocked
 
-- [BLOCKED] Environment setup: Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
+- [BLOCKED] Environment setup: Torch is CPU-only; real Qwen2.5-VL research runs need CUDA. pytest: 212 passed, 3 warnings in 12.08s
 - [BLOCKED] VLM model loading: Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
 - [BLOCKED] VLM video inference: Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
+- [BLOCKED] Zero-shot baseline: Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
 - [BLOCKED] DPO: DPO stack code exists; real Qwen DPO needs CUDA + weights + preferences.
 - [BLOCKED] GRPO: GRPO code exists; real VLM GRPO blocked without CUDA/weights/rewards data.
 
@@ -57,10 +59,10 @@
 
 ### I need to provide this now
 
-1. **What:** Provide at least one real magic/mentalism video clip with a hidden-state question and ground-truth label
-   - Where: data/videos/ (mp4) and a research manifest under data/ (JSONL)
-   - Format: mp4 + ExampleRecord JSONL (see docs/DATASET_SCHEMA.md)
-   - After: `magic-vlm-validate --manifest <your_manifest.jsonl>`
+1. **What:** Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot (trick_id, performer_id, camera_id, question, ground_truth)
+   - Where: data/examples/wikimedia_pilot_manifest.template.jsonl
+   - Format: ExampleRecord JSONL (docs/DATASET_SCHEMA.md)
+   - After: `magic-vlm-validate --manifest data/examples/wikimedia_pilot_manifest.jsonl`
 2. **What:** Obtain a CUDA GPU environment and CUDA-enabled PyTorch
    - Where: Training/inference host (not this CPU-only audit host)
    - Format: NVIDIA GPU + matching CUDA torch wheel
@@ -91,16 +93,16 @@
 ## Environment Requirements
 
 - Python 3.11.9; torch 2.13.0+cpu cuda=False
-- Real mp4 count: 0
+- Real mp4 count: 5
 - Qwen HF cache present: False
 
 ## First Research Experiment Readiness
 
-`NO` — First real hidden-state baseline cannot run. Missing: real mp4 under data/videos, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
+`PARTIALLY` — Real video present, but first baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
 
 ## Next Actions
 
-1. Add real magic/mentalism mp4 clips referenced by the research manifest
-2. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
-3. Download Qwen2.5-VL locally or point model_id at a local directory
+1. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
+2. Download Qwen2.5-VL locally or point model_id at a local directory
+3. Author hidden-state question + ground_truth on the Wikimedia pilot manifest (replace HUMAN_FILL_REQUIRED)
 4. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights

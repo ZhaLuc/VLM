@@ -38,6 +38,13 @@ data/annotations/*.jsonl
 data/annotations/*.session.json
 !data/annotations/README.md
 
+# Local video media. Policy: keep source OGV and converted MP4 on disk, not in Git.
+data/videos/*.ogv
+data/videos/*.mp4
+data/videos/*.webm
+data/videos/*.mkv
+!data/videos/.gitkeep
+
 # Env / secrets
 .env
 .env.*
