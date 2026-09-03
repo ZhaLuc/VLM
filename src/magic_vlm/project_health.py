@@ -11,6 +11,7 @@ import html
 import importlib
 import importlib.metadata
 import inspect
+import json
 import os
 import platform
 import shutil
@@ -195,6 +196,46 @@ def count_real_mp4(root: Path) -> int:
         if path.is_file() and path.stat().st_size > 0:
             count += 1
     return count
+
+
+def load_hidden_state_inventory(root: Path) -> dict[str, Any] | None:
+    path = Path(root) / "data" / "examples" / "hidden_state_candidate_inventory.json"
+    if not path.is_file():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def hidden_state_dataset_stats(inventory: dict[str, Any] | None) -> dict[str, Any]:
+    """Collection counts from the inventory file. Never invents gold."""
+    empty = {
+        "candidate_count": 0,
+        "eligible_count": 0,
+        "pending_human_review": 0,
+        "rejected_count": 0,
+        "clips_needed_for_pilot": 5,
+    }
+    if not inventory:
+        return {
+            "wikimedia_controls": dict(empty),
+            "mac_king_candidates": dict(empty),
+            "hidden_state_gold": {
+                "eligible_count": 0,
+                "pending_human_review": 0,
+                "clips_needed_for_pilot": 5,
+            },
+        }
+    ready = inventory.get("readiness") or {}
+    collections = ready.get("collections") or {}
+    gold = collections.get("hidden_state_gold") or {
+        "eligible_count": int(ready.get("valid_candidates") or 0),
+        "pending_human_review": int(ready.get("candidates_needing_human_review") or 0),
+        "clips_needed_for_pilot": int(ready.get("additional_clips_needed") or 5),
+    }
+    return {
+        "wikimedia_controls": collections.get("wikimedia_controls") or dict(empty),
+        "mac_king_candidates": collections.get("mac_king_candidates") or dict(empty),
+        "hidden_state_gold": gold,
+    }
 
 
 def probe_environment(root: Path | None = None) -> dict[str, Any]:
@@ -1099,8 +1140,8 @@ def build_blockers(env: dict[str, Any], smokes: dict[str, Any]) -> list[Blocker]
             id="human_labels",
             why="Real ground-truth / preference / causal annotations not yet collected",
             need=(
-                "Obtain footage that passes docs/HIDDEN_STATE_ELIGIBILITY.md; "
-                "Wikimedia transparent-cup pilots are controls, not hidden-state gold"
+                "Review Mac King S6/S7 hidden-state proposals (PENDING); "
+                "Wikimedia transparent-cup pilots remain controls, not gold"
                 if int(env.get("real_mp4_count") or 0) > 0
                 else "Author research labels after videos exist"
             ),
@@ -1170,13 +1211,12 @@ def build_human_input(env: dict[str, Any]) -> list[HumanInputItem]:
             HumanInputItem(
                 priority="now",
                 what=(
-                    "Source 5 hidden-state clips that pass "
-                    "docs/HIDDEN_STATE_ELIGIBILITY.md (opaque concealment). "
-                    "Do not gold-label the Wikimedia transparent-cup pilots."
+                    "Review mac_king_s006 and mac_king_s007 "
+                    "(APPROVE / EDIT / REJECT). Do not gold-label Wikimedia clips."
                 ),
-                where="data/videos/ plus provenance; see docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md",
-                format="mp4 + provenance JSON + pending annotations (not gold until approved)",
-                after="Open reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+                where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+                format="Human decision on pending proposals only; no unverified ground_truth",
+                after="Open reports/hidden_state_candidates/index.html",
             ),
         )
     return items
@@ -1253,7 +1293,32 @@ def render_markdown(audit: dict[str, Any]) -> str:
     )
     lines.append(f"- Real mp4 count: {env['real_mp4_count']}")
     lines.append(f"- Qwen HF cache present: {env['qwen_cache_present']}")
-    lines.extend(["", "## First Research Experiment Readiness", ""])
+    lines.extend(["", "## Hidden-state dataset", ""])
+    hs = audit.get("hidden_state_dataset") or {}
+    wiki = hs.get("wikimedia_controls") or {}
+    mac = hs.get("mac_king_candidates") or {}
+    gold = hs.get("hidden_state_gold") or {}
+    lines.append("### WIKIMEDIA CONTROLS")
+    lines.append("")
+    lines.append(f"- candidate_count: `{wiki.get('candidate_count', 0)}`")
+    lines.append(f"- eligible_count: `{wiki.get('eligible_count', 0)}`")
+    lines.append(f"- pending_human_review: `{wiki.get('pending_human_review', 0)}`")
+    lines.append(f"- rejected_count: `{wiki.get('rejected_count', 0)}`")
+    lines.append("")
+    lines.append("### MAC KING CANDIDATES")
+    lines.append("")
+    lines.append(f"- candidate_count: `{mac.get('candidate_count', 0)}`")
+    lines.append(f"- eligible_count: `{mac.get('eligible_count', 0)}`")
+    lines.append(f"- pending_human_review: `{mac.get('pending_human_review', 0)}`")
+    lines.append(f"- rejected_count: `{mac.get('rejected_count', 0)}`")
+    lines.append("")
+    lines.append("### HIDDEN-STATE GOLD")
+    lines.append("")
+    lines.append(f"- eligible_count: `{gold.get('eligible_count', 0)}`")
+    lines.append(f"- pending_human_review: `{gold.get('pending_human_review', 0)}`")
+    lines.append(f"- clips_needed_for_pilot: `{gold.get('clips_needed_for_pilot', 5)}`")
+    lines.append("")
+    lines.extend(["## First Research Experiment Readiness", ""])
     lines.append(f"`{overall['first_baseline_ready']}` — {overall['reason']}")
     lines.extend(["", "## Next Actions", ""])
     for i, action in enumerate(audit.get("next_actions") or [], 1):
@@ -1276,6 +1341,10 @@ def render_html(audit: dict[str, Any]) -> str:
     overall = audit["overall"]
     banner = html.escape(str(overall["banner"]))
     banner_color = "#1b7f3a" if overall["first_baseline_ready"] == "YES" else "#b00020"
+    hs = audit.get("hidden_state_dataset") or {}
+    wiki = hs.get("wikimedia_controls") or {}
+    mac = hs.get("mac_king_candidates") or {}
+    gold = hs.get("hidden_state_gold") or {}
 
     pipeline_rows = []
     for comp in audit["components"]:
@@ -1370,6 +1439,22 @@ th {{ background: #efeae2; }}
     </tbody>
   </table>
 
+  <h2>Hidden-state dataset</h2>
+  <h3>WIKIMEDIA CONTROLS</h3>
+  <p>candidate_count: {html.escape(str(wiki.get('candidate_count', 0)))}
+  · eligible_count: {html.escape(str(wiki.get('eligible_count', 0)))}
+  · pending_human_review: {html.escape(str(wiki.get('pending_human_review', 0)))}
+  · rejected_count: {html.escape(str(wiki.get('rejected_count', 0)))}</p>
+  <h3>MAC KING CANDIDATES</h3>
+  <p>candidate_count: {html.escape(str(mac.get('candidate_count', 0)))}
+  · eligible_count: {html.escape(str(mac.get('eligible_count', 0)))}
+  · pending_human_review: {html.escape(str(mac.get('pending_human_review', 0)))}
+  · rejected_count: {html.escape(str(mac.get('rejected_count', 0)))}</p>
+  <h3>HIDDEN-STATE GOLD</h3>
+  <p>eligible_count: {html.escape(str(gold.get('eligible_count', 0)))}
+  · pending_human_review: {html.escape(str(gold.get('pending_human_review', 0)))}
+  · clips_needed_for_pilot: {html.escape(str(gold.get('clips_needed_for_pilot', 5)))}</p>
+
   <h2>Next actions</h2>
   <ol>{actions}</ol>
 </main>
@@ -1400,6 +1485,9 @@ def run_audit(
         human = build_human_input(env)
         actions = next_actions(overall, blockers)
         entry = smokes.get("entry_points") or {}
+        dataset_stats = hidden_state_dataset_stats(
+            load_hidden_state_inventory(root_path)
+        )
 
         audit: dict[str, Any] = {
             "generated_at": utc_now_iso(),
@@ -1410,6 +1498,7 @@ def run_audit(
             "components": [c.to_dict() for c in components],
             "overall": overall,
             "first_baseline_ready": overall["first_baseline_ready"],
+            "hidden_state_dataset": dataset_stats,
             "blockers": [b.to_dict() for b in blockers],
             "human_input": [h.to_dict() for h in human],
             "next_actions": actions,
@@ -1500,5 +1589,7 @@ __all__ = [
     "derive_overall",
     "render_markdown",
     "render_html",
+    "hidden_state_dataset_stats",
+    "load_hidden_state_inventory",
     "project_health_main",
 ]

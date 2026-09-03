@@ -1,0 +1,830 @@
+{
+  "clips": [
+    {
+      "filename": "Movie1.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie1.MP4",
+      "bytes": 1227795,
+      "sha256": "5e69c1bb99ca24aef9b93179a3c3b53da0c3135c1b7e166fd2b72532eefd6b3f",
+      "probe": {
+        "path": "data/videos/Movie1.MP4",
+        "num_frames": 265,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 8.842166666666667,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 265,
+        "declared_frames": 265,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          38,
+          75,
+          113,
+          151,
+          189,
+          226,
+          264
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 24,
+          "t_s": 0.8008000000000001,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0024_t00.80s.jpg"
+        },
+        {
+          "index": 48,
+          "t_s": 1.6016000000000001,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0048_t01.60s.jpg"
+        },
+        {
+          "index": 72,
+          "t_s": 2.4024,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0072_t02.40s.jpg"
+        },
+        {
+          "index": 88,
+          "t_s": 2.9362666666666666,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0088_t02.94s.jpg"
+        },
+        {
+          "index": 96,
+          "t_s": 3.2032000000000003,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0096_t03.20s.jpg"
+        },
+        {
+          "index": 120,
+          "t_s": 4.0040000000000004,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0120_t04.00s.jpg"
+        },
+        {
+          "index": 132,
+          "t_s": 4.4044,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0132_t04.40s.jpg"
+        },
+        {
+          "index": 144,
+          "t_s": 4.8048,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0144_t04.80s.jpg"
+        },
+        {
+          "index": 168,
+          "t_s": 5.6056,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0168_t05.61s.jpg"
+        },
+        {
+          "index": 176,
+          "t_s": 5.872533333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0176_t05.87s.jpg"
+        },
+        {
+          "index": 192,
+          "t_s": 6.4064000000000005,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0192_t06.41s.jpg"
+        },
+        {
+          "index": 216,
+          "t_s": 7.2072,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0216_t07.21s.jpg"
+        },
+        {
+          "index": 240,
+          "t_s": 8.008000000000001,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0240_t08.01s.jpg"
+        },
+        {
+          "index": 264,
+          "t_s": 8.8088,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie1/movie1_f0264_t08.81s.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "Movie2.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie2.MP4",
+      "bytes": 1130771,
+      "sha256": "047225e4af22b4a7e5048b3eb05fac1ee8777538a47c26fca15a45c0d5088164",
+      "probe": {
+        "path": "data/videos/Movie2.MP4",
+        "num_frames": 246,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 8.2082,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 246,
+        "declared_frames": 246,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          35,
+          70,
+          105,
+          140,
+          175,
+          210,
+          245
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 22,
+          "t_s": 0.7340666666666666,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0022_t00.73s.jpg"
+        },
+        {
+          "index": 45,
+          "t_s": 1.5015,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0045_t01.50s.jpg"
+        },
+        {
+          "index": 67,
+          "t_s": 2.2355666666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0067_t02.24s.jpg"
+        },
+        {
+          "index": 82,
+          "t_s": 2.736066666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0082_t02.74s.jpg"
+        },
+        {
+          "index": 89,
+          "t_s": 2.9696333333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0089_t02.97s.jpg"
+        },
+        {
+          "index": 111,
+          "t_s": 3.7037,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0111_t03.70s.jpg"
+        },
+        {
+          "index": 123,
+          "t_s": 4.1041,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0123_t04.10s.jpg"
+        },
+        {
+          "index": 134,
+          "t_s": 4.471133333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0134_t04.47s.jpg"
+        },
+        {
+          "index": 156,
+          "t_s": 5.2052000000000005,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0156_t05.21s.jpg"
+        },
+        {
+          "index": 164,
+          "t_s": 5.472133333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0164_t05.47s.jpg"
+        },
+        {
+          "index": 178,
+          "t_s": 5.939266666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0178_t05.94s.jpg"
+        },
+        {
+          "index": 200,
+          "t_s": 6.673333333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0200_t06.67s.jpg"
+        },
+        {
+          "index": 223,
+          "t_s": 7.440766666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0223_t07.44s.jpg"
+        },
+        {
+          "index": 245,
+          "t_s": 8.174833333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie2/movie2_f0245_t08.17s.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "Movie3.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie3.MP4",
+      "bytes": 1195350,
+      "sha256": "d223088d0ba5ddee126a4f13b8adcaa13d3b9a077a34571a7b407df09b766430",
+      "probe": {
+        "path": "data/videos/Movie3.MP4",
+        "num_frames": 256,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 8.541866666666667,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 256,
+        "declared_frames": 256,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          36,
+          73,
+          109,
+          146,
+          182,
+          219,
+          255
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 23,
+          "t_s": 0.7674333333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0023_t00.77s.jpg"
+        },
+        {
+          "index": 46,
+          "t_s": 1.5348666666666666,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0046_t01.53s.jpg"
+        },
+        {
+          "index": 70,
+          "t_s": 2.3356666666666666,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0070_t02.34s.jpg"
+        },
+        {
+          "index": 85,
+          "t_s": 2.8361666666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0085_t02.84s.jpg"
+        },
+        {
+          "index": 93,
+          "t_s": 3.1031,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0093_t03.10s.jpg"
+        },
+        {
+          "index": 116,
+          "t_s": 3.8705333333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0116_t03.87s.jpg"
+        },
+        {
+          "index": 128,
+          "t_s": 4.270933333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0128_t04.27s.jpg"
+        },
+        {
+          "index": 139,
+          "t_s": 4.637966666666666,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0139_t04.64s.jpg"
+        },
+        {
+          "index": 162,
+          "t_s": 5.4054,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0162_t05.41s.jpg"
+        },
+        {
+          "index": 170,
+          "t_s": 5.6723333333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0170_t05.67s.jpg"
+        },
+        {
+          "index": 185,
+          "t_s": 6.172833333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0185_t06.17s.jpg"
+        },
+        {
+          "index": 209,
+          "t_s": 6.973633333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0209_t06.97s.jpg"
+        },
+        {
+          "index": 232,
+          "t_s": 7.741066666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0232_t07.74s.jpg"
+        },
+        {
+          "index": 255,
+          "t_s": 8.5085,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie3/movie3_f0255_t08.51s.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "Movie4.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie4.MP4",
+      "bytes": 1312002,
+      "sha256": "8ebdbd9be31c1612fa58788a17ee913a222ffca90613ffdadf1eb511fa96d000",
+      "probe": {
+        "path": "data/videos/Movie4.MP4",
+        "num_frames": 270,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 9.009,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 270,
+        "declared_frames": 270,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          38,
+          77,
+          115,
+          154,
+          192,
+          231,
+          269
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 24,
+          "t_s": 0.8008000000000001,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0024_t00.80s.jpg"
+        },
+        {
+          "index": 49,
+          "t_s": 1.6349666666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0049_t01.63s.jpg"
+        },
+        {
+          "index": 73,
+          "t_s": 2.435766666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0073_t02.44s.jpg"
+        },
+        {
+          "index": 90,
+          "t_s": 3.003,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0090_t03.00s.jpg"
+        },
+        {
+          "index": 98,
+          "t_s": 3.2699333333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0098_t03.27s.jpg"
+        },
+        {
+          "index": 122,
+          "t_s": 4.070733333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0122_t04.07s.jpg"
+        },
+        {
+          "index": 135,
+          "t_s": 4.5045,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0135_t04.50s.jpg"
+        },
+        {
+          "index": 147,
+          "t_s": 4.9049000000000005,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0147_t04.90s.jpg"
+        },
+        {
+          "index": 171,
+          "t_s": 5.7057,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0171_t05.71s.jpg"
+        },
+        {
+          "index": 180,
+          "t_s": 6.006,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0180_t06.01s.jpg"
+        },
+        {
+          "index": 196,
+          "t_s": 6.539866666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0196_t06.54s.jpg"
+        },
+        {
+          "index": 220,
+          "t_s": 7.3406666666666665,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0220_t07.34s.jpg"
+        },
+        {
+          "index": 245,
+          "t_s": 8.174833333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0245_t08.17s.jpg"
+        },
+        {
+          "index": 269,
+          "t_s": 8.975633333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie4/movie4_f0269_t08.98s.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "Movie5.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie5.MP4",
+      "bytes": 1670425,
+      "sha256": "f7d183cb2c1605bb057c4f319b33051a7e18fa100daafda6775c17dbf7b9ae6e",
+      "probe": {
+        "path": "data/videos/Movie5.MP4",
+        "num_frames": 313,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 10.443766666666667,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 313,
+        "declared_frames": 313,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          45,
+          89,
+          134,
+          178,
+          223,
+          267,
+          312
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 28,
+          "t_s": 0.9342666666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0028_t00.93s.jpg"
+        },
+        {
+          "index": 57,
+          "t_s": 1.9019,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0057_t01.90s.jpg"
+        },
+        {
+          "index": 85,
+          "t_s": 2.8361666666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0085_t02.84s.jpg"
+        },
+        {
+          "index": 104,
+          "t_s": 3.4701333333333335,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0104_t03.47s.jpg"
+        },
+        {
+          "index": 113,
+          "t_s": 3.7704333333333335,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0113_t03.77s.jpg"
+        },
+        {
+          "index": 142,
+          "t_s": 4.738066666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0142_t04.74s.jpg"
+        },
+        {
+          "index": 156,
+          "t_s": 5.2052000000000005,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0156_t05.21s.jpg"
+        },
+        {
+          "index": 170,
+          "t_s": 5.6723333333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0170_t05.67s.jpg"
+        },
+        {
+          "index": 199,
+          "t_s": 6.639966666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0199_t06.64s.jpg"
+        },
+        {
+          "index": 208,
+          "t_s": 6.940266666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0208_t06.94s.jpg"
+        },
+        {
+          "index": 227,
+          "t_s": 7.574233333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0227_t07.57s.jpg"
+        },
+        {
+          "index": 255,
+          "t_s": 8.5085,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0255_t08.51s.jpg"
+        },
+        {
+          "index": 284,
+          "t_s": 9.476133333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0284_t09.48s.jpg"
+        },
+        {
+          "index": 312,
+          "t_s": 10.410400000000001,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie5/movie5_f0312_t10.41s.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "Movie6.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie6.MP4",
+      "bytes": 866662,
+      "sha256": "de8e1768face5c12b784ae2d92f4e1afc7dfaafcb989d3d70f79337c09dd8db7",
+      "probe": {
+        "path": "data/videos/Movie6.MP4",
+        "num_frames": 216,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 7.2072,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 216,
+        "declared_frames": 216,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          31,
+          61,
+          92,
+          123,
+          154,
+          184,
+          215
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 20,
+          "t_s": 0.6673333333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0020_t00.67s.jpg"
+        },
+        {
+          "index": 39,
+          "t_s": 1.3013000000000001,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0039_t01.30s.jpg"
+        },
+        {
+          "index": 59,
+          "t_s": 1.9686333333333335,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0059_t01.97s.jpg"
+        },
+        {
+          "index": 72,
+          "t_s": 2.4024,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0072_t02.40s.jpg"
+        },
+        {
+          "index": 78,
+          "t_s": 2.6026000000000002,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0078_t02.60s.jpg"
+        },
+        {
+          "index": 98,
+          "t_s": 3.2699333333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0098_t03.27s.jpg"
+        },
+        {
+          "index": 108,
+          "t_s": 3.6036,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0108_t03.60s.jpg"
+        },
+        {
+          "index": 117,
+          "t_s": 3.9039,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0117_t03.90s.jpg"
+        },
+        {
+          "index": 137,
+          "t_s": 4.571233333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0137_t04.57s.jpg"
+        },
+        {
+          "index": 144,
+          "t_s": 4.8048,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0144_t04.80s.jpg"
+        },
+        {
+          "index": 156,
+          "t_s": 5.2052000000000005,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0156_t05.21s.jpg"
+        },
+        {
+          "index": 176,
+          "t_s": 5.872533333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0176_t05.87s.jpg"
+        },
+        {
+          "index": 195,
+          "t_s": 6.5065,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0195_t06.51s.jpg"
+        },
+        {
+          "index": 215,
+          "t_s": 7.1738333333333335,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie6/movie6_f0215_t07.17s.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "Movie7.MP4",
+      "present": true,
+      "local_path": "data/videos/Movie7.MP4",
+      "bytes": 1012814,
+      "sha256": "1238fef794dc66a8380f676e099645281227375fb2c16b6fc0582a5d39182477",
+      "probe": {
+        "path": "data/videos/Movie7.MP4",
+        "num_frames": 230,
+        "fps": 29.97002997002997,
+        "width": 854,
+        "height": 480
+      },
+      "duration_s": 7.674333333333333,
+      "ffprobe": {
+        "codec_name": null,
+        "error": "ffprobe_not_on_path"
+      },
+      "opencv_decode": {
+        "opened": true,
+        "fourcc": "FMP4",
+        "decoded_frames": 230,
+        "declared_frames": 230,
+        "decode_matches_declared": true,
+        "last_frame_nonempty": true
+      },
+      "preprocess": {
+        "frames_loaded": true,
+        "n_frames": 8,
+        "ordered_indices": [
+          0,
+          33,
+          65,
+          98,
+          131,
+          164,
+          196,
+          229
+        ]
+      },
+      "review_stills": [
+        {
+          "index": 0,
+          "t_s": 0.0,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0000_t00.00s.jpg"
+        },
+        {
+          "index": 21,
+          "t_s": 0.7007,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0021_t00.70s.jpg"
+        },
+        {
+          "index": 42,
+          "t_s": 1.4014,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0042_t01.40s.jpg"
+        },
+        {
+          "index": 62,
+          "t_s": 2.0687333333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0062_t02.07s.jpg"
+        },
+        {
+          "index": 76,
+          "t_s": 2.5358666666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0076_t02.54s.jpg"
+        },
+        {
+          "index": 83,
+          "t_s": 2.769433333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0083_t02.77s.jpg"
+        },
+        {
+          "index": 104,
+          "t_s": 3.4701333333333335,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0104_t03.47s.jpg"
+        },
+        {
+          "index": 115,
+          "t_s": 3.8371666666666666,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0115_t03.84s.jpg"
+        },
+        {
+          "index": 125,
+          "t_s": 4.170833333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0125_t04.17s.jpg"
+        },
+        {
+          "index": 146,
+          "t_s": 4.871533333333334,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0146_t04.87s.jpg"
+        },
+        {
+          "index": 153,
+          "t_s": 5.1051,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0153_t05.11s.jpg"
+        },
+        {
+          "index": 167,
+          "t_s": 5.572233333333333,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0167_t05.57s.jpg"
+        },
+        {
+          "index": 187,
+          "t_s": 6.239566666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0187_t06.24s.jpg"
+        },
+        {
+          "index": 208,
+          "t_s": 6.940266666666667,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0208_t06.94s.jpg"
+        },
+        {
+          "index": 229,
+          "t_s": 7.6409666666666665,
+          "dense_relpath": "reports/mac_king_clip_review/frames/movie7/movie7_f0229_t07.64s.jpg"
+        }
+      ]
+    }
+  ]
+}

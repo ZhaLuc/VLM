@@ -41,12 +41,14 @@ data/annotations/*.session.json
 # Local video media. Policy: keep source OGV and converted MP4 on disk, not in Git.
 data/videos/*.ogv
 data/videos/*.mp4
+data/videos/*.MP4
 data/videos/*.webm
 data/videos/*.mkv
 !data/videos/.gitkeep
 
 # Dense OpenCV dumps used while inspecting clips; keep curated stills.
 reports/wikimedia_clip_review/frames/
+reports/mac_king_clip_review/frames/
 
 # Env / secrets
 .env

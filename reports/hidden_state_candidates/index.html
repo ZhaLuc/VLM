@@ -5,313 +5,275 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hidden-state candidate review</title>
   <style>
-    :root {
-      --ink: #1c1917;
-      --muted: #57534e;
-      --line: #d6d3d1;
-      --bg: #f5f5f4;
-      --paper: #fffcf8;
-      --fail: #9a3412;
-      --fail-bg: #ffedd5;
-    }
+    :root { --ink:#1c1917; --muted:#57534e; --line:#d6d3d1; --bg:#f5f5f4; --paper:#fffcf8; --fail:#9a3412; --fail-bg:#ffedd5; --ok:#14532d; --ok-bg:#dcfce7; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-      color: var(--ink);
-      background: var(--bg);
-      line-height: 1.45;
-    }
-    header {
-      padding: 2rem 1.25rem 1.5rem;
-      border-bottom: 4px solid var(--ink);
-      background: var(--paper);
-    }
-    header h1 { margin: 0 0 0.75rem; font-size: 1.7rem; }
-    pre.banner, pre.next {
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.92rem;
-      background: #1c1917;
-      color: #fafaf9;
-      padding: 1rem 1.1rem;
-      overflow-x: auto;
-    }
-    pre.next { margin-top: 0.75rem; background: #292524; }
-    main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
-    .card {
-      padding: 1.75rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .card h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
-    .status {
-      display: inline-block;
-      margin: 0 0 0.75rem;
-      padding: 0.2rem 0.55rem;
-      background: var(--fail-bg);
-      color: var(--fail);
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-    }
-    video, .thumb {
-      display: block;
-      width: 100%;
-      height: auto;
-      background: #111;
-      margin: 0.5rem 0 0.85rem;
-    }
-    .thumb { max-height: 16rem; object-fit: contain; }
-    .missing {
-      padding: 1.5rem;
-      background: #e7e5e4;
-      color: var(--muted);
-      margin: 0.5rem 0 0.85rem;
-    }
-    dl { margin: 0; }
-    dt {
-      margin-top: 0.7rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    dd { margin: 0.15rem 0 0; }
-    footer { margin-top: 2rem; color: var(--muted); font-size: 0.9rem; }
+    body { margin:0; font-family:"Iowan Old Style","Palatino Linotype",Palatino,serif; color:var(--ink); background:var(--bg); line-height:1.45; }
+    header { padding:2rem 1.25rem 1.5rem; border-bottom:4px solid var(--ink); background:var(--paper); }
+    header h1 { margin:0 0 0.75rem; font-size:1.7rem; }
+    pre.banner, pre.next { font-family:Consolas,"Courier New",monospace; font-size:0.9rem; background:#1c1917; color:#fafaf9; padding:1rem 1.1rem; overflow-x:auto; }
+    pre.next { margin-top:0.75rem; background:#292524; }
+    main { max-width:52rem; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
+    .card { padding:1.75rem 0; border-bottom:1px solid var(--line); }
+    .card h2 { margin:0 0 0.5rem; font-size:1.25rem; }
+    .status { display:inline-block; margin:0 0 0.75rem; padding:0.2rem 0.55rem; background:var(--fail-bg); color:var(--fail); font-size:0.85rem; }
+    .status.pending { background:var(--ok-bg); color:var(--ok); }
+    video, .thumb { display:block; width:100%; height:auto; background:#111; margin:0.5rem 0 0.85rem; }
+    .stills { display:flex; gap:0.4rem; margin:0 0 0.85rem; }
+    .stills img { width:33.33%; height:auto; }
+    dl { margin:0; }
+    dt { margin-top:0.7rem; font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); }
+    dd { margin:0.15rem 0 0; }
+    .actions { margin-top:1rem; color:var(--muted); }
+    footer { margin-top:2rem; color:var(--muted); font-size:0.9rem; }
   </style>
 </head>
 <body>
   <header>
     <h1>Hidden-state candidates</h1>
-    <p>Static review of footage already in or documented by this repository. No gold labels.</p>
+    <pre class="banner">BEST CURRENT HIDDEN-STATE CANDIDATE
+mac_king_s006  Movie6.MP4  Magic trick without reveal
+QUALIFIES_WITH_HUMAN_REVIEW — not gold
+
+HOW MANY VALID CLIPS DO WE HAVE?
+0 approved gold. 2 pending human review (S6, S7). Fewer than five.</pre>
     <pre class="banner">HIDDEN-STATE DATASET READINESS
 
 Valid candidates: 0
-Candidates needing human review: 0
-Invalid candidates: 5
+Candidates needing human review: 2
+Invalid candidates: 10
 Additional clips needed: 5</pre>
     <pre class="next">RECOMMENDED NEXT ACTION
-Obtain 5 short clips that pass docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md.
-Do not gold-label the Wikimedia transparent-cup pilots as hidden_state.</pre>
+Review Movie6.MP4 (S6) then Movie7.MP4 (S7): APPROVE / EDIT / REJECT.
+Do not gold-label Wikimedia clips. Do not splice S1/S2 reveals onto S6/S7.</pre>
   </header>
   <main>
-    <p>Rubric: <code>docs/HIDDEN_STATE_ELIGIBILITY.md</code>. Inventory:
-    <code>data/examples/hidden_state_candidate_inventory.json</code>.</p>
+    <p>Source: Cui et al. 2011, PMC3202226. Local filenames <code>Movie1.MP4</code>–<code>Movie7.MP4</code> were not renamed. Wikimedia cups stay controls below.</p>
+
+    <section class="card" id="mac_king_s006">
+      <h2>mac_king_s006 — Movie6.MP4 — Magic trick without reveal</h2>
+      <div class="status pending">QUALIFIES_WITH_HUMAN_REVIEW · HIDDEN_STATE_CANDIDATE</div>
+      <video controls preload="metadata" src="../../data/videos/Movie6.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie6_coin_in_right.jpg" alt="S6 coin in right before toss">
+        <img src="../mac_king_clip_review/stills/movie6_mid.jpg" alt="S6 mid">
+        <img src="../mac_king_clip_review/stills/movie6_end.jpg" alt="S6 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>Magic trick without reveal (paper S6)</dd>
+        <dt>Source condition</dt><dd>Identical to S1 with the Reveal segment omitted. Counterpart: Movie1.MP4. Do not merge them.</dd>
+        <dt>What happens</dt><dd>Coin visible in the right hand before the toss. Apparent right-to-left transfer; coin not seen in flight. Ends looking at the left hand. Shorter than Movie1 (216 vs 265 frames). No Movie1-style empty-left flourish.</dd>
+        <dt>Potential hidden-state question</dt><dd>Which hand contains the coin after the apparent transfer?</dd>
+        <dt>Potential answer</dt><dd>right (paper: fake toss retains the coin in the right hand). Not written as gold.</dd>
+        <dt>Occlusion</dt><dd>PARTIAL</dd>
+        <dt>Temporal dependence</dt><dd>PASS</dd>
+        <dt>Reveal</dt><dd>NO_REVEAL</dd>
+        <dt>Ground truth</dt><dd>VERIFIED_FROM_SOURCE_AND_VIDEO — laterality from the paper plus pre-toss right-hand view; palming still needs a human check</dd>
+        <dt>Benchmark status</dt><dd>QUALIFIES_WITH_HUMAN_REVIEW (not gold)</dd>
+        <dt>Human approval</dt><dd>PENDING</dd>
+      </dl>
+      <p class="actions">APPROVE / EDIT / REJECT</p>
+    </section>
+
+    <section class="card" id="mac_king_s007">
+      <h2>mac_king_s007 — Movie7.MP4 — Real toss without reveal</h2>
+      <div class="status pending">QUALIFIES_WITH_HUMAN_REVIEW · HIDDEN_STATE_CANDIDATE</div>
+      <video controls preload="metadata" src="../../data/videos/Movie7.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie7_coin_in_right.jpg" alt="S7 coin in right before toss">
+        <img src="../mac_king_clip_review/stills/movie7_mid.jpg" alt="S7 mid">
+        <img src="../mac_king_clip_review/stills/movie7_end.jpg" alt="S7 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>Real toss without reveal (paper S7)</dd>
+        <dt>Source condition</dt><dd>Identical to S2 with Reveal omitted. Counterpart: Movie2.MP4. Do not merge them.</dd>
+        <dt>What happens</dt><dd>Coin visible in the right hand before a real right-to-left toss. Ends with a cupped left hand. Movie2 then continues and shows the coin on an open left palm.</dd>
+        <dt>Potential hidden-state question</dt><dd>Which hand contains the coin after the transfer?</dd>
+        <dt>Potential answer</dt><dd>left. Not written as gold.</dd>
+        <dt>Occlusion</dt><dd>PARTIAL</dd>
+        <dt>Temporal dependence</dt><dd>PASS</dd>
+        <dt>Reveal</dt><dd>NO_REVEAL</dd>
+        <dt>Ground truth</dt><dd>VERIFIED_FROM_SOURCE_AND_VIDEO — paper real toss; Movie2 end frames show the coin in the left palm after a tail S7 does not include</dd>
+        <dt>Benchmark status</dt><dd>QUALIFIES_WITH_HUMAN_REVIEW (not gold)</dd>
+        <dt>Human approval</dt><dd>PENDING — check whether the last 0.5 s already shows the caught coin</dd>
+      </dl>
+      <p class="actions">APPROVE / EDIT / REJECT</p>
+    </section>
+
+    <section class="card" id="mac_king_s001">
+      <h2>mac_king_s001 — Movie1.MP4 — Magic trick</h2>
+      <div class="status">NOT_SUITABLE · VISIBLE_REVEAL_CONTROL</div>
+      <video controls preload="metadata" src="../../data/videos/Movie1.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie1_start.jpg" alt="S1 start">
+        <img src="../mac_king_clip_review/stills/movie1_mid.jpg" alt="S1 mid">
+        <img src="../mac_king_clip_review/stills/movie1_end.jpg" alt="S1 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>Magic trick (paper S1)</dd>
+        <dt>Source condition</dt><dd>Fake toss, retain in right; includes Reveal</dd>
+        <dt>What happens</dt><dd>Same action as S6, then opens the left hand. End: left palm open and empty.</dd>
+        <dt>Potential hidden-state question</dt><dd>None for gold. Revealed control for S6 only.</dd>
+        <dt>Potential answer</dt><dd>n/a</dd>
+        <dt>Occlusion</dt><dd>FAIL</dd>
+        <dt>Temporal dependence</dt><dd>PARTIAL</dd>
+        <dt>Reveal</dt><dd>REVEAL_PRESENT</dd>
+        <dt>Ground truth</dt><dd>Empty left at the end is visible; not a hidden-state item</dd>
+        <dt>Benchmark status</dt><dd>VISIBLE_REVEAL_CONTROL</dd>
+        <dt>Human approval</dt><dd>PENDING (not a gold candidate)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="mac_king_s002">
+      <h2>mac_king_s002 — Movie2.MP4 — Real toss</h2>
+      <div class="status">NOT_SUITABLE · REAL_TOSS_CONTROL</div>
+      <video controls preload="metadata" src="../../data/videos/Movie2.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie2_start.jpg" alt="S2 start">
+        <img src="../mac_king_clip_review/stills/movie2_mid.jpg" alt="S2 mid">
+        <img src="../mac_king_clip_review/stills/movie2_end.jpg" alt="S2 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>Real toss (paper S2)</dd>
+        <dt>Source condition</dt><dd>Real right-to-left toss with Reveal</dd>
+        <dt>What happens</dt><dd>End frames show a coin on the open left palm. Paper text that both Experiment 2 reveals are empty left hands does not match this file.</dd>
+        <dt>Potential hidden-state question</dt><dd>None for gold. Revealed control for S7.</dd>
+        <dt>Potential answer</dt><dd>n/a — final frame leaks left</dd>
+        <dt>Occlusion</dt><dd>FAIL</dd>
+        <dt>Temporal dependence</dt><dd>PARTIAL</dd>
+        <dt>Reveal</dt><dd>REVEAL_PRESENT</dd>
+        <dt>Ground truth</dt><dd>VERIFIED_FROM_VIDEO that the last frames show the coin in the left palm</dd>
+        <dt>Benchmark status</dt><dd>REAL_TOSS_CONTROL / VISIBLE_REVEAL_CONTROL</dd>
+        <dt>Human approval</dt><dd>PENDING (not a gold candidate)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="mac_king_s003">
+      <h2>mac_king_s003 — Movie3.MP4 — Two-coin fake toss</h2>
+      <div class="status">NOT_SUITABLE</div>
+      <video controls preload="metadata" src="../../data/videos/Movie3.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie3_start.jpg" alt="S3 start">
+        <img src="../mac_king_clip_review/stills/movie3_mid.jpg" alt="S3 mid">
+        <img src="../mac_king_clip_review/stills/movie3_end.jpg" alt="S3 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>Two-coin fake toss (paper S3)</dd>
+        <dt>Source condition</dt><dd>Fake toss; Reveal shows a second coin from the left hand</dd>
+        <dt>What happens</dt><dd>Two coins. End: coin on open left palm. Single-location question is ill-posed.</dd>
+        <dt>Potential hidden-state question</dt><dd>None</dd>
+        <dt>Potential answer</dt><dd>n/a</dd>
+        <dt>Occlusion</dt><dd>FAIL</dd>
+        <dt>Temporal dependence</dt><dd>PARTIAL</dd>
+        <dt>Reveal</dt><dd>REVEAL_PRESENT</dd>
+        <dt>Ground truth</dt><dd>Reveal present</dd>
+        <dt>Benchmark status</dt><dd>VISIBLE_REVEAL_CONTROL</dd>
+        <dt>Human approval</dt><dd>PENDING (not a gold candidate)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="mac_king_s004">
+      <h2>mac_king_s004 — Movie4.MP4 — Final coin fake toss</h2>
+      <div class="status">NOT_SUITABLE</div>
+      <video controls preload="metadata" src="../../data/videos/Movie4.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie4_start.jpg" alt="S4 start">
+        <img src="../mac_king_clip_review/stills/movie4_mid.jpg" alt="S4 mid">
+        <img src="../mac_king_clip_review/stills/movie4_end.jpg" alt="S4 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>Final coin fake toss (paper S4)</dd>
+        <dt>Source condition</dt><dd>Empty right; Reveal shows a coin hidden in the left</dd>
+        <dt>What happens</dt><dd>End: coin on open left palm. File was not trimmed.</dd>
+        <dt>Potential hidden-state question</dt><dd>None for this full clip</dd>
+        <dt>Potential answer</dt><dd>n/a</dd>
+        <dt>Occlusion</dt><dd>FAIL</dd>
+        <dt>Temporal dependence</dt><dd>PARTIAL</dd>
+        <dt>Reveal</dt><dd>REVEAL_PRESENT</dd>
+        <dt>Ground truth</dt><dd>Reveal present</dd>
+        <dt>Benchmark status</dt><dd>VISIBLE_REVEAL_CONTROL</dd>
+        <dt>Human approval</dt><dd>PENDING (not a gold candidate)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="mac_king_s005">
+      <h2>mac_king_s005 — Movie5.MP4 — No-coin fake toss</h2>
+      <div class="status">NOT_SUITABLE</div>
+      <video controls preload="metadata" src="../../data/videos/Movie5.MP4"></video>
+      <div class="stills">
+        <img src="../mac_king_clip_review/stills/movie5_start.jpg" alt="S5 start">
+        <img src="../mac_king_clip_review/stills/movie5_mid.jpg" alt="S5 mid">
+        <img src="../mac_king_clip_review/stills/movie5_end.jpg" alt="S5 end">
+      </div>
+      <dl>
+        <dt>Title</dt><dd>No-coin fake toss (paper S5)</dd>
+        <dt>Source condition</dt><dd>Tossing gesture; no coin; empty-left reveal</dd>
+        <dt>What happens</dt><dd>No object to locate.</dd>
+        <dt>Potential hidden-state question</dt><dd>None</dd>
+        <dt>Potential answer</dt><dd>n/a</dd>
+        <dt>Occlusion</dt><dd>FAIL</dd>
+        <dt>Temporal dependence</dt><dd>FAIL</dd>
+        <dt>Reveal</dt><dd>REVEAL_PRESENT</dd>
+        <dt>Ground truth</dt><dd>No coin</dd>
+        <dt>Benchmark status</dt><dd>NOT_SUITABLE</dd>
+        <dt>Human approval</dt><dd>PENDING (not a gold candidate)</dd>
+      </dl>
+    </section>
+
+    <h2>Wikimedia controls (unchanged)</h2>
+    <p>Transparent-cup PeerJ clips. Still <code>NOT_SUITABLE_FOR_HIDDEN_STATE</code>. Not gold. Do not replace these files.</p>
 
     <section class="card" id="peerj_01_19_s003">
-      <h2>peerj_01_19_s003 — Standard</h2>
-      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <h2>peerj_01_19_s003 — Standard (control)</h2>
+      <div class="status">NOT_SUITABLE · VISIBLE_EVENT_CONTROL</div>
       <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.mp4"></video>
-      <img class="thumb" src="../wikimedia_clip_review/stills/s003_start.jpg" alt="s003 start still">
       <dl>
-        <dt>Source</dt>
-        <dd>Wikimedia Commons / PeerJ 10.7717/peerj.19 S1 (CC BY 3.0)</dd>
-        <dt>Duration</dt>
-        <dd>11.34 s</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Standard cups-and-balls, transparent cups</dd>
-        <dt>Occlusion</dt>
-        <dd>NO — load visible through cups</dd>
-        <dt>Ground-truth status</dt>
-        <dd>None for hidden-state. Visible palm transfer only. Manifest still HUMAN_FILL_REQUIRED.</dd>
-        <dt>Leakage</dt>
-        <dd>HIGH — transparent cups and a late cup-lift in the clip</dd>
-        <dt>Temporal dependence</dt>
-        <dd>Plausible for the third-cup sequence; not a hidden-state item</dd>
-        <dt>Overall status</dt>
-        <dd>NOT_SUITABLE</dd>
-        <dt>Human-review flag</dt>
-        <dd>no (already inspected; keep as VISIBLE_EVENT_CONTROL / TEMPORAL_CONTROL / PIPELINE_SMOKE)</dd>
+        <dt>Benchmark status</dt><dd>Pilot/control only. Transparent cups, late reveal.</dd>
+        <dt>Human approval</dt><dd>PENDING — do not gold-label as hidden_state</dd>
       </dl>
     </section>
 
     <section class="card" id="peerj_01_19_s004">
-      <h2>peerj_01_19_s004 — No ball</h2>
-      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <h2>peerj_01_19_s004 — No ball (control)</h2>
+      <div class="status">NOT_SUITABLE · VISIBLE_EVENT_CONTROL</div>
       <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.mp4"></video>
-      <img class="thumb" src="../wikimedia_clip_review/stills/s004_start.jpg" alt="s004 start still">
       <dl>
-        <dt>Source</dt>
-        <dd>Wikimedia Commons / PeerJ S2 (CC BY 3.0)</dd>
-        <dt>Duration</dt>
-        <dd>10.78 s</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>No ball, transparent cups</dd>
-        <dt>Occlusion</dt>
-        <dd>NO</dd>
-        <dt>Ground-truth status</dt>
-        <dd>None for hidden-state. Empty right-cup top is visible at t=0.</dd>
-        <dt>Leakage</dt>
-        <dd>HIGH — transparent cups, late reveal, start state in the first frame</dd>
-        <dt>Temporal dependence</dt>
-        <dd>NO for the start-state question</dd>
-        <dt>Overall status</dt>
-        <dd>NOT_SUITABLE</dd>
-        <dt>Human-review flag</dt>
-        <dd>no (VISIBLE_EVENT_CONTROL / PIPELINE_SMOKE)</dd>
+        <dt>Benchmark status</dt><dd>Pilot/control only. Transparent cups, late reveal.</dd>
+        <dt>Human approval</dt><dd>PENDING — do not gold-label as hidden_state</dd>
       </dl>
     </section>
 
     <section class="card" id="peerj_01_19_s005">
-      <h2>peerj_01_19_s005 — Lift</h2>
-      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <h2>peerj_01_19_s005 — Lift (control)</h2>
+      <div class="status">NOT_SUITABLE · VISIBLE_EVENT_CONTROL</div>
       <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.mp4"></video>
-      <img class="thumb" src="../wikimedia_clip_review/stills/s005_third_cup.jpg" alt="s005 lift still">
       <dl>
-        <dt>Source</dt>
-        <dd>Wikimedia Commons / PeerJ S3 (CC BY 3.0)</dd>
-        <dt>Duration</dt>
-        <dd>11.11 s</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Lift, transparent cups</dd>
-        <dt>Occlusion</dt>
-        <dd>NO — the lifted ball is in view</dd>
-        <dt>Ground-truth status</dt>
-        <dd>None for hidden-state. Pocket destination not established on sampled frames.</dd>
-        <dt>Leakage</dt>
-        <dd>HIGH — transparent cups and late reveal</dd>
-        <dt>Temporal dependence</dt>
-        <dd>Plausible for the lift action; still visible-event</dd>
-        <dt>Overall status</dt>
-        <dd>NOT_SUITABLE</dd>
-        <dt>Human-review flag</dt>
-        <dd>no (VISIBLE_EVENT_CONTROL / TEMPORAL_CONTROL / PIPELINE_SMOKE)</dd>
+        <dt>Benchmark status</dt><dd>Pilot/control only. Transparent cups, late reveal.</dd>
+        <dt>Human approval</dt><dd>PENDING — do not gold-label as hidden_state</dd>
       </dl>
     </section>
 
     <section class="card" id="peerj_01_19_s006">
-      <h2>peerj_01_19_s006 — Table</h2>
-      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <h2>peerj_01_19_s006 — Table (control)</h2>
+      <div class="status">NOT_SUITABLE · VISIBLE_EVENT_CONTROL</div>
       <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.mp4"></video>
-      <img class="thumb" src="../wikimedia_clip_review/stills/s006_four_balls.jpg" alt="s006 four balls on table">
       <dl>
-        <dt>Source</dt>
-        <dd>Wikimedia Commons / PeerJ S4 (CC BY 3.0)</dd>
-        <dt>Duration</dt>
-        <dd>11.24 s</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Table, transparent cups</dd>
-        <dt>Occlusion</dt>
-        <dd>NO — fourth ball sits on the table in view</dd>
-        <dt>Ground-truth status</dt>
-        <dd>None for hidden-state. Best <em>visible-event / pipeline smoke</em> clip of the five.</dd>
-        <dt>Leakage</dt>
-        <dd>HIGH — transparent cups, visible extra ball, late reveal</dd>
-        <dt>Temporal dependence</dt>
-        <dd>Plausible for third-cup order; answer is not hidden</dd>
-        <dt>Overall status</dt>
-        <dd>NOT_SUITABLE</dd>
-        <dt>Human-review flag</dt>
-        <dd>no (VISIBLE_EVENT_CONTROL / TEMPORAL_CONTROL / PIPELINE_SMOKE)</dd>
+        <dt>Benchmark status</dt><dd>Pilot/control only. Transparent cups, late reveal.</dd>
+        <dt>Human approval</dt><dd>PENDING — do not gold-label as hidden_state</dd>
       </dl>
     </section>
 
     <section class="card" id="peerj_01_19_s007">
-      <h2>peerj_01_19_s007 — Drop</h2>
-      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <h2>peerj_01_19_s007 — Drop (control)</h2>
+      <div class="status">NOT_SUITABLE · PIPELINE_SMOKE</div>
       <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4"></video>
-      <img class="thumb" src="../wikimedia_clip_review/stills/s007_third_cup.jpg" alt="s007 third-cup still">
       <dl>
-        <dt>Source</dt>
-        <dd>Wikimedia Commons / PeerJ S5 (CC BY 3.0)</dd>
-        <dt>Duration</dt>
-        <dd>10.98 s</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Drop, transparent cups</dd>
-        <dt>Occlusion</dt>
-        <dd>NO</dd>
-        <dt>Ground-truth status</dt>
-        <dd>Ambiguous even as a visible event (paper: floor; video: off-table blur)</dd>
-        <dt>Leakage</dt>
-        <dd>HIGH — transparent cups and late reveal</dd>
-        <dt>Temporal dependence</dt>
-        <dd>WEAK</dd>
-        <dt>Overall status</dt>
-        <dd>NOT_SUITABLE</dd>
-        <dt>Human-review flag</dt>
-        <dd>no (PIPELINE_SMOKE only)</dd>
-      </dl>
-    </section>
-
-    <section class="card" id="peerj_01_19_s008">
-      <h2>peerj_01_19_s008 — Stuck</h2>
-      <div class="status">MISSING_FROM_REPOSITORY</div>
-      <div class="missing">No local file. Commons S6 “Stuck” routine, CC BY 3.0, ~11 s. Not inspected. Sibling clips s003–s007 are transparent-cup stage videos. Do not treat as QUALIFIES.</div>
-      <dl>
-        <dt>Source</dt>
-        <dd><a href="https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s008.ogv">Wikimedia Commons S6</a></dd>
-        <dt>Duration</dt>
-        <dd>~11 s (Commons; not probed locally)</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Stuck</dd>
-        <dt>Occlusion</dt>
-        <dd>UNKNOWN</dd>
-        <dt>Ground-truth status</dt>
-        <dd>Not established</dd>
-        <dt>Leakage</dt>
-        <dd>UNKNOWN</dd>
-        <dt>Temporal dependence</dt>
-        <dd>UNKNOWN</dd>
-        <dt>Overall status</dt>
-        <dd>MISSING_FROM_REPOSITORY</dd>
-        <dt>Human-review flag</dt>
-        <dd>no — not a local candidate. Optional later download as another control, not gold.</dd>
-      </dl>
-    </section>
-
-    <section class="card" id="opaque">
-      <h2>peerj_01_19_opaque_cups</h2>
-      <div class="status">MISSING_FROM_REPOSITORY</div>
-      <div class="missing">Paper describes opaque-cup conditions. Commons search 2026-09-03 listed only s003–s008. No local opaque files.</div>
-      <dl>
-        <dt>Source</dt>
-        <dd>Rieiro et al. 2013, DOI 10.7717/peerj.19</dd>
-        <dt>Duration</dt>
-        <dd>unknown</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Opaque-cup experimental cells</dd>
-        <dt>Occlusion</dt>
-        <dd>UNKNOWN</dd>
-        <dt>Ground-truth status</dt>
-        <dd>Not established</dd>
-        <dt>Leakage</dt>
-        <dd>UNKNOWN</dd>
-        <dt>Temporal dependence</dt>
-        <dd>UNKNOWN</dd>
-        <dt>Overall status</dt>
-        <dd>MISSING_FROM_REPOSITORY</dd>
-        <dt>Human-review flag</dt>
-        <dd>no</dd>
-      </dl>
-    </section>
-
-    <section class="card" id="toy">
-      <h2>toy_cups_schema_fixtures</h2>
-      <div class="status">NOT_SUITABLE</div>
-      <div class="missing">Synthetic JSONL only. Referenced MP4s are not on disk. Not real hidden-state evidence.</div>
-      <dl>
-        <dt>Source</dt>
-        <dd>data/examples/toy_manifest.jsonl</dd>
-        <dt>Duration</dt>
-        <dd>fixture 2.0 s</dd>
-        <dt>Candidate trick/condition</dt>
-        <dd>Synthetic cups_ball questions</dd>
-        <dt>Occlusion</dt>
-        <dd>NO — not real footage</dd>
-        <dt>Ground-truth status</dt>
-        <dd>Fixture strings; not research gold</dd>
-        <dt>Leakage</dt>
-        <dd>n/a</dd>
-        <dt>Temporal dependence</dt>
-        <dd>n/a</dd>
-        <dt>Overall status</dt>
-        <dd>NOT_SUITABLE</dd>
-        <dt>Human-review flag</dt>
-        <dd>no</dd>
+        <dt>Benchmark status</dt><dd>Pilot/control only. Transparent cups, late reveal.</dd>
+        <dt>Human approval</dt><dd>PENDING — do not gold-label as hidden_state</dd>
       </dl>
     </section>
 
     <footer>
-      Wikimedia videos stay on disk as controls. First hidden-state baseline:
-      NOT READY. Next: five new clips, opaque concealment, crop before reveal.
+      No hidden-state gold yet. License for Mac King supplements: HUMAN_LEGAL_REVIEW_REQUIRED.
     </footer>
   </main>
 </body>

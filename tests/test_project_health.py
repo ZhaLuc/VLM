@@ -72,3 +72,21 @@ def test_html_contains_status_banner() -> None:
     assert "NOT READY FOR RESEARCH RUN" in body
     assert "PROJECT STATUS" in body
     assert "Pipeline" in body
+
+
+def test_html_and_markdown_include_hidden_state_collections() -> None:
+    repo = Path(__file__).resolve().parents[1]
+    audit = run_audit(repo, run_tests=False, run_stub_baseline=False)
+    md = (repo / "PROJECT_STATUS.md").read_text(encoding="utf-8")
+    html_body = (repo / "reports" / "project_status.html").read_text(encoding="utf-8")
+    for blob in (md, html_body):
+        assert "WIKIMEDIA CONTROLS" in blob
+        assert "MAC KING CANDIDATES" in blob
+        assert "HIDDEN-STATE GOLD" in blob
+        assert "candidate_count" in blob
+        assert "clips_needed_for_pilot" in blob
+    hs = audit["hidden_state_dataset"]
+    assert hs["wikimedia_controls"]["candidate_count"] == 5
+    assert hs["mac_king_candidates"]["candidate_count"] == 7
+    assert hs["hidden_state_gold"]["eligible_count"] == 0
+    assert hs["hidden_state_gold"]["clips_needed_for_pilot"] == 5

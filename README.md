@@ -9,9 +9,11 @@ Demonstrations: A Post-Training Study of Vision-Language Models
 ## Status
 
 Five local Wikimedia / PeerJ cups-and-balls clips are **pilot/control**
-footage (`NOT_SUITABLE_FOR_HIDDEN_STATE`). Hidden-state gold: **not ready**
-(0 qualifying clips). Sourcing: `docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`.
-Review: `reports/hidden_state_candidates/index.html`.
+footage (`NOT_SUITABLE_FOR_HIDDEN_STATE`). Mac King S6/S7
+(`data/videos/Movie6.MP4`, `Movie7.MP4`) are pending human review, not gold.
+Hidden-state gold: **not ready** (0 qualifying clips; 2 pending). Sourcing:
+`docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`. Review:
+`reports/hidden_state_candidates/index.html`.
 
 This repository currently provides a **minimal research architecture** only:
 

@@ -2,7 +2,14 @@
 
 Inspected 2026-09-03. Frames for the five local Wikimedia MP4s were previously
 sampled into `reports/wikimedia_clip_review/stills/` (transparent cups, late
-reveal). No other real magic videos are on disk. No `QUALIFIES` row.
+reveal). Seven Mac King supplementary MP4s (`data/videos/Movie1.MP4`–
+`Movie7.MP4`) were inspected against Cui et al. 2011 (PMC3202226). No
+`QUALIFIES` row. Two Mac King no-reveal clips are
+`QUALIFIES_WITH_HUMAN_REVIEW` only.
+
+Machine-readable copy: `data/examples/hidden_state_candidate_inventory.json`.
+Visual page: `reports/hidden_state_candidates/index.html`.
+Rubric: `docs/HIDDEN_STATE_ELIGIBILITY.md`.
 
 Machine-readable copy: `data/examples/hidden_state_candidate_inventory.json`.
 Visual page: `reports/hidden_state_candidates/index.html`.
@@ -42,3 +49,24 @@ hidden-state gold.
 | Later Dataset B | 15–25 | Research-plan target; **not** justified by currently available footage |
 
 Do not count the Wikimedia five toward those numbers.
+
+## Mac King (Cui et al. 2011)
+
+Local filenames were not renamed. License: `HUMAN_LEGAL_REVIEW_REQUIRED`.
+S6 counterpart of S1; S7 counterpart of S2. Do not splice reveals onto
+no-reveal files.
+
+| Rank | Clip | File | Condition | Occlusion | Temporal | Reveal | Status | Class |
+| ---: | ---- | ---- | --------- | --------- | -------- | ------ | ------ | ----- |
+| 1 | mac_king_s006 | Movie6.MP4 | Magic trick without reveal | PARTIAL | PASS | NO_REVEAL | `QUALIFIES_WITH_HUMAN_REVIEW` | `HIDDEN_STATE_CANDIDATE` |
+| 2 | mac_king_s007 | Movie7.MP4 | Real toss without reveal | PARTIAL | PASS | NO_REVEAL | `QUALIFIES_WITH_HUMAN_REVIEW` | `HIDDEN_STATE_CANDIDATE` |
+| 3 | mac_king_s001 | Movie1.MP4 | Magic trick | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `VISIBLE_REVEAL_CONTROL` |
+| 4 | mac_king_s002 | Movie2.MP4 | Real toss | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `REAL_TOSS_CONTROL` |
+| 5 | mac_king_s003 | Movie3.MP4 | Two-coin fake toss | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `VISIBLE_REVEAL_CONTROL` |
+| 6 | mac_king_s004 | Movie4.MP4 | Final coin fake toss | FAIL | PARTIAL | REVEAL_PRESENT | `NOT_SUITABLE` | `VISIBLE_REVEAL_CONTROL` |
+| 7 | mac_king_s005 | Movie5.MP4 | No-coin fake toss | FAIL | FAIL | REVEAL_PRESENT | `NOT_SUITABLE` | `TEMPORAL_CONTROL` |
+
+Approved gold: **0**. Pending review: **2**. Additional clips needed for a
+5-clip pilot: **5**. Do not count pending rows as gold.
+
+Best current hidden-state candidate: **mac_king_s006**.

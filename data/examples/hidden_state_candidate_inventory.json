@@ -4,30 +4,58 @@
   "rubric": "docs/HIDDEN_STATE_ELIGIBILITY.md",
   "sourcing_guide": "docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md",
   "gold_labels_written": false,
-  "notes": "No local clip passed genuine occlusion. Wikimedia pilots remain controls. Toy manifests are synthetic fixtures, not real footage.",
+  "notes": "Wikimedia cups remain controls. Mac King S6/S7 are pending human review; S1–S5 include reveals or have no single hidden object. No gold labels.",
   "readiness": {
     "first_baseline_dataset": "NOT READY",
     "valid_candidates": 0,
-    "candidates_needing_human_review": 0,
-    "invalid_candidates": 5,
+    "candidates_needing_human_review": 2,
+    "invalid_candidates": 10,
     "additional_clips_needed": 5,
     "recommended_next_milestone_clips": 5,
     "minimum_smoke_clips": 3,
     "later_dataset_b_clips": "15-25 (research plan; not the next step)",
-    "recommended_next_action": "Obtain 5 short clips that pass docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md. Do not gold-label the Wikimedia transparent-cup pilots as hidden_state."
+    "best_current_hidden_state_candidate": "mac_king_s006",
+    "how_many_valid_clips": "0 approved gold; 2 pending human review; fewer than five",
+    "recommended_next_action": "Review mac_king_s006 and mac_king_s007 in reports/hidden_state_candidates/index.html (APPROVE / EDIT / REJECT). Do not gold-label Wikimedia clips.",
+    "collections": {
+      "wikimedia_controls": {
+        "candidate_count": 5,
+        "eligible_count": 0,
+        "pending_human_review": 0,
+        "rejected_count": 5
+      },
+      "mac_king_candidates": {
+        "candidate_count": 7,
+        "eligible_count": 0,
+        "pending_human_review": 2,
+        "rejected_count": 5
+      },
+      "hidden_state_gold": {
+        "eligible_count": 0,
+        "pending_human_review": 2,
+        "clips_needed_for_pilot": 5
+      }
+    }
   },
   "local_media_search": {
     "data_videos": [
-      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
+      "Movie1.MP4",
+      "Movie2.MP4",
+      "Movie3.MP4",
+      "Movie4.MP4",
+      "Movie5.MP4",
+      "Movie6.MP4",
+      "Movie7.MP4",
       "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.mp4",
-      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
+      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.ogv",
       "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.mp4",
-      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
+      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.ogv",
       "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.mp4",
-      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
+      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.ogv",
       "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.mp4",
-      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv",
-      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4"
+      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.ogv",
+      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4",
+      "Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.ogv"
     ],
     "unused_downloads": [],
     "toy_cups_mp4_on_disk": false,
@@ -46,7 +74,11 @@
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
       "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
-      "control_roles": ["VISIBLE_EVENT_CONTROL", "TEMPORAL_CONTROL", "PIPELINE_SMOKE"],
+      "control_roles": [
+        "VISIBLE_EVENT_CONTROL",
+        "TEMPORAL_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
       "keep_in_repository": true,
       "local_present": true,
       "video_relpath": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.mp4",
@@ -63,7 +95,8 @@
         "conversion": "scripts/convert_ogv_to_mp4.py; ffmpeg libx264 crf=18 -an yuv420p +faststart; original OGV retained",
         "source_notes": "Commons caption names the experimental condition. It is not a hidden-state question or answer.",
         "ground_truth_source": "none for hidden-state; visible-event notes in data/examples/wikimedia_pilot_annotation_proposals.json"
-      }
+      },
+      "collection": "wikimedia_controls"
     },
     {
       "candidate": "peerj_01_19_s004",
@@ -77,7 +110,10 @@
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
       "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
-      "control_roles": ["VISIBLE_EVENT_CONTROL", "PIPELINE_SMOKE"],
+      "control_roles": [
+        "VISIBLE_EVENT_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
       "keep_in_repository": true,
       "local_present": true,
       "video_relpath": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.mp4",
@@ -94,7 +130,8 @@
         "conversion": "scripts/convert_ogv_to_mp4.py; ffmpeg libx264 crf=18 -an yuv420p +faststart; original OGV retained",
         "source_notes": "Commons caption names the condition. Empty third-cup top is visible in the opening frame.",
         "ground_truth_source": "none for hidden-state"
-      }
+      },
+      "collection": "wikimedia_controls"
     },
     {
       "candidate": "peerj_01_19_s005",
@@ -108,7 +145,11 @@
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
       "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
-      "control_roles": ["VISIBLE_EVENT_CONTROL", "TEMPORAL_CONTROL", "PIPELINE_SMOKE"],
+      "control_roles": [
+        "VISIBLE_EVENT_CONTROL",
+        "TEMPORAL_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
       "keep_in_repository": true,
       "local_present": true,
       "video_relpath": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.mp4",
@@ -125,7 +166,8 @@
         "conversion": "scripts/convert_ogv_to_mp4.py; ffmpeg libx264 crf=18 -an yuv420p +faststart; original OGV retained",
         "source_notes": "Commons caption names the Lift condition. The raised ball is in view.",
         "ground_truth_source": "none for hidden-state"
-      }
+      },
+      "collection": "wikimedia_controls"
     },
     {
       "candidate": "peerj_01_19_s006",
@@ -139,7 +181,11 @@
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
       "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
-      "control_roles": ["VISIBLE_EVENT_CONTROL", "TEMPORAL_CONTROL", "PIPELINE_SMOKE"],
+      "control_roles": [
+        "VISIBLE_EVENT_CONTROL",
+        "TEMPORAL_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
       "keep_in_repository": true,
       "local_present": true,
       "video_relpath": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.mp4",
@@ -157,7 +203,8 @@
         "conversion": "scripts/convert_ogv_to_mp4.py; ffmpeg libx264 crf=18 -an yuv420p +faststart; original OGV retained",
         "source_notes": "Strongest visible-event / pipeline smoke clip among the five. Extra ball is not hidden.",
         "ground_truth_source": "none for hidden-state"
-      }
+      },
+      "collection": "wikimedia_controls"
     },
     {
       "candidate": "peerj_01_19_s007",
@@ -171,7 +218,9 @@
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
       "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
-      "control_roles": ["PIPELINE_SMOKE"],
+      "control_roles": [
+        "PIPELINE_SMOKE"
+      ],
       "keep_in_repository": true,
       "local_present": true,
       "video_relpath": "data/videos/Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4",
@@ -188,7 +237,8 @@
         "conversion": "scripts/convert_ogv_to_mp4.py; ffmpeg libx264 crf=18 -an yuv420p +faststart; original OGV retained",
         "source_notes": "Weakest of the five even as a visible-event item. Do not treat Drop as a hidden-state answer.",
         "ground_truth_source": "none for hidden-state"
-      }
+      },
+      "collection": "wikimedia_controls"
     },
     {
       "candidate": "peerj_01_19_s008",
@@ -220,7 +270,8 @@
         "conversion": null,
         "source_notes": "Documented on Commons; not downloaded. Do not award QUALIFIES without frame inspection. Not expected to unlock hidden-state gold if it matches s003–s007.",
         "ground_truth_source": "none"
-      }
+      },
+      "collection": "peerj_documented_missing"
     },
     {
       "candidate": "peerj_01_19_opaque_cups",
@@ -251,7 +302,8 @@
         "conversion": null,
         "source_notes": "Paper describes opaque vs transparent cups. Wikimedia File search on 2026-09-03 listed only s003–s008. Those local files are transparent. Do not invent opaque media or labels.",
         "ground_truth_source": "none"
-      }
+      },
+      "collection": "peerj_documented_missing"
     },
     {
       "candidate": "toy_cups_schema_fixtures",
@@ -265,7 +317,9 @@
       "status": "NOT_SUITABLE",
       "human_review_flag": false,
       "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
-      "control_roles": ["PIPELINE_SMOKE"],
+      "control_roles": [
+        "PIPELINE_SMOKE"
+      ],
       "keep_in_repository": true,
       "local_present": false,
       "video_relpath": "data/videos/toy_cups_train.mp4",
@@ -282,6 +336,282 @@
         "conversion": null,
         "source_notes": "Referenced MP4s are not on disk. Labels exist only to exercise the schema.",
         "ground_truth_source": "synthetic fixture; not real hidden-state evidence"
+      },
+      "collection": "synthetic_fixtures"
+    },
+    {
+      "candidate": "mac_king_s001",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S1; local Movie1.MP4",
+      "duration_s": 8.842166666666667,
+      "trick_or_condition": "Magic trick",
+      "genuine_occlusion": "FAIL",
+      "temporal_dependence": "PARTIAL",
+      "ground_truth": "SOURCE_AND_VIDEO for the empty-left reveal; not a hidden-state item",
+      "leakage_risk": "REVEAL",
+      "status": "NOT_SUITABLE",
+      "human_review_flag": false,
+      "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
+      "control_roles": [
+        "VISIBLE_REVEAL_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie1.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie1_end.jpg",
+      "rank": 3,
+      "reveal_status": "REVEAL_PRESENT",
+      "candidate_question": null,
+      "candidate_ground_truth": null,
+      "revealed_counterpart_clip_id": null,
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "Magic trick",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie1.MP4",
+        "local_filename": "Movie1.MP4",
+        "conversion": null,
+        "source_notes": "Copyright card, then Mac King shows a coin, tosses it vertically in the right hand, performs an apparent right-to-left toss, then opens the left hand. End frames: left palm open and empty; right at the side.",
+        "ground_truth_source": "SOURCE_AND_VIDEO for the empty-left reveal; not a hidden-state item"
+      }
+    },
+    {
+      "candidate": "mac_king_s002",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S2; local Movie2.MP4",
+      "duration_s": 8.2082,
+      "trick_or_condition": "Real toss",
+      "genuine_occlusion": "FAIL",
+      "temporal_dependence": "PARTIAL",
+      "ground_truth": "VERIFIED_FROM_VIDEO that the last frames show a coin in the left palm",
+      "leakage_risk": "FINAL_FRAME",
+      "status": "NOT_SUITABLE",
+      "human_review_flag": false,
+      "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
+      "control_roles": [
+        "REAL_TOSS_CONTROL",
+        "VISIBLE_REVEAL_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie2.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie2_end.jpg",
+      "rank": 4,
+      "reveal_status": "REVEAL_PRESENT",
+      "candidate_question": null,
+      "candidate_ground_truth": null,
+      "revealed_counterpart_clip_id": null,
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "Real toss",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie2.MP4",
+        "local_filename": "Movie2.MP4",
+        "conversion": null,
+        "source_notes": "Real right-to-left toss. End frames: both palms up; a coin is visible on the open left palm. The paper's Experiment 2 sentence that both reveals show an empty left hand does not match these end frames; trust the video.",
+        "ground_truth_source": "VERIFIED_FROM_VIDEO that the last frames show a coin in the left palm"
+      }
+    },
+    {
+      "candidate": "mac_king_s003",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S3; local Movie3.MP4",
+      "duration_s": 8.541866666666667,
+      "trick_or_condition": "Two-coin fake toss",
+      "genuine_occlusion": "FAIL",
+      "temporal_dependence": "PARTIAL",
+      "ground_truth": "SOURCE_AND_VIDEO for two-coin reveal; not a one-coin hidden-state item",
+      "leakage_risk": "REVEAL",
+      "status": "NOT_SUITABLE",
+      "human_review_flag": false,
+      "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
+      "control_roles": [
+        "VISIBLE_REVEAL_CONTROL"
+      ],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie3.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie3_end.jpg",
+      "rank": 5,
+      "reveal_status": "REVEAL_PRESENT",
+      "candidate_question": null,
+      "candidate_ground_truth": null,
+      "revealed_counterpart_clip_id": null,
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "Two-coin fake toss",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie3.MP4",
+        "local_filename": "Movie3.MP4",
+        "conversion": null,
+        "source_notes": "Fake toss retaining the tossed coin in the right hand. Reveal: a second coin appears in the left hand (paper: it had been hidden in the left). End frames show a coin on the open left palm. Two coins make a single-location question ill-posed.",
+        "ground_truth_source": "SOURCE_AND_VIDEO for two-coin reveal; not a one-coin hidden-state item"
+      }
+    },
+    {
+      "candidate": "mac_king_s004",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S4; local Movie4.MP4",
+      "duration_s": 9.009,
+      "trick_or_condition": "Final coin fake toss",
+      "genuine_occlusion": "FAIL",
+      "temporal_dependence": "PARTIAL",
+      "ground_truth": "SOURCE_AND_VIDEO for the left-hand reveal",
+      "leakage_risk": "REVEAL",
+      "status": "NOT_SUITABLE",
+      "human_review_flag": false,
+      "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
+      "control_roles": [
+        "VISIBLE_REVEAL_CONTROL"
+      ],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie4.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie4_end.jpg",
+      "rank": 6,
+      "reveal_status": "REVEAL_PRESENT",
+      "candidate_question": null,
+      "candidate_ground_truth": null,
+      "revealed_counterpart_clip_id": null,
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "Final coin fake toss",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie4.MP4",
+        "local_filename": "Movie4.MP4",
+        "conversion": null,
+        "source_notes": "Pretend vertical toss and fake toss from an empty right hand. Reveal: a coin that had been hidden in the left hand is shown. End frames: coin on the open left palm. A no-reveal crop was not created.",
+        "ground_truth_source": "SOURCE_AND_VIDEO for the left-hand reveal"
+      }
+    },
+    {
+      "candidate": "mac_king_s005",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S5; local Movie5.MP4",
+      "duration_s": 10.443766666666667,
+      "trick_or_condition": "No-coin fake toss",
+      "genuine_occlusion": "FAIL",
+      "temporal_dependence": "FAIL",
+      "ground_truth": "SOURCE_AND_VIDEO — no coin",
+      "leakage_risk": "NO_OBJECT",
+      "status": "NOT_SUITABLE",
+      "human_review_flag": false,
+      "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
+      "control_roles": [
+        "TEMPORAL_CONTROL",
+        "PIPELINE_SMOKE"
+      ],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie5.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie5_end.jpg",
+      "rank": 7,
+      "reveal_status": "REVEAL_PRESENT",
+      "candidate_question": null,
+      "candidate_ground_truth": null,
+      "revealed_counterpart_clip_id": null,
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "No-coin fake toss",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie5.MP4",
+        "local_filename": "Movie5.MP4",
+        "conversion": null,
+        "source_notes": "Tossing gesture with no coin. Reveal: empty left hand. 'Which hand contains the coin?' is ill-posed.",
+        "ground_truth_source": "SOURCE_AND_VIDEO — no coin"
+      }
+    },
+    {
+      "candidate": "mac_king_s006",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S6; local Movie6.MP4",
+      "duration_s": 7.2072,
+      "trick_or_condition": "Magic trick without reveal",
+      "genuine_occlusion": "PARTIAL",
+      "temporal_dependence": "PASS",
+      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end.",
+      "leakage_risk": "PARTIAL",
+      "status": "QUALIFIES_WITH_HUMAN_REVIEW",
+      "human_review_flag": true,
+      "hidden_state_class": "HIDDEN_STATE_CANDIDATE",
+      "control_roles": [],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie6.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie6_end.jpg",
+      "rank": 1,
+      "reveal_status": "NO_REVEAL",
+      "candidate_question": "Which hand contains the coin after the apparent transfer?",
+      "candidate_ground_truth": "right",
+      "revealed_counterpart_clip_id": "mac_king_s001",
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "Magic trick without reveal",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie6.MP4",
+        "local_filename": "Movie6.MP4",
+        "conversion": null,
+        "source_notes": "Same performance as S1 until after the apparent toss. Movie6 is 216 frames vs Movie1's 265. Coin is visible in the right hand before the toss (~2.67 s). Apparent right-to-left transfer; coin not seen in flight. Ends with gaze on the left hand; does not include Movie1's later empty-left display (~8.0–8.8 s). Revealed counterpart is S1; do not splice S1's reveal onto this file.",
+        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S1/S3/S6 fake toss retains the coin in the right hand; S6 omits Reveal. Video: coin shown in the right hand before the toss; no Movie1-style empty-left flourish at the end."
+      }
+    },
+    {
+      "candidate": "mac_king_s007",
+      "collection": "mac_king_candidates",
+      "source": "Cui et al. 2011 Front. Hum. Neurosci. 5:103 supplementary S7; local Movie7.MP4",
+      "duration_s": 7.674333333333333,
+      "trick_or_condition": "Real toss without reveal",
+      "genuine_occlusion": "PARTIAL",
+      "temporal_dependence": "PASS",
+      "ground_truth": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S2/S7 real toss right to left. Video: coin in the right hand before the toss; Movie2 end frames show the coin on the open left palm after a short extra tail that S7 omits.",
+      "leakage_risk": "PARTIAL",
+      "status": "QUALIFIES_WITH_HUMAN_REVIEW",
+      "human_review_flag": true,
+      "hidden_state_class": "HIDDEN_STATE_CANDIDATE",
+      "control_roles": [
+        "REAL_TOSS_CONTROL"
+      ],
+      "keep_in_repository": true,
+      "local_present": true,
+      "video_relpath": "data/videos/Movie7.MP4",
+      "thumbnail_relpath": "reports/mac_king_clip_review/stills/movie7_end.jpg",
+      "rank": 2,
+      "reveal_status": "NO_REVEAL",
+      "candidate_question": "Which hand contains the coin after the transfer?",
+      "candidate_ground_truth": "left",
+      "revealed_counterpart_clip_id": "mac_king_s002",
+      "provenance": {
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3202226/",
+        "title": "Real toss without reveal",
+        "author": "Cui J, Otero-Millan J, Macknik SL, King M, Martinez-Conde S",
+        "performer": "Mac King (named in the paper)",
+        "license": "HUMAN_LEGAL_REVIEW_REQUIRED",
+        "date_accessed": "2026-09-03",
+        "original_filename": "Movie7.MP4",
+        "local_filename": "Movie7.MP4",
+        "conversion": null,
+        "source_notes": "Same performance as S2 until after the real toss. Movie7 is 230 frames vs Movie2's 246. Coin is visible in the right hand before the toss. Ends with a cupped left hand; Movie2's later frames show the coin on an open left palm. Revealed counterpart is S2; do not splice that reveal onto this file.",
+        "ground_truth_source": "VERIFIED_FROM_SOURCE_AND_VIDEO — paper: S2/S7 real toss right to left. Video: coin in the right hand before the toss; Movie2 end frames show the coin on the open left palm after a short extra tail that S7 omits."
       }
     }
   ]
