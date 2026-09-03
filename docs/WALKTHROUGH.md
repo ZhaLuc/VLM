@@ -2,6 +2,8 @@
 
 **Open this file and scroll.** Each section has a simple diagram you can point at while talking.
 
+**Before the meeting:** study [`STUDY_GUIDE.md`](STUDY_GUIDE.md) so you can answer deeper questions.
+
 **Status:** paused research prototype. Real zero-shot pipeline works on **1** example. Post-training was **not** finished.
 
 ---

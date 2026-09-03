@@ -6,6 +6,10 @@ Paused VLM research prototype. Real zero-shot pipeline works on **one** human-ap
 
 **[docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)** - one scrollable page with simple diagrams. Open it and talk while you point at the images.
 
+## Study this before the meeting
+
+**[docs/STUDY_GUIDE.md](docs/STUDY_GUIDE.md)** - deep explanation of everything: concepts, preprocessing, inference, results, DPO/GRPO, and Q&A drill.
+
 Live status: [PROJECT_STATUS.md](PROJECT_STATUS.md) (`PAUSED - ZERO-SHOT PROTOTYPE COMPLETE`).
 
 ## What worked
@@ -27,6 +31,7 @@ scripts/           CLI wrappers
 data/examples/     manifests / reviews (videos are local, not in git)
 reports/           committed baseline + health evidence
 docs/WALKTHROUGH.md
+docs/STUDY_GUIDE.md
 tests/
 ```
 
