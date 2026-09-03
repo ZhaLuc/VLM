@@ -1099,8 +1099,8 @@ def build_blockers(env: dict[str, Any], smokes: dict[str, Any]) -> list[Blocker]
             id="human_labels",
             why="Real ground-truth / preference / causal annotations not yet collected",
             need=(
-                "Author hidden-state question + ground_truth on the Wikimedia pilot "
-                "manifest (replace HUMAN_FILL_REQUIRED)"
+                "Obtain footage that passes docs/HIDDEN_STATE_ELIGIBILITY.md; "
+                "Wikimedia transparent-cup pilots are controls, not hidden-state gold"
                 if int(env.get("real_mp4_count") or 0) > 0
                 else "Author research labels after videos exist"
             ),
@@ -1165,21 +1165,20 @@ def build_human_input(env: dict[str, Any]) -> list[HumanInputItem]:
     ]
     if int(env.get("real_mp4_count") or 0) > 0:
         items = [i for i in items if "real magic" not in i.what.lower()]
-        template = Path(env.get("root") or ".") / "data" / "examples" / "wikimedia_pilot_manifest.template.jsonl"
-        if template.is_file():
-            items.insert(
-                0,
-                HumanInputItem(
-                    priority="now",
-                    what=(
-                        "Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot "
-                        "(trick_id, performer_id, camera_id, question, ground_truth)"
-                    ),
-                    where="data/examples/wikimedia_pilot_manifest.template.jsonl",
-                    format="ExampleRecord JSONL (docs/DATASET_SCHEMA.md)",
-                    after="magic-vlm-validate --manifest data/examples/wikimedia_pilot_manifest.jsonl",
+        items.insert(
+            0,
+            HumanInputItem(
+                priority="now",
+                what=(
+                    "Source 5 hidden-state clips that pass "
+                    "docs/HIDDEN_STATE_ELIGIBILITY.md (opaque concealment). "
+                    "Do not gold-label the Wikimedia transparent-cup pilots."
                 ),
-            )
+                where="data/videos/ plus provenance; see docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md",
+                format="mp4 + provenance JSON + pending annotations (not gold until approved)",
+                after="Open reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+            ),
+        )
     return items
 
 

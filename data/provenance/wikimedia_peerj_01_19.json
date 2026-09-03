@@ -33,7 +33,9 @@
   },
   "research_labels": {
     "status": "not_authored",
+    "hidden_state_class": "NOT_SUITABLE_FOR_HIDDEN_STATE",
     "do_not_treat_commons_captions_as_ground_truth": true,
+    "do_not_gold_label_as_hidden_state": true,
     "human_fill_required": [
       "trick_id",
       "performer_id",
@@ -44,9 +46,22 @@
     "pipeline_conventions_pending_human_confirm": {
       "task": "hidden_state",
       "split": "held_out",
-      "reason": "First zero-shot baseline evaluates held_out hidden-state items. These are pipeline conventions, not observed labels."
+      "reason": "Template rows used hidden_state/held_out as pipeline conventions only. These five clips failed the hidden-state rubric (transparent cups, late reveal). Do not fill HUMAN_FILL_REQUIRED as hidden-state gold."
     }
   },
+  "documented_not_downloaded": [
+    {
+      "clip_id": "peerj_01_19_s008",
+      "commons_file_page": "https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s008.ogv",
+      "image_description": "Video clip of the magician performing the “Stuck” routine",
+      "credit": "Supplemental Movie S6 from Rieiro H, Martinez-Conde S, Macknik S (2013). PeerJ 10.7717/peerj.19",
+      "license_short_name": "CC BY 3.0",
+      "noted_at": "2026-09-03",
+      "local_file": null,
+      "status": "MISSING_FROM_REPOSITORY",
+      "notes": "Not downloaded. Frames not inspected. Sibling local clips s003–s007 are transparent-cup stage videos."
+    }
+  ],
   "clips": [
     {
       "clip_id": "peerj_01_19_s003",

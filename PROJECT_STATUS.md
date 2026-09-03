@@ -7,12 +7,12 @@
 - Overall: `BLOCKED`
 - First real baseline ready: `PARTIALLY`
 - Reason: Real video present, but first baseline still blocked by: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
-- Generated: 2026-09-03T01:25:57+00:00
+- Generated: 2026-09-03T01:58:05+00:00
 
 ## Pipeline
 
 - `PASS` **Repository architecture** (evidence 3) — Package layout, docs, and configs present.
-- `BLOCKED` **Environment setup** (evidence 3) — Torch is CPU-only; real Qwen2.5-VL research runs need CUDA. pytest: 212 passed, 3 warnings in 12.08s
+- `BLOCKED` **Environment setup** (evidence 3) — Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
 - `PASS` **Reproducibility / configuration** (evidence 3) — ExperimentConfig / initialize_experiment available.
 - `PASS` **Dataset schema** (evidence 3) — Schema load ok (4 records).
 - `PARTIAL` **Dataset validation** (evidence 3) — Toy manifest validates structurally; media checks report missing files (findings=5).
@@ -48,7 +48,7 @@
 
 ## What Does Not Work / Blocked
 
-- [BLOCKED] Environment setup: Torch is CPU-only; real Qwen2.5-VL research runs need CUDA. pytest: 212 passed, 3 warnings in 12.08s
+- [BLOCKED] Environment setup: Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
 - [BLOCKED] VLM model loading: Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
 - [BLOCKED] VLM video inference: Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
 - [BLOCKED] Zero-shot baseline: Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
@@ -59,10 +59,10 @@
 
 ### I need to provide this now
 
-1. **What:** Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot (trick_id, performer_id, camera_id, question, ground_truth)
-   - Where: data/examples/wikimedia_pilot_manifest.template.jsonl
-   - Format: ExampleRecord JSONL (docs/DATASET_SCHEMA.md)
-   - After: `magic-vlm-validate --manifest data/examples/wikimedia_pilot_manifest.jsonl`
+1. **What:** Source 5 hidden-state clips that pass docs/HIDDEN_STATE_ELIGIBILITY.md (opaque concealment). Do not gold-label the Wikimedia transparent-cup pilots.
+   - Where: data/videos/ plus provenance; see docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md
+   - Format: mp4 + provenance JSON + pending annotations (not gold until approved)
+   - After: `Open reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md`
 2. **What:** Obtain a CUDA GPU environment and CUDA-enabled PyTorch
    - Where: Training/inference host (not this CPU-only audit host)
    - Format: NVIDIA GPU + matching CUDA torch wheel
@@ -104,5 +104,5 @@
 
 1. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
 2. Download Qwen2.5-VL locally or point model_id at a local directory
-3. Author hidden-state question + ground_truth on the Wikimedia pilot manifest (replace HUMAN_FILL_REQUIRED)
+3. Obtain footage that passes docs/HIDDEN_STATE_ELIGIBILITY.md; Wikimedia transparent-cup pilots are controls, not hidden-state gold
 4. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights

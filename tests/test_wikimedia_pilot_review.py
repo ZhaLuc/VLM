@@ -31,11 +31,17 @@ def test_review_manifest_keeps_unresolved_gold() -> None:
         assert proposal["human_decision"] == "PENDING"
         assert proposal["human_review_required"] is True
         assert proposal["candidate_task_type"] == "NOT_SUITABLE_FOR_HIDDEN_STATE_TASK"
+        assert proposal["hidden_state_class"] == "NOT_SUITABLE_FOR_HIDDEN_STATE"
+        assert "PIPELINE_SMOKE" in proposal["control_roles"]
 
 
 def test_annotation_proposals_are_pending() -> None:
     payload = json.loads(PROPOSALS.read_text(encoding="utf-8"))
     assert payload["human_approval"] == "PENDING"
+    assert payload["control_classification"]["hidden_state_class_all_five"] == (
+        "NOT_SUITABLE_FOR_HIDDEN_STATE"
+    )
+    assert payload["control_classification"]["do_not_write_gold"] is True
     assert payload["best_first_baseline_clip"]["clip_id"] == "peerj_01_19_s006"
     clip_ids = {row["clip_id"] for row in payload["clips"]}
     assert clip_ids == {

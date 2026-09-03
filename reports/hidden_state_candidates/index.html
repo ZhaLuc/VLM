@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hidden-state candidate review</title>
+  <style>
+    :root {
+      --ink: #1c1917;
+      --muted: #57534e;
+      --line: #d6d3d1;
+      --bg: #f5f5f4;
+      --paper: #fffcf8;
+      --fail: #9a3412;
+      --fail-bg: #ffedd5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.45;
+    }
+    header {
+      padding: 2rem 1.25rem 1.5rem;
+      border-bottom: 4px solid var(--ink);
+      background: var(--paper);
+    }
+    header h1 { margin: 0 0 0.75rem; font-size: 1.7rem; }
+    pre.banner, pre.next {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.92rem;
+      background: #1c1917;
+      color: #fafaf9;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+    }
+    pre.next { margin-top: 0.75rem; background: #292524; }
+    main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+    .card {
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .card h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+    .status {
+      display: inline-block;
+      margin: 0 0 0.75rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--fail-bg);
+      color: var(--fail);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+    video, .thumb {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #111;
+      margin: 0.5rem 0 0.85rem;
+    }
+    .thumb { max-height: 16rem; object-fit: contain; }
+    .missing {
+      padding: 1.5rem;
+      background: #e7e5e4;
+      color: var(--muted);
+      margin: 0.5rem 0 0.85rem;
+    }
+    dl { margin: 0; }
+    dt {
+      margin-top: 0.7rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    dd { margin: 0.15rem 0 0; }
+    footer { margin-top: 2rem; color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hidden-state candidates</h1>
+    <p>Static review of footage already in or documented by this repository. No gold labels.</p>
+    <pre class="banner">HIDDEN-STATE DATASET READINESS
+
+Valid candidates: 0
+Candidates needing human review: 0
+Invalid candidates: 5
+Additional clips needed: 5</pre>
+    <pre class="next">RECOMMENDED NEXT ACTION
+Obtain 5 short clips that pass docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md.
+Do not gold-label the Wikimedia transparent-cup pilots as hidden_state.</pre>
+  </header>
+  <main>
+    <p>Rubric: <code>docs/HIDDEN_STATE_ELIGIBILITY.md</code>. Inventory:
+    <code>data/examples/hidden_state_candidate_inventory.json</code>.</p>
+
+    <section class="card" id="peerj_01_19_s003">
+      <h2>peerj_01_19_s003 — Standard</h2>
+      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s003.mp4"></video>
+      <img class="thumb" src="../wikimedia_clip_review/stills/s003_start.jpg" alt="s003 start still">
+      <dl>
+        <dt>Source</dt>
+        <dd>Wikimedia Commons / PeerJ 10.7717/peerj.19 S1 (CC BY 3.0)</dd>
+        <dt>Duration</dt>
+        <dd>11.34 s</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Standard cups-and-balls, transparent cups</dd>
+        <dt>Occlusion</dt>
+        <dd>NO — load visible through cups</dd>
+        <dt>Ground-truth status</dt>
+        <dd>None for hidden-state. Visible palm transfer only. Manifest still HUMAN_FILL_REQUIRED.</dd>
+        <dt>Leakage</dt>
+        <dd>HIGH — transparent cups and a late cup-lift in the clip</dd>
+        <dt>Temporal dependence</dt>
+        <dd>Plausible for the third-cup sequence; not a hidden-state item</dd>
+        <dt>Overall status</dt>
+        <dd>NOT_SUITABLE</dd>
+        <dt>Human-review flag</dt>
+        <dd>no (already inspected; keep as VISIBLE_EVENT_CONTROL / TEMPORAL_CONTROL / PIPELINE_SMOKE)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="peerj_01_19_s004">
+      <h2>peerj_01_19_s004 — No ball</h2>
+      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s004.mp4"></video>
+      <img class="thumb" src="../wikimedia_clip_review/stills/s004_start.jpg" alt="s004 start still">
+      <dl>
+        <dt>Source</dt>
+        <dd>Wikimedia Commons / PeerJ S2 (CC BY 3.0)</dd>
+        <dt>Duration</dt>
+        <dd>10.78 s</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>No ball, transparent cups</dd>
+        <dt>Occlusion</dt>
+        <dd>NO</dd>
+        <dt>Ground-truth status</dt>
+        <dd>None for hidden-state. Empty right-cup top is visible at t=0.</dd>
+        <dt>Leakage</dt>
+        <dd>HIGH — transparent cups, late reveal, start state in the first frame</dd>
+        <dt>Temporal dependence</dt>
+        <dd>NO for the start-state question</dd>
+        <dt>Overall status</dt>
+        <dd>NOT_SUITABLE</dd>
+        <dt>Human-review flag</dt>
+        <dd>no (VISIBLE_EVENT_CONTROL / PIPELINE_SMOKE)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="peerj_01_19_s005">
+      <h2>peerj_01_19_s005 — Lift</h2>
+      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s005.mp4"></video>
+      <img class="thumb" src="../wikimedia_clip_review/stills/s005_third_cup.jpg" alt="s005 lift still">
+      <dl>
+        <dt>Source</dt>
+        <dd>Wikimedia Commons / PeerJ S3 (CC BY 3.0)</dd>
+        <dt>Duration</dt>
+        <dd>11.11 s</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Lift, transparent cups</dd>
+        <dt>Occlusion</dt>
+        <dd>NO — the lifted ball is in view</dd>
+        <dt>Ground-truth status</dt>
+        <dd>None for hidden-state. Pocket destination not established on sampled frames.</dd>
+        <dt>Leakage</dt>
+        <dd>HIGH — transparent cups and late reveal</dd>
+        <dt>Temporal dependence</dt>
+        <dd>Plausible for the lift action; still visible-event</dd>
+        <dt>Overall status</dt>
+        <dd>NOT_SUITABLE</dd>
+        <dt>Human-review flag</dt>
+        <dd>no (VISIBLE_EVENT_CONTROL / TEMPORAL_CONTROL / PIPELINE_SMOKE)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="peerj_01_19_s006">
+      <h2>peerj_01_19_s006 — Table</h2>
+      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s006.mp4"></video>
+      <img class="thumb" src="../wikimedia_clip_review/stills/s006_four_balls.jpg" alt="s006 four balls on table">
+      <dl>
+        <dt>Source</dt>
+        <dd>Wikimedia Commons / PeerJ S4 (CC BY 3.0)</dd>
+        <dt>Duration</dt>
+        <dd>11.24 s</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Table, transparent cups</dd>
+        <dt>Occlusion</dt>
+        <dd>NO — fourth ball sits on the table in view</dd>
+        <dt>Ground-truth status</dt>
+        <dd>None for hidden-state. Best <em>visible-event / pipeline smoke</em> clip of the five.</dd>
+        <dt>Leakage</dt>
+        <dd>HIGH — transparent cups, visible extra ball, late reveal</dd>
+        <dt>Temporal dependence</dt>
+        <dd>Plausible for third-cup order; answer is not hidden</dd>
+        <dt>Overall status</dt>
+        <dd>NOT_SUITABLE</dd>
+        <dt>Human-review flag</dt>
+        <dd>no (VISIBLE_EVENT_CONTROL / TEMPORAL_CONTROL / PIPELINE_SMOKE)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="peerj_01_19_s007">
+      <h2>peerj_01_19_s007 — Drop</h2>
+      <div class="status">NOT_SUITABLE · NOT_SUITABLE_FOR_HIDDEN_STATE</div>
+      <video controls preload="metadata" src="../../data/videos/Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s007.mp4"></video>
+      <img class="thumb" src="../wikimedia_clip_review/stills/s007_third_cup.jpg" alt="s007 third-cup still">
+      <dl>
+        <dt>Source</dt>
+        <dd>Wikimedia Commons / PeerJ S5 (CC BY 3.0)</dd>
+        <dt>Duration</dt>
+        <dd>10.98 s</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Drop, transparent cups</dd>
+        <dt>Occlusion</dt>
+        <dd>NO</dd>
+        <dt>Ground-truth status</dt>
+        <dd>Ambiguous even as a visible event (paper: floor; video: off-table blur)</dd>
+        <dt>Leakage</dt>
+        <dd>HIGH — transparent cups and late reveal</dd>
+        <dt>Temporal dependence</dt>
+        <dd>WEAK</dd>
+        <dt>Overall status</dt>
+        <dd>NOT_SUITABLE</dd>
+        <dt>Human-review flag</dt>
+        <dd>no (PIPELINE_SMOKE only)</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="peerj_01_19_s008">
+      <h2>peerj_01_19_s008 — Stuck</h2>
+      <div class="status">MISSING_FROM_REPOSITORY</div>
+      <div class="missing">No local file. Commons S6 “Stuck” routine, CC BY 3.0, ~11 s. Not inspected. Sibling clips s003–s007 are transparent-cup stage videos. Do not treat as QUALIFIES.</div>
+      <dl>
+        <dt>Source</dt>
+        <dd><a href="https://commons.wikimedia.org/wiki/File:Perceptual-elements-in-Penn-&amp;-Tellers-Cups-and-Balls-magic-trick-peerj-01-19-s008.ogv">Wikimedia Commons S6</a></dd>
+        <dt>Duration</dt>
+        <dd>~11 s (Commons; not probed locally)</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Stuck</dd>
+        <dt>Occlusion</dt>
+        <dd>UNKNOWN</dd>
+        <dt>Ground-truth status</dt>
+        <dd>Not established</dd>
+        <dt>Leakage</dt>
+        <dd>UNKNOWN</dd>
+        <dt>Temporal dependence</dt>
+        <dd>UNKNOWN</dd>
+        <dt>Overall status</dt>
+        <dd>MISSING_FROM_REPOSITORY</dd>
+        <dt>Human-review flag</dt>
+        <dd>no — not a local candidate. Optional later download as another control, not gold.</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="opaque">
+      <h2>peerj_01_19_opaque_cups</h2>
+      <div class="status">MISSING_FROM_REPOSITORY</div>
+      <div class="missing">Paper describes opaque-cup conditions. Commons search 2026-09-03 listed only s003–s008. No local opaque files.</div>
+      <dl>
+        <dt>Source</dt>
+        <dd>Rieiro et al. 2013, DOI 10.7717/peerj.19</dd>
+        <dt>Duration</dt>
+        <dd>unknown</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Opaque-cup experimental cells</dd>
+        <dt>Occlusion</dt>
+        <dd>UNKNOWN</dd>
+        <dt>Ground-truth status</dt>
+        <dd>Not established</dd>
+        <dt>Leakage</dt>
+        <dd>UNKNOWN</dd>
+        <dt>Temporal dependence</dt>
+        <dd>UNKNOWN</dd>
+        <dt>Overall status</dt>
+        <dd>MISSING_FROM_REPOSITORY</dd>
+        <dt>Human-review flag</dt>
+        <dd>no</dd>
+      </dl>
+    </section>
+
+    <section class="card" id="toy">
+      <h2>toy_cups_schema_fixtures</h2>
+      <div class="status">NOT_SUITABLE</div>
+      <div class="missing">Synthetic JSONL only. Referenced MP4s are not on disk. Not real hidden-state evidence.</div>
+      <dl>
+        <dt>Source</dt>
+        <dd>data/examples/toy_manifest.jsonl</dd>
+        <dt>Duration</dt>
+        <dd>fixture 2.0 s</dd>
+        <dt>Candidate trick/condition</dt>
+        <dd>Synthetic cups_ball questions</dd>
+        <dt>Occlusion</dt>
+        <dd>NO — not real footage</dd>
+        <dt>Ground-truth status</dt>
+        <dd>Fixture strings; not research gold</dd>
+        <dt>Leakage</dt>
+        <dd>n/a</dd>
+        <dt>Temporal dependence</dt>
+        <dd>n/a</dd>
+        <dt>Overall status</dt>
+        <dd>NOT_SUITABLE</dd>
+        <dt>Human-review flag</dt>
+        <dd>no</dd>
+      </dl>
+    </section>
+
+    <footer>
+      Wikimedia videos stay on disk as controls. First hidden-state baseline:
+      NOT READY. Next: five new clips, opaque concealment, crop before reveal.
+    </footer>
+  </main>
+</body>
+</html>

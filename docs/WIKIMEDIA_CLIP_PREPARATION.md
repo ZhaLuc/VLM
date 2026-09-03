@@ -1,8 +1,9 @@
 # Wikimedia clip preparation (first real baseline)
 
-Prepare downloaded Wikimedia Commons OGV files for the first hidden-state VLM
-baseline. No new research method. Ground-truth and questions were **not**
-invented.
+Prepare downloaded Wikimedia Commons OGV files as **pilot/control** footage.
+They fail the hidden-state rubric (transparent cups, late reveal). Ground-truth
+and questions were **not** invented. Do not gold-label these rows as
+`hidden_state`. See `docs/HIDDEN_STATE_ELIGIBILITY.md`.
 
 Pipeline completed here:
 

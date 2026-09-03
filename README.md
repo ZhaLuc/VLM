@@ -8,6 +8,11 @@ Demonstrations: A Post-Training Study of Vision-Language Models
 
 ## Status
 
+Five local Wikimedia / PeerJ cups-and-balls clips are **pilot/control**
+footage (`NOT_SUITABLE_FOR_HIDDEN_STATE`). Hidden-state gold: **not ready**
+(0 qualifying clips). Sourcing: `docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md`.
+Review: `reports/hidden_state_candidates/index.html`.
+
 This repository currently provides a **minimal research architecture** only:
 
 - dataset schemas + JSONL loading with split-boundary checks

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-03T01:25:57+00:00",
+  "generated_at": "2026-09-03T01:58:05+00:00",
   "root": "C:\\Users\\Lucas\\Downloads\\VLM",
   "environment": {
-    "probed_at": "2026-09-03T01:25:39+00:00",
+    "probed_at": "2026-09-03T01:58:00+00:00",
     "root": "C:\\Users\\Lucas\\Downloads\\VLM",
     "python": {
       "version": "3.11.9",
@@ -15,12 +15,7 @@
       "error": null,
       "cuda_available": false,
       "cuda_device_count": 0,
-      "cpu_only": true,
-      "pytest": {
-        "passed": true,
-        "returncode": 0,
-        "summary": "212 passed, 3 warnings in 12.08s"
-      }
+      "cpu_only": true
     },
     "transformers": {
       "available": true,
@@ -54,13 +49,8 @@
     "qwen_cache_present": false
   },
   "tests": {
-    "ran": true,
-    "returncode": 0,
-    "summary": "212 passed, 3 warnings in 12.08s",
-    "stdout_tail": "........................................................................ [ 33%]\n........................................................................ [ 67%]\n....................................................................     [100%]\n============================== warnings summary ===============================\ntests/test_dpo.py::test_dpo_smoke_train_checkpoint\ntests/test_dpo.py::test_cli_probe_and_smoke\ntests/test_grpo.py::test_grpo_smoke_train_checkpoint\n  C:\\Users\\Lucas\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\peft\\tuners\\lora\\layer.py:2631: UserWarning: fan_in_fan_out is set to False but the target module is `Conv1D`. Setting fan_in_fan_out to True.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n212 passed, 3 warnings in 12.08s",
-    "started_at": "2026-09-03T01:25:43+00:00",
-    "finished_at": "2026-09-03T01:25:57+00:00",
-    "passed": true
+    "ran": false,
+    "skipped": true
   },
   "smokes": {
     "dataset": {
@@ -168,8 +158,8 @@
     },
     "stub_baseline": {
       "ok": true,
-      "run_id": "health_stub_2026-09-03T012557_0000",
-      "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T012557_0000",
+      "run_id": "health_stub_2026-09-03T015805_0000",
+      "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T015805_0000",
       "split": "held_out",
       "n_examples": 1,
       "overall_accuracy": 0.0,
@@ -186,7 +176,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Package layout, docs, and configs present.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "has_pyproject": true
       }
@@ -197,21 +187,16 @@
       "status": "BLOCKED",
       "evidence_level": 3,
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
-      "notes": "Torch is CPU-only; real Qwen2.5-VL research runs need CUDA. pytest: 212 passed, 3 warnings in 12.08s",
+      "notes": "Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "available": true,
         "version": "2.13.0+cpu",
         "error": null,
         "cuda_available": false,
         "cuda_device_count": 0,
-        "cpu_only": true,
-        "pytest": {
-          "passed": true,
-          "returncode": 0,
-          "summary": "212 passed, 3 warnings in 12.08s"
-        }
+        "cpu_only": true
       }
     },
     {
@@ -222,7 +207,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "ExperimentConfig / initialize_experiment available.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {}
     },
     {
@@ -233,7 +218,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Schema load ok (4 records).",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
         "n_records": 4,
@@ -254,7 +239,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Toy manifest validates structurally; media checks report missing files (findings=5).",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
         "n_records": 4,
@@ -275,7 +260,7 @@
       "evidence_label": "LEVEL 4 - REAL ARTIFACT TEST",
       "notes": "Frame select/shuffle smoke ok; 5 real mp4(s) on disk.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
         "ordered_indices": [
@@ -302,7 +287,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Stub load works; real Qwen load with allow_download=False failed (cache_present=False).",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "stub": {
           "ok": true,
@@ -327,7 +312,7 @@
       "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
       "notes": "Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "stub_ok": true,
         "real_loaded": false,
@@ -342,11 +327,11 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
-        "run_id": "health_stub_2026-09-03T012557_0000",
-        "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T012557_0000",
+        "run_id": "health_stub_2026-09-03T015805_0000",
+        "run_dir": "C:\\Users\\Lucas\\Downloads\\VLM\\reports\\project_health\\stub_baseline_runs\\health_stub_2026-09-03T015805_0000",
         "split": "held_out",
         "n_examples": 1,
         "overall_accuracy": 0.0,
@@ -384,7 +369,7 @@
       "evidence_label": "LEVEL 2 - IMPORT/UNIT TEST",
       "notes": "Preference schema/module importable; no human preference labels collected.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {}
     },
     {
@@ -439,7 +424,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "hidden_state_exact_match good/bad smoke passed.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
         "good_value": 1.0,
@@ -456,7 +441,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "Temporal shuffle applied in index smoke; real-video diagnostic not run.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
         "ordered_indices": [
@@ -538,7 +523,7 @@
       "evidence_label": "LEVEL 3 - INTEGRATION/SMOKE TEST",
       "notes": "ReportConfig + build_experiment_report smoke on experiment_report_toy.",
       "tested": true,
-      "last_test": "2026-09-03T01:25:57+00:00",
+      "last_test": "2026-09-03T01:58:05+00:00",
       "details": {
         "ok": true,
         "keys": [
@@ -599,7 +584,7 @@
     {
       "id": "human_labels",
       "why": "Real ground-truth / preference / causal annotations not yet collected",
-      "need": "Author hidden-state question + ground_truth on the Wikimedia pilot manifest (replace HUMAN_FILL_REQUIRED)",
+      "need": "Obtain footage that passes docs/HIDDEN_STATE_ELIGIBILITY.md; Wikimedia transparent-cup pilots are controls, not hidden-state gold",
       "priority": "now"
     },
     {
@@ -612,10 +597,10 @@
   "human_input": [
     {
       "priority": "now",
-      "what": "Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot (trick_id, performer_id, camera_id, question, ground_truth)",
-      "where": "data/examples/wikimedia_pilot_manifest.template.jsonl",
-      "format": "ExampleRecord JSONL (docs/DATASET_SCHEMA.md)",
-      "after": "magic-vlm-validate --manifest data/examples/wikimedia_pilot_manifest.jsonl"
+      "what": "Source 5 hidden-state clips that pass docs/HIDDEN_STATE_ELIGIBILITY.md (opaque concealment). Do not gold-label the Wikimedia transparent-cup pilots.",
+      "where": "data/videos/ plus provenance; see docs/HIDDEN_STATE_VIDEO_SOURCING_GUIDE.md",
+      "format": "mp4 + provenance JSON + pending annotations (not gold until approved)",
+      "after": "Open reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md"
     },
     {
       "priority": "now",
@@ -656,7 +641,7 @@
   "next_actions": [
     "GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs",
     "Download Qwen2.5-VL locally or point model_id at a local directory",
-    "Author hidden-state question + ground_truth on the Wikimedia pilot manifest (replace HUMAN_FILL_REQUIRED)",
+    "Obtain footage that passes docs/HIDDEN_STATE_ELIGIBILITY.md; Wikimedia transparent-cup pilots are controls, not hidden-state gold",
     "Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights"
   ],
   "entry_points": {
