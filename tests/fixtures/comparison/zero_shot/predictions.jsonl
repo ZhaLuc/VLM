@@ -1,0 +1,1 @@
+{"example_id": "toy_held_out_001_q1", "clip_id": "toy_cups_held", "trick_id": "cups_ball_v2", "split": "held_out", "question": "Which cup contains the ball?", "ground_truth": "center", "raw_text": "Answer: left", "parsed_answer": "left", "parse_failed": false, "correct": false, "model_id": "stub-zero-shot"}

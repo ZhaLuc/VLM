@@ -1,0 +1,1 @@
+{"n_pairs": 1, "ordered_accuracy": 1.0, "shuffled_accuracy": 0.0, "accuracy_difference": 1.0, "n_both_correct": 0, "n_both_incorrect": 0, "n_ordered_only": 1, "n_shuffled_only": 0, "shuffle_seed": 7, "shuffle_method": "lcg_fisher_yates_permutation_of_sampled_indices", "split": "held_out", "integrity_note": "Temporal-shuffle sensitivity is a temporal-order diagnostic."}

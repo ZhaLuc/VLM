@@ -1,0 +1,1 @@
+{"example_id": "toy_held_out_001_q1", "clip_id": "toy_cups_held", "split": "held_out", "raw_text": "Answer: center", "parsed_answer": "center", "ground_truth": "center", "reward": 1.0, "matched": true, "parse_failed": false}

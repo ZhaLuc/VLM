@@ -22,7 +22,14 @@ from magic_vlm.utils import RunDirectoryError, allocate_run_directory
 
 def test_supported_types() -> None:
     types = list_supported_experiments()
-    assert set(types) == {"baseline", "temporal_shuffle", "dpo", "grpo", "reward_model"}
+    assert set(types) == {
+        "baseline",
+        "temporal_shuffle",
+        "dpo",
+        "grpo",
+        "reward_model",
+        "comparison",
+    }
 
 
 def test_valid_config_load_and_resolve() -> None:
@@ -50,6 +57,12 @@ def test_grpo_config_resolves() -> None:
     raw = load_raw_config("configs/grpo_smoke_text.yaml")
     assert resolve_experiment_type(raw) == "grpo"
     validate_dispatch_config(raw, experiment_type="grpo")
+
+
+def test_comparison_config_resolves() -> None:
+    raw = load_raw_config("configs/compare_methods_toy.yaml")
+    assert resolve_experiment_type(raw) == "comparison"
+    validate_dispatch_config(raw, experiment_type="comparison")
 
 
 def test_dpo_rejects_held_out_checkpoint_selection() -> None:

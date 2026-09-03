@@ -1,0 +1,39 @@
+# Toy comparative evaluation (synthetic fixtures with known outcomes).
+# Does not claim reasoning improvement from any metric delta.
+
+experiment_type: comparison
+output_dir: runs/comparison
+run_id: compare_toy_synthetic
+reference_method_id: zero_shot
+
+protocol:
+  manifest: data/examples/toy_manifest.jsonl
+  split: held_out
+  task: hidden_state
+  metric: exact_match
+  require_full_coverage: true
+  allow_incompatible_protocols: false
+
+methods:
+  - method_id: zero_shot
+    kind: zero_shot
+    run_dir: tests/fixtures/comparison/zero_shot
+    generation_policy:
+      temperature: 0.0
+      max_new_tokens: 32
+      do_sample: false
+    notes: Synthetic wrong prediction (accuracy 0).
+
+  - method_id: grpo
+    kind: grpo
+    run_dir: tests/fixtures/comparison/grpo
+    temporal_summary_path: tests/fixtures/comparison/temporal/temporal_shuffle_summary.json
+    generation_policy:
+      temperature: 0.0
+      max_new_tokens: 32
+      do_sample: false
+    notes: Synthetic correct prediction (accuracy 1) + attached temporal summary.
+
+include_unseen_slices: true
+include_temporal: true
+include_reward: true

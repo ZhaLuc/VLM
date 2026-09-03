@@ -140,6 +140,13 @@ Objective reward interfaces: `docs/OBJECTIVE_REWARDS.md`, including
 exact match; no hybrid weighting).
 
 ```bash
+magic-vlm-compare-methods --config configs/compare_methods_toy.yaml
+```
+
+See `docs/COMPARISON.md`. Compares implemented methods on the same locked
+held-out protocol; dimensions stay separate (no single "reasoning score").
+
+```bash
 magic-vlm-compare-objective \
   --manifest data/examples/toy_temporal_causal.jsonl \
   --predictions path/to/predictions.jsonl \

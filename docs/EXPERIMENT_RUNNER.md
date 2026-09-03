@@ -9,9 +9,11 @@ Config-driven dispatch over **existing** experiment implementations.
 | `baseline` | `run_zero_shot_baseline` |
 | `temporal_shuffle` | `run_temporal_shuffle_experiment` |
 | `dpo` | `train_dpo` |
+| `grpo` | `train_grpo` |
 | `reward_model` | `train_bradley_terry_reward_model` |
+| `comparison` | `run_comparison` (locked held-out multi-method report) |
 
-Unsupported (not implemented): `grpo`, `sft`, `ppo`, plugins, distributed jobs.
+Unsupported (not implemented): `sft`, `ppo`, plugins, distributed jobs.
 
 ## What every run records
 
@@ -25,6 +27,7 @@ Unsupported (not implemented): `grpo`, `sft`, `ppo`, plugins, distributed jobs.
 
 ```bash
 magic-vlm-run --config configs/baseline_stub.yaml --run-id baseline-dispatch-1
+magic-vlm-run --config configs/compare_methods_toy.yaml --run-id compare-dispatch-1
 magic-vlm-run --list-types
 ```
 

@@ -601,6 +601,59 @@ def train_reward_main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def compare_methods_main(argv: list[str] | None = None) -> int:
+    """Compare implemented methods under a locked held-out protocol."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Cross-method comparative evaluation on the same held-out set. "
+            "Reports accuracy, generalization slices, temporal sensitivity, and "
+            "reward deltas as separate dimensions — not a reasoning score. "
+            "Missing predictions remain visible."
+        )
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/compare_methods_toy.yaml"),
+    )
+    parser.add_argument("--run-id", type=str, default=None)
+    parser.add_argument(
+        "--allow-incompatible-protocols",
+        action="store_true",
+        help="Label and proceed when generation_policy fingerprints differ.",
+    )
+    parser.add_argument(
+        "--allow-incomplete-coverage",
+        action="store_true",
+        help="Allow methods missing some locked examples (missing cells stay visible).",
+    )
+    args = parser.parse_args(argv)
+
+    from magic_vlm.comparison import ComparisonConfig, run_comparison
+
+    config = ComparisonConfig.from_yaml(args.config)
+    payload = config.to_dict()
+    if args.run_id:
+        payload["run_id"] = args.run_id
+    if args.allow_incompatible_protocols:
+        payload["protocol"]["allow_incompatible_protocols"] = True
+    if args.allow_incomplete_coverage:
+        payload["protocol"]["require_full_coverage"] = False
+    config = ComparisonConfig.from_dict(payload)
+    result = run_comparison(config)
+    aggs = result.report.get("aggregates") or {}
+    parts = [
+        f"{mid}:acc={stats.get('accuracy')}" for mid, stats in aggs.items()
+    ]
+    print(
+        f"compare-methods ok run_dir={result.run_dir} "
+        f"n_locked={result.report['coverage']['locked_n']} "
+        + " ".join(parts)
+    )
+    print(result.report.get("integrity_disclaimer", ""))
+    return 0
+
+
 def compare_objective_main(argv: list[str] | None = None) -> int:
     """Compare hidden-state and temporal/causal rewards independently (no hybrid)."""
     parser = argparse.ArgumentParser(

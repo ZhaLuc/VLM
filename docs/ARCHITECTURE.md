@@ -60,6 +60,8 @@ move examples into/out of `held_out` after baseline numbers are published.
   before claiming VLM readiness. Never overwrite immutable baselines.
 - GRPO on modular objective rewards: `docs/GRPO.md` (TRL + PEFT; default
   `hidden_state_exact_match`). Reward gains ≠ reasoning improvement.
+- Cross-method comparative evaluation: `docs/COMPARISON.md` (locked held-out
+  protocol; accuracy / generalization / temporal / reward kept separate).
 - Objective rewards: `docs/OBJECTIVE_REWARDS.md`
   (`hidden_state_exact_match` and `temporal_iou` v1.0.0). Not reasoning metrics;
   no hybrid weighting. Causal annotation status is exposed in reports

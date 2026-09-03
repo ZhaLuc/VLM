@@ -32,7 +32,9 @@ from magic_vlm.utils import (
     write_json,
 )
 
-ExperimentType = Literal["baseline", "temporal_shuffle", "dpo", "grpo", "reward_model"]
+ExperimentType = Literal[
+    "baseline", "temporal_shuffle", "dpo", "grpo", "reward_model", "comparison"
+]
 
 SUPPORTED_EXPERIMENT_TYPES: tuple[str, ...] = (
     "baseline",
@@ -40,6 +42,7 @@ SUPPORTED_EXPERIMENT_TYPES: tuple[str, ...] = (
     "dpo",
     "grpo",
     "reward_model",
+    "comparison",
 )
 
 INTEGRITY_NOTE = (
@@ -82,6 +85,7 @@ def list_supported_experiments() -> dict[str, str]:
         "dpo": "DPO post-training (DPOConfigSpec)",
         "grpo": "GRPO post-training on objective reward (GRPOConfigSpec)",
         "reward_model": "Bradley-Terry text reward model (RewardModelConfig)",
+        "comparison": "Cross-method locked held-out comparative evaluation",
     }
 
 
@@ -113,6 +117,8 @@ def resolve_experiment_type(raw: dict[str, Any]) -> ExperimentType:
         and "manifest" in raw
     ):
         return "grpo"
+    if "methods" in raw and ("protocol" in raw or raw.get("experiment_type") == "comparison"):
+        return "comparison"
     if "prefs_path" in raw and "embedding_dim" in raw:
         return "reward_model"
     stage = str(raw.get("stage") or "")
@@ -183,6 +189,24 @@ def validate_dispatch_config(raw: dict[str, Any], *, experiment_type: str) -> No
                 raise ExperimentDispatchError(f"reward_model config missing {key}")
         return
 
+    if experiment_type == "comparison":
+        if "methods" not in raw:
+            raise ExperimentDispatchError("comparison config missing methods")
+        proto = dict(raw.get("protocol") or {})
+        if "manifest" not in proto and "manifest" not in raw:
+            raise ExperimentDispatchError("comparison config requires protocol.manifest")
+        if not list(raw.get("methods") or []):
+            raise ExperimentDispatchError("comparison config methods must be non-empty")
+        selection = str(raw.get("checkpoint_selection") or "")
+        if selection:
+            lowered = selection.lower()
+            if "held_out" in lowered or lowered in {"test", "final_test", "heldout"}:
+                raise ExperimentDispatchError(
+                    "comparison must not select checkpoints via final held-out/"
+                    f"test performance (got {selection!r})"
+                )
+        return
+
     raise ExperimentDispatchError(f"Unsupported experiment_type: {experiment_type}")
 
 
@@ -204,6 +228,8 @@ def _output_dir_for(raw: dict[str, Any], experiment_type: str) -> str:
         return "runs/grpo"
     if experiment_type == "reward_model":
         return "runs/reward_model"
+    if experiment_type == "comparison":
+        return "runs/comparison"
     return "runs"
 
 
@@ -374,6 +400,28 @@ def _run_reward_model(
     return result.run_dir, metrics, artifacts
 
 
+def _run_comparison(
+    raw: dict[str, Any], *, run_id: str
+) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    from magic_vlm.comparison import ComparisonConfig, run_comparison
+
+    payload = dict(raw)
+    payload["run_id"] = run_id
+    config = ComparisonConfig.from_dict(payload)
+    result = run_comparison(config)
+    metrics = {
+        "n_locked": result.report["coverage"]["locked_n"],
+        "aggregates": result.report.get("aggregates"),
+        "protocol_compatible": result.report["protocol_compatibility"]["compatible"],
+    }
+    artifacts = {
+        "aligned": "aligned_examples.jsonl",
+        "metrics": "comparison_metrics.json",
+        "report": "comparison_report.md",
+    }
+    return result.run_dir, metrics, artifacts
+
+
 def run_experiment(
     config_path: str | Path,
     *,
@@ -436,6 +484,8 @@ def run_experiment(
             out_path, metrics, artifacts = _run_grpo(raw, run_id=rid)
         elif etype == "reward_model":
             out_path, metrics, artifacts = _run_reward_model(raw, run_id=rid)
+        elif etype == "comparison":
+            out_path, metrics, artifacts = _run_comparison(raw, run_id=rid)
         else:  # pragma: no cover
             raise ExperimentDispatchError(f"Unsupported experiment_type: {etype}")
 
