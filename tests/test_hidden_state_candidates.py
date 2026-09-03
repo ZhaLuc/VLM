@@ -162,11 +162,21 @@ def test_health_does_not_ask_to_gold_label_wikimedia() -> None:
     items = build_human_input({"real_mp4_count": 5, "root": str(ROOT)})
     blob = " ".join(item.what for item in items)
     assert "Do not gold-label" in blob
-    assert "mac_king_s006" in blob
+    assert "S6" in blob
     assert "Replace HUMAN_FILL_REQUIRED fields on the Wikimedia pilot" not in blob
     stats = hidden_state_dataset_stats(load_hidden_state_inventory(ROOT))
-    assert stats["hidden_state_gold"]["eligible_count"] == 0
-    assert stats["mac_king_candidates"]["pending_human_review"] == 2
+    assert stats["approved_gold_examples"] == 0
+    assert stats["pending_review"] == 2
+    assert stats["hidden_state_candidates"] == 7
+
+
+def test_no_hidden_state_gold_manifest_without_human_approval() -> None:
+    gold = ROOT / "data" / "examples" / "hidden_state_pilot.jsonl"
+    assert not gold.exists()
+    for record in load_manifest(MAC_REVIEW):
+        assert record.question == FILL
+        assert record.ground_truth == FILL
+        assert record.metadata.get("human_approval") == "PENDING"
 
 
 def test_local_wikimedia_clips_still_preprocess() -> None:

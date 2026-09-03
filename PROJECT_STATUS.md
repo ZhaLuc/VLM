@@ -6,8 +6,8 @@
 
 - Overall: `BLOCKED`
 - First real baseline ready: `NO`
-- Reason: First real hidden-state baseline cannot run. Missing: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
-- Generated: 2026-09-03T02:33:44+00:00
+- Reason: First real hidden-state baseline cannot run. Missing: approved hidden-state gold example, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache; stub tooling may still work for synthetic smoke tests.
+- Generated: 2026-09-03T02:44:47+00:00
 
 ## Pipeline
 
@@ -19,7 +19,7 @@
 - `PASS` **Video preprocessing** (evidence 4) — Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
 - `BLOCKED` **VLM model loading** (evidence 3) — Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
 - `BLOCKED` **VLM video inference** (evidence 2) — Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
-- `PARTIAL` **Zero-shot baseline** (evidence 1) — Stub baseline smoke skipped; real baseline still blocked.
+- `BLOCKED` **Zero-shot baseline** (evidence 3) — Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
 - `PARTIAL` **Baseline evaluation** (evidence 2) — Evaluation helpers exist; no real baseline metrics produced by this audit.
 - `PARTIAL` **Failure analysis** (evidence 2) — Analysis module present; not exercised on a real baseline run.
 - `PASS` **Preference schema** (evidence 2) — Preference schema/module importable; no human preference labels collected.
@@ -51,6 +51,7 @@
 - [BLOCKED] Environment setup: Torch is CPU-only; real Qwen2.5-VL research runs need CUDA.
 - [BLOCKED] VLM model loading: Stub load works; real Qwen load with allow_download=False failed (cache_present=False).
 - [BLOCKED] VLM video inference: Real video VLM inference blocked (need real mp4 + CUDA + Qwen weights).
+- [BLOCKED] Zero-shot baseline: Stub baseline smoke passed; real hidden-state baseline blocked (no CUDA, no Qwen cache).
 - [BLOCKED] DPO: DPO stack code exists; real Qwen DPO needs CUDA + weights + preferences.
 - [BLOCKED] GRPO: GRPO code exists; real VLM GRPO blocked without CUDA/weights/rewards data.
 
@@ -58,7 +59,7 @@
 
 ### I need to provide this now
 
-1. **What:** Review mac_king_s006 and mac_king_s007 (APPROVE / EDIT / REJECT). Do not gold-label Wikimedia clips.
+1. **What:** Record an explicit S6 decision in HUMAN_INPUT_REQUIRED.md: replace `APPROVE / EDIT / REJECT` with one word. S7 stays pending. Do not gold-label Wikimedia clips.
    - Where: reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md
    - Format: Human decision on pending proposals only; no unverified ground_truth
    - After: `Open reports/hidden_state_candidates/index.html`
@@ -97,6 +98,12 @@
 
 ## Hidden-state dataset
 
+- hidden_state_candidates: `7`
+- approved_gold_examples: `0`
+- pending_review: `2`
+- rejected: `10`
+- clips_needed: `5`
+
 ### WIKIMEDIA CONTROLS
 
 - candidate_count: `5`
@@ -119,11 +126,12 @@
 
 ## First Research Experiment Readiness
 
-`NO` — First real hidden-state baseline cannot run. Missing: CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache
+`NO` — First real hidden-state baseline cannot run. Missing: approved hidden-state gold example, CUDA GPU (torch.cuda), local Qwen2.5-VL weights / HF cache; stub tooling may still work for synthetic smoke tests.
 
 ## Next Actions
 
-1. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
-2. Download Qwen2.5-VL locally or point model_id at a local directory
-3. Review Mac King S6/S7 hidden-state proposals (PENDING); Wikimedia transparent-cup pilots remain controls, not gold
-4. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights
+1. In HUMAN_INPUT_REQUIRED.md, replace the S6 line `APPROVE / EDIT / REJECT` with exactly one of those words
+2. GPU host with CUDA-enabled PyTorch for practical Qwen2.5-VL runs
+3. Download Qwen2.5-VL locally or point model_id at a local directory
+4. Review Mac King S6/S7 hidden-state proposals (PENDING); Wikimedia transparent-cup pilots remain controls, not gold
+5. Re-run: python scripts/project_health.py  after videos + CUDA + Qwen weights

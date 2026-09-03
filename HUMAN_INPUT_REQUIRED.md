@@ -1,7 +1,7 @@
 # Human input required now
 
-1. Open `reports/hidden_state_candidates/index.html`.
-2. Decide on **Movie6.MP4 (S6)** then **Movie7.MP4 (S7)** only:
+S6 has no recorded decision. The review page still shows `PENDING`.
+Replace the S6 choice line with exactly one word: `APPROVE`, `EDIT`, or `REJECT`.
 
 Clip: mac_king_s006 / Movie6.MP4
 Candidate question: Which hand contains the coin after the apparent transfer?
@@ -10,11 +10,10 @@ Why: Paper fake-toss retains the coin in the right hand; S6 omits S1’s reveal;
 What I must verify: palmed coin not visible at the end; late left palm does not make “not left” trivial; reuse rights.
 APPROVE / EDIT / REJECT
 
-Clip: mac_king_s007 / Movie7.MP4
+Clip: mac_king_s007 / Movie7.MP4 — leave pending unless you review it.
 Candidate question: Which hand contains the coin after the transfer?
 Candidate answer: left
-Why: Paper real toss to the left; S7 omits S2’s open-palm show of the coin.
-What I must verify: last ~0.5 s does not already show the caught coin.
 APPROVE / EDIT / REJECT
 
 Do not gold-label Wikimedia clips. Do not splice S1/S2 onto S6/S7.
+Approved gold: 0 of 5.

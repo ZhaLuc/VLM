@@ -216,6 +216,11 @@ def hidden_state_dataset_stats(inventory: dict[str, Any] | None) -> dict[str, An
     }
     if not inventory:
         return {
+            "hidden_state_candidates": 0,
+            "approved_gold_examples": 0,
+            "pending_review": 0,
+            "rejected": 0,
+            "clips_needed": 5,
             "wikimedia_controls": dict(empty),
             "mac_king_candidates": dict(empty),
             "hidden_state_gold": {
@@ -226,14 +231,24 @@ def hidden_state_dataset_stats(inventory: dict[str, Any] | None) -> dict[str, An
         }
     ready = inventory.get("readiness") or {}
     collections = ready.get("collections") or {}
+    wiki = collections.get("wikimedia_controls") or dict(empty)
+    mac = collections.get("mac_king_candidates") or dict(empty)
     gold = collections.get("hidden_state_gold") or {
         "eligible_count": int(ready.get("valid_candidates") or 0),
         "pending_human_review": int(ready.get("candidates_needing_human_review") or 0),
         "clips_needed_for_pilot": int(ready.get("additional_clips_needed") or 5),
     }
+    approved = int(gold.get("eligible_count") or 0)
+    pending = int(gold.get("pending_human_review") or 0)
+    rejected = int(wiki.get("rejected_count") or 0) + int(mac.get("rejected_count") or 0)
     return {
-        "wikimedia_controls": collections.get("wikimedia_controls") or dict(empty),
-        "mac_king_candidates": collections.get("mac_king_candidates") or dict(empty),
+        "hidden_state_candidates": int(mac.get("candidate_count") or 0),
+        "approved_gold_examples": approved,
+        "pending_review": pending,
+        "rejected": rejected,
+        "clips_needed": int(gold.get("clips_needed_for_pilot") or max(0, 5 - approved)),
+        "wikimedia_controls": wiki,
+        "mac_king_candidates": mac,
         "hidden_state_gold": gold,
     }
 
@@ -1011,6 +1026,7 @@ def derive_overall(
     env: dict[str, Any],
     components: list[ComponentResult],
     smokes: dict[str, Any],
+    dataset_stats: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Derive first-baseline readiness and banner from hard acceptance criteria."""
     real_mp4 = int(env.get("real_mp4_count") or 0) > 0
@@ -1019,16 +1035,18 @@ def derive_overall(
     qwen_loaded = bool((smokes.get("real_qwen_load") or {}).get("loaded"))
     qwen_ready = qwen_cache or qwen_loaded
     stub_ok = bool((smokes.get("stub_baseline") or {}).get("ok"))
+    approved_gold = int((dataset_stats or {}).get("approved_gold_examples") or 0)
+    has_gold = approved_gold >= 1
 
-    if real_mp4 and cuda and qwen_ready:
+    if has_gold and real_mp4 and cuda and qwen_ready:
         first_baseline = "YES"
         banner = "READY FOR FIRST BASELINE"
         overall = "PASS"
         reason = (
-            "Real mp4(s) present, CUDA available, and Qwen cache/load evidence found."
+            f"{approved_gold} approved gold example(s), real mp4(s) present, "
+            "CUDA available, and Qwen cache/load evidence found."
         )
-    elif real_mp4 and (cuda or qwen_ready or stub_ok):
-        # Have video but still missing CUDA and/or weights for a real VLM baseline.
+    elif has_gold and real_mp4:
         first_baseline = "PARTIALLY"
         banner = "NOT READY FOR RESEARCH RUN"
         overall = "BLOCKED"
@@ -1038,7 +1056,8 @@ def derive_overall(
         if not qwen_ready:
             missing.append("local Qwen2.5-VL weights / HF cache")
         reason = (
-            "Real video present, but first baseline still blocked by: "
+            "Approved hidden-state gold exists, but first real VLM baseline "
+            "still blocked by: "
             + (", ".join(missing) if missing else "incomplete VLM stack")
         )
     else:
@@ -1046,6 +1065,8 @@ def derive_overall(
         banner = "NOT READY FOR RESEARCH RUN"
         overall = "BLOCKED"
         missing = []
+        if not has_gold:
+            missing.append("approved hidden-state gold example")
         if not real_mp4:
             missing.append("real mp4 under data/videos")
         if not cuda:
@@ -1069,6 +1090,8 @@ def derive_overall(
         "banner": banner,
         "reason": reason,
         "criteria": {
+            "approved_gold": has_gold,
+            "approved_gold_examples": approved_gold,
             "real_mp4": real_mp4,
             "cuda": cuda,
             "qwen_cache_or_load": qwen_ready,
@@ -1079,8 +1102,25 @@ def derive_overall(
     }
 
 
-def build_blockers(env: dict[str, Any], smokes: dict[str, Any]) -> list[Blocker]:
+def build_blockers(
+    env: dict[str, Any],
+    smokes: dict[str, Any],
+    dataset_stats: dict[str, Any] | None = None,
+) -> list[Blocker]:
     blockers: list[Blocker] = []
+    approved_gold = int((dataset_stats or {}).get("approved_gold_examples") or 0)
+    if approved_gold < 1:
+        blockers.append(
+            Blocker(
+                id="approved_gold",
+                why="No approved hidden-state gold example is recorded",
+                need=(
+                    "In HUMAN_INPUT_REQUIRED.md, replace the S6 line "
+                    "`APPROVE / EDIT / REJECT` with exactly one of those words"
+                ),
+                priority="now",
+            )
+        )
     if int(env.get("real_mp4_count") or 0) == 0:
         blockers.append(
             Blocker(
@@ -1211,8 +1251,9 @@ def build_human_input(env: dict[str, Any]) -> list[HumanInputItem]:
             HumanInputItem(
                 priority="now",
                 what=(
-                    "Review mac_king_s006 and mac_king_s007 "
-                    "(APPROVE / EDIT / REJECT). Do not gold-label Wikimedia clips."
+                    "Record an explicit S6 decision in HUMAN_INPUT_REQUIRED.md: "
+                    "replace `APPROVE / EDIT / REJECT` with one word. "
+                    "S7 stays pending. Do not gold-label Wikimedia clips."
                 ),
                 where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
                 format="Human decision on pending proposals only; no unverified ground_truth",
@@ -1298,6 +1339,12 @@ def render_markdown(audit: dict[str, Any]) -> str:
     wiki = hs.get("wikimedia_controls") or {}
     mac = hs.get("mac_king_candidates") or {}
     gold = hs.get("hidden_state_gold") or {}
+    lines.append(f"- hidden_state_candidates: `{hs.get('hidden_state_candidates', 0)}`")
+    lines.append(f"- approved_gold_examples: `{hs.get('approved_gold_examples', 0)}`")
+    lines.append(f"- pending_review: `{hs.get('pending_review', 0)}`")
+    lines.append(f"- rejected: `{hs.get('rejected', 0)}`")
+    lines.append(f"- clips_needed: `{hs.get('clips_needed', 5)}`")
+    lines.append("")
     lines.append("### WIKIMEDIA CONTROLS")
     lines.append("")
     lines.append(f"- candidate_count: `{wiki.get('candidate_count', 0)}`")
@@ -1440,6 +1487,11 @@ th {{ background: #efeae2; }}
   </table>
 
   <h2>Hidden-state dataset</h2>
+  <p>hidden_state_candidates: {html.escape(str(hs.get('hidden_state_candidates', 0)))}
+  · approved_gold_examples: {html.escape(str(hs.get('approved_gold_examples', 0)))}
+  · pending_review: {html.escape(str(hs.get('pending_review', 0)))}
+  · rejected: {html.escape(str(hs.get('rejected', 0)))}
+  · clips_needed: {html.escape(str(hs.get('clips_needed', 5)))}</p>
   <h3>WIKIMEDIA CONTROLS</h3>
   <p>candidate_count: {html.escape(str(wiki.get('candidate_count', 0)))}
   · eligible_count: {html.escape(str(wiki.get('eligible_count', 0)))}
@@ -1480,14 +1532,14 @@ def run_audit(
         components = build_component_results(
             env=env, smokes=smokes, tests=tests, root=root_path
         )
-        overall = derive_overall(env, components, smokes)
-        blockers = build_blockers(env, smokes)
-        human = build_human_input(env)
-        actions = next_actions(overall, blockers)
-        entry = smokes.get("entry_points") or {}
         dataset_stats = hidden_state_dataset_stats(
             load_hidden_state_inventory(root_path)
         )
+        overall = derive_overall(env, components, smokes, dataset_stats)
+        blockers = build_blockers(env, smokes, dataset_stats)
+        human = build_human_input(env)
+        actions = next_actions(overall, blockers)
+        entry = smokes.get("entry_points") or {}
 
         audit: dict[str, Any] = {
             "generated_at": utc_now_iso(),

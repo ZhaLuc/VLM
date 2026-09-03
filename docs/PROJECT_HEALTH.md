@@ -23,7 +23,8 @@ python scripts/project_health.py --skip-stub-baseline
 - `PASS` requires meaningful evidence (not just imports).
 - Missing videos / GPU / weights stay `BLOCKED`.
 - Synthetic/stub success is never reported as a real research baseline.
-- Hidden-state dataset counts (`WIKIMEDIA CONTROLS`, `MAC KING CANDIDATES`,
-  `HIDDEN-STATE GOLD`) are read from
-  `data/examples/hidden_state_candidate_inventory.json`. They are not
-  hard-coded.
+- Hidden-state dataset counts (`hidden_state_candidates`,
+  `approved_gold_examples`, `pending_review`, `rejected`, `clips_needed`)
+  are read from `data/examples/hidden_state_candidate_inventory.json`.
+  Pending candidates are not counted as gold. First-baseline `YES` also
+  requires approved gold, CUDA, and local Qwen weights.

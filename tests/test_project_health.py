@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from magic_vlm.project_health import probe_environment, render_html, run_audit
+from magic_vlm.project_health import derive_overall, probe_environment, render_html, run_audit
 
 
 def test_probe_environment_has_python(tmp_path: Path) -> None:
@@ -33,9 +33,23 @@ def test_run_audit_quick_writes_artifacts() -> None:
     assert audit["first_baseline_ready"] == ready
 
     real_mp4 = int(payload["environment"]["real_mp4_count"])
-    if real_mp4 == 0:
+    gold = int(payload["hidden_state_dataset"]["approved_gold_examples"])
+    if real_mp4 == 0 or gold == 0:
         assert ready != "YES"
         assert "READY FOR FIRST BASELINE" not in payload["overall"]["banner"]
+
+
+def test_derive_overall_requires_approved_gold() -> None:
+    env = {
+        "real_mp4_count": 12,
+        "torch": {"cuda_available": True},
+        "qwen_cache_present": True,
+    }
+    smokes = {"real_qwen_load": {"loaded": True}, "stub_baseline": {"ok": True}}
+    blocked = derive_overall(env, [], smokes, {"approved_gold_examples": 0})
+    assert blocked["first_baseline_ready"] == "NO"
+    ready = derive_overall(env, [], smokes, {"approved_gold_examples": 1})
+    assert ready["first_baseline_ready"] == "YES"
 
 
 def test_html_contains_status_banner() -> None:
@@ -80,13 +94,19 @@ def test_html_and_markdown_include_hidden_state_collections() -> None:
     md = (repo / "PROJECT_STATUS.md").read_text(encoding="utf-8")
     html_body = (repo / "reports" / "project_status.html").read_text(encoding="utf-8")
     for blob in (md, html_body):
+        assert "hidden_state_candidates" in blob
+        assert "approved_gold_examples" in blob
+        assert "pending_review" in blob
+        assert "clips_needed" in blob
         assert "WIKIMEDIA CONTROLS" in blob
         assert "MAC KING CANDIDATES" in blob
         assert "HIDDEN-STATE GOLD" in blob
-        assert "candidate_count" in blob
-        assert "clips_needed_for_pilot" in blob
     hs = audit["hidden_state_dataset"]
+    assert hs["approved_gold_examples"] == 0
+    assert hs["pending_review"] == 2
+    assert hs["hidden_state_candidates"] == 7
+    assert hs["clips_needed"] == 5
     assert hs["wikimedia_controls"]["candidate_count"] == 5
     assert hs["mac_king_candidates"]["candidate_count"] == 7
     assert hs["hidden_state_gold"]["eligible_count"] == 0
-    assert hs["hidden_state_gold"]["clips_needed_for_pilot"] == 5
+    assert audit["first_baseline_ready"] == "NO"
