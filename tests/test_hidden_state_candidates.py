@@ -18,7 +18,7 @@ MAC_REVIEW = ROOT / "data" / "examples" / "mac_king_review.jsonl"
 MAC_PROPOSALS = ROOT / "data" / "examples" / "mac_king_annotation_proposals.json"
 MAC_PROVENANCE = ROOT / "data" / "provenance" / "mac_king_cui_2011.json"
 WIKI_PROVENANCE = ROOT / "data" / "provenance" / "wikimedia_peerj_01_19.json"
-HUMAN = ROOT / "HUMAN_INPUT_REQUIRED.md"
+HUMAN = ROOT / "docs" / "OPEN_ITEMS.md"
 STILLS = ROOT / "reports" / "mac_king_clip_review" / "stills"
 FILL = "HUMAN_FILL_REQUIRED"
 ALLOWED_STATUS = {
@@ -166,7 +166,7 @@ def test_mac_king_review_records_s6_approval_and_keeps_s7_pending() -> None:
     assert clips["mac_king_s007"]["candidate_ground_truth"] == "left"
 
 
-def test_human_input_required_is_short_and_actionable() -> None:
+def test_open_items_is_short_and_actionable() -> None:
     text = HUMAN.read_text(encoding="utf-8")
     assert "Movie7.MP4" in text or "mac_king_s007" in text or "NONE" in text
     assert "Do not gold-label Wikimedia" in text

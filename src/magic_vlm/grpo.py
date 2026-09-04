@@ -1,7 +1,7 @@
 """GRPO post-training on modular objective rewards (hidden-state exact match).
 
 Uses TRL ``GRPOTrainer`` + optional PEFT/LoRA. Reward logic stays in
-``magic_vlm.rewards`` — this module only adapts datasets and invokes rewards.
+``magic_vlm.rewards`` - this module only adapts datasets and invokes rewards.
 
 Scientific limits
 -----------------
@@ -750,7 +750,7 @@ def train_grpo(config: GRPOConfigSpec) -> GRPOTrainResult:
 
     held_out_eval = None
     if config.eval_held_out_after_train and held_out_examples:
-        # Independent held-out eval — never feeds checkpoint selection.
+        # Independent held-out eval - never feeds checkpoint selection.
         import torch
 
         device = "cuda" if stack.cuda_available and torch.cuda.is_available() else "cpu"

@@ -658,7 +658,7 @@ def report_main(argv: list[str] | None = None) -> int:
 
 
 def analyze_reward_hacking_main(argv: list[str] | None = None) -> int:
-    """Diagnose possible reward–quality divergences (not single-example proof)."""
+    """Diagnose possible reward-quality divergences (not single-example proof)."""
     parser = argparse.ArgumentParser(
         description=(
             "Reward-hacking diagnostics: compare programmatic/RM reward vs "
@@ -706,7 +706,7 @@ def compare_methods_main(argv: list[str] | None = None) -> int:
         description=(
             "Cross-method comparative evaluation on the same held-out set. "
             "Reports accuracy, generalization slices, temporal sensitivity, and "
-            "reward deltas as separate dimensions — not a reasoning score. "
+            "reward deltas as separate dimensions - not a reasoning score. "
             "Missing predictions remain visible."
         )
     )

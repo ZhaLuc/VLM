@@ -1,4 +1,4 @@
-"""Reward-hacking / reward–quality divergence diagnostics.
+"""Reward-hacking / reward-quality divergence diagnostics.
 
 Scientific posture
 ------------------
@@ -42,7 +42,7 @@ from magic_vlm.utils import (
 
 INTEGRITY_DISCLAIMER = (
     "High reward with low independent accuracy (or the reverse) is a possible "
-    "reward–quality divergence signal in aggregate. No single example proves "
+    "reward-quality divergence signal in aggregate. No single example proves "
     "reward hacking. Tags are observational (possible_*). Training reward is "
     "never the sole independent evaluator. Reward increase is not task "
     "improvement. Human evaluation is reported separately when available; "
@@ -625,7 +625,7 @@ def summarize_records(
                     "code": TAG_POSSIBLE_REWARD_UP_ACCURACY_FLAT,
                     "message": (
                         "Mean reward increased while independent accuracy did not "
-                        "improve. Possible reward–quality divergence (not proof)."
+                        "improve. Possible reward-quality divergence (not proof)."
                         + (
                             " Too few examples for a strong aggregate claim."
                             if too_few
@@ -773,7 +773,7 @@ def summarize_records(
 def render_hacking_markdown(report: Mapping[str, Any]) -> str:
     ba = report["before_after"]
     lines = [
-        "# Reward-hacking / reward–quality divergence diagnostics",
+        "# Reward-hacking / reward-quality divergence diagnostics",
         "",
         str(report["integrity_disclaimer"]),
         "",

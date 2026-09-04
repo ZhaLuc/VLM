@@ -9,7 +9,7 @@ description = "Research code for visual reasoning on magic/mentalism demonstrati
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Lucas", email = "lucaszhang1118@gmail.com" }]
+authors = [{ name = "ZhaLuc" }]
 dependencies = [
   "pyyaml>=6.0",
 ]

@@ -4,7 +4,7 @@ Scientific posture
 ------------------
 Accuracy alone does not measure reasoning. This module surfaces successes,
 failures, group variation, answer-frequency structure, and *observable*
-diagnostic tags. Tags are descriptive evidence hooks — they do **not** assert
+diagnostic tags. Tags are descriptive evidence hooks - they do **not** assert
 that a miss is a "reasoning failure."
 
 Do not retune evaluation protocols after inspecting held-out results.
@@ -24,7 +24,7 @@ from magic_vlm.evaluation import exact_match, is_parse_failure, normalize_label
 from magic_vlm.schemas import ExampleRecord
 from magic_vlm.utils import read_jsonl, write_json, write_jsonl
 
-# Observational tags only — wording avoids unsupported causal claims.
+# Observational tags only - wording avoids unsupported causal claims.
 TAG_PARSE_FAILURE = "parse_failure"
 TAG_INFERENCE_ERROR = "inference_error"
 TAG_EMPTY_RAW = "empty_raw_response"

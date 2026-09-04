@@ -598,7 +598,7 @@ class PreferenceGenerationMeta:
 class PreferencePair:
     """One human preference judgment over two raw candidate explanations.
 
-    ``response_a`` / ``response_b`` are stored exactly as produced — never
+    ``response_a`` / ``response_b`` are stored exactly as produced - never
     normalized, stripped of meaning, or rewritten at I/O time.
 
     ``pair_id`` is a *content* identity over (clip, instruction, A, B, task) for
@@ -797,7 +797,7 @@ class PreferencePair:
 
         if "response_a" not in payload or "response_b" not in payload:
             raise SchemaError("missing required field(s): response_a and/or response_b")
-        # Preserve exactly — do not strip.
+        # Preserve exactly - do not strip.
         response_a = payload["response_a"]
         response_b = payload["response_b"]
         if not isinstance(response_a, str) or not isinstance(response_b, str):

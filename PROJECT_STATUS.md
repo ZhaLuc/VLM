@@ -7,34 +7,34 @@
 - Overall: `PASS`
 - First real baseline ready: `YES`
 - Reason: Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Post-training (preferences/DPO/GRPO) was not completed. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization. Research paused for time/scope.
-- Generated: 2026-09-03T04:42:03+00:00
+- Generated: 2026-09-04T03:54:11+00:00
 
 ## Pipeline
 
-- `PASS` **Repository architecture** (evidence 3) — Package layout, docs, and configs present.
-- `PASS` **Environment setup** (evidence 3) — Torch with CUDA available.
-- `PASS` **Reproducibility / configuration** (evidence 3) — ExperimentConfig / initialize_experiment available.
-- `PASS` **Dataset schema** (evidence 3) — Schema load ok (4 records).
-- `PARTIAL` **Dataset validation** (evidence 3) — Toy manifest validates structurally; media checks report missing files (findings=5).
-- `PASS` **Video preprocessing** (evidence 4) — Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
-- `PASS` **VLM model loading** (evidence 4) — Stub and real Qwen load succeeded.
-- `PASS` **VLM video inference** (evidence 5) — Formal baseline run_id=baseline-real-v1 evaluated 1 gold example(s) with Qwen/Qwen2.5-VL-3B-Instruct.
-- `PASS` **Zero-shot baseline** (evidence 5) — REAL_ZERO_SHOT_BASELINE complete (run_id=baseline-real-v1, n=1, accuracy=1.0). Distinct from REAL_ZERO_SHOT_BASELINE_SMOKE_TEST.
-- `PARTIAL` **Baseline evaluation** (evidence 2) — Evaluation helpers exist; no real baseline metrics produced by this audit.
-- `PARTIAL` **Failure analysis** (evidence 2) — Analysis module present; not exercised on a real baseline run.
-- `PASS` **Preference schema** (evidence 2) — Preference schema/module importable; no human preference labels collected.
-- `PARTIAL` **Preference annotation workflow** (evidence 2) — Annotation workflow code exists; requires human judgments later.
-- `PARTIAL` **Preference validation** (evidence 2) — Preference validation entry exists; not run on real annotations.
-- `PARTIAL` **Bradley-Terry reward model** (evidence 2) — BT reward-model code present; real training not audited here.
-- `BLOCKED` **DPO** (evidence 2) — DPO stack code exists; real Qwen DPO needs CUDA + weights + preferences.
-- `PASS` **Reward interface** (evidence 3) — hidden_state_exact_match good/bad smoke passed.
-- `PARTIAL` **Temporal shuffle** (evidence 3) — Temporal shuffle applied in index smoke; real-video diagnostic not run.
-- `PARTIAL` **Temporal / causal reward** (evidence 2) — temporal_iou / causal annotation path exists; not run on real causal labels.
-- `PARTIAL` **Common experiment runner** (evidence 2) — Common runner module present; not re-dispatched in this audit beyond stub baseline.
-- `BLOCKED` **GRPO** (evidence 2) — GRPO code exists; real VLM GRPO blocked without CUDA/weights/rewards data.
-- `PARTIAL` **Comparative evaluation** (evidence 2) — Comparison module present; synthetic fixtures only unless real runs exist.
-- `PARTIAL` **Reward-hacking analysis** (evidence 2) — Reward-hacking diagnostics code present; needs before/after artifacts.
-- `PASS` **Research reporting** (evidence 3) — ReportConfig + build_experiment_report smoke on experiment_report_toy.
+- `PASS` **Repository architecture** (evidence 3) - Package layout, docs, and configs present.
+- `PASS` **Environment setup** (evidence 3) - Torch with CUDA available.
+- `PASS` **Reproducibility / configuration** (evidence 3) - ExperimentConfig / initialize_experiment available.
+- `PASS` **Dataset schema** (evidence 3) - Schema load ok (4 records).
+- `PARTIAL` **Dataset validation** (evidence 3) - Toy manifest validates structurally; media checks report missing files (findings=5).
+- `PASS` **Video preprocessing** (evidence 4) - Frame select/shuffle smoke ok; 12 real mp4(s) on disk.
+- `PASS` **VLM model loading** (evidence 4) - Stub and real Qwen load succeeded.
+- `PASS` **VLM video inference** (evidence 5) - Formal baseline run_id=baseline-real-v1 evaluated 1 gold example(s) with Qwen/Qwen2.5-VL-3B-Instruct.
+- `PASS` **Zero-shot baseline** (evidence 5) - REAL_ZERO_SHOT_BASELINE complete (run_id=baseline-real-v1, n=1, accuracy=1.0). Distinct from REAL_ZERO_SHOT_BASELINE_SMOKE_TEST.
+- `PARTIAL` **Baseline evaluation** (evidence 2) - Evaluation helpers exist; no real baseline metrics produced by this audit.
+- `PARTIAL` **Failure analysis** (evidence 2) - Analysis module present; not exercised on a real baseline run.
+- `PASS` **Preference schema** (evidence 2) - Preference schema/module importable; no human preference labels collected.
+- `PARTIAL` **Preference annotation workflow** (evidence 2) - Annotation workflow code exists; requires human judgments later.
+- `PARTIAL` **Preference validation** (evidence 2) - Preference validation entry exists; not run on real annotations.
+- `PARTIAL` **Bradley-Terry reward model** (evidence 2) - BT reward-model code present; real training not audited here.
+- `BLOCKED` **DPO** (evidence 2) - DPO stack code exists; real Qwen DPO needs CUDA + weights + preferences.
+- `PASS` **Reward interface** (evidence 3) - hidden_state_exact_match good/bad smoke passed.
+- `PARTIAL` **Temporal shuffle** (evidence 3) - Temporal shuffle applied in index smoke; real-video diagnostic not run.
+- `PARTIAL` **Temporal / causal reward** (evidence 2) - temporal_iou / causal annotation path exists; not run on real causal labels.
+- `PARTIAL` **Common experiment runner** (evidence 2) - Common runner module present; not re-dispatched in this audit beyond stub baseline.
+- `BLOCKED` **GRPO** (evidence 2) - GRPO code exists; real VLM GRPO blocked without CUDA/weights/rewards data.
+- `PARTIAL` **Comparative evaluation** (evidence 2) - Comparison module present; synthetic fixtures only unless real runs exist.
+- `PARTIAL` **Reward-hacking analysis** (evidence 2) - Reward-hacking diagnostics code present; needs before/after artifacts.
+- `PASS` **Research reporting** (evidence 3) - ReportConfig + build_experiment_report smoke on experiment_report_toy.
 
 ## What Works
 
@@ -65,14 +65,14 @@
 
 1. **What:** Human preference judgments (A/B explanations)
    - Where: data/annotations/ or preference JSONL
-   - Format: PreferencePair schema (magic_vlm.preferences / docs/WALKTHROUGH.md)
+   - Format: PreferencePair schema (magic_vlm.preferences / docs/OVERVIEW.md)
    - After: `magic-vlm-validate-preferences --input <prefs.jsonl>`
 2. **What:** Causal / temporal span annotations for advanced rewards
    - Where: Manifest causal/temporal fields
    - Format: TemporalSpan + CausalAnnotation on ExampleRecord
    - After: `magic-vlm-compare-objective --manifest ... --predictions ...`
 3. **What:** S6 is approved gold. Leave S7 PENDING. Source 4 more hidden-state clip(s) for a 5-clip pilot. Do not gold-label Wikimedia clips.
-   - Where: reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md
+   - Where: reports/hidden_state_candidates/index.html and docs/OPEN_ITEMS.md
    - Format: Human decision on pending proposals only; no unverified ground_truth
    - After: `magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml --run-id baseline-real-v1 --load-frames`
 
@@ -143,7 +143,7 @@
 
 ## First Research Experiment Readiness
 
-`YES` — Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Post-training (preferences/DPO/GRPO) was not completed. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization. Research paused for time/scope.
+`YES` - Formal zero-shot baseline run_id=baseline-real-v1 evaluated 1/1 approved gold example(s) with model Qwen/Qwen2.5-VL-3B-Instruct. Post-training (preferences/DPO/GRPO) was not completed. Pilot still needs 4 more clip(s) for a 5-clip set. n=1 does not establish generalization. Research paused for time/scope.
 
 ## Next Actions
 

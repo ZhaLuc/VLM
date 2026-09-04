@@ -572,7 +572,7 @@ def _smoke_real_qwen_load() -> dict[str, Any]:
             "model_id": model_id,
             "expected_fail": False,
             "error": None,
-            "note": "Unexpected success without download — local weights present.",
+            "note": "Unexpected success without download - local weights present.",
             "device": getattr(model, "device", None),
         }
     except Exception as exc:  # noqa: BLE001 - expected on this host
@@ -656,7 +656,7 @@ def _smoke_stub_baseline(root: Path) -> dict[str, Any]:
             "n_examples": getattr(summary, "n_examples", None),
             "overall_accuracy": getattr(summary, "overall_accuracy", None),
             "immutable": getattr(result, "immutable", None),
-            "note": "Stub baseline only — not a real VLM research run.",
+            "note": "Stub baseline only - not a real VLM research run.",
         }
     except Exception as exc:  # noqa: BLE001
         return {
@@ -893,7 +893,7 @@ def build_component_results(
             details={"stub": stub, "real": real},
         )
 
-    # VLM inference — no fake PASS without real video+model
+    # VLM inference - no fake PASS without real video+model
     if env.get("real_baseline_completed"):
         put(
             "vlm_inference",
@@ -956,7 +956,7 @@ def build_component_results(
             "zero_shot_baseline",
             "PARTIAL",
             3,
-            "Stub baseline ok and hardware/cache look ready — confirm a real Qwen run separately.",
+            "Stub baseline ok and hardware/cache look ready - confirm a real Qwen run separately.",
             tested=True,
             details=base,
         )
@@ -987,7 +987,7 @@ def build_component_results(
             details=base,
         )
 
-    # baseline evaluation / failure analysis — code exists; real run not done
+    # baseline evaluation / failure analysis - code exists; real run not done
     put(
         "baseline_evaluation",
         "PARTIAL" if _module_exists("magic_vlm.evaluation") else "NOT_IMPLEMENTED",
@@ -1026,7 +1026,7 @@ def build_component_results(
         tested=False,
     )
 
-    # reward model / dpo / grpo — blocked for real VLM
+    # reward model / dpo / grpo - blocked for real VLM
     put(
         "reward_model",
         "PARTIAL" if _module_exists("magic_vlm.reward_model") else "NOT_IMPLEMENTED",
@@ -1311,7 +1311,7 @@ def build_blockers(
                 id="approved_gold",
                 why="No approved hidden-state gold example is recorded",
                 need=(
-                    "In HUMAN_INPUT_REQUIRED.md, replace the S6 line "
+                    "In docs/OPEN_ITEMS.md (or candidate review), record an S6 decision "
                     "`APPROVE / EDIT / REJECT` with exactly one of those words"
                 ),
                 priority="now",
@@ -1427,7 +1427,7 @@ def build_human_input(
             priority="now",
             what="Provide at least one real magic/mentalism video clip with a hidden-state question and ground-truth label",
             where="data/videos/ (mp4) and a research manifest under data/ (JSONL)",
-            format="mp4 + ExampleRecord JSONL (see magic_vlm.schemas / docs/WALKTHROUGH.md)",
+            format="mp4 + ExampleRecord JSONL (see magic_vlm.schemas / docs/OVERVIEW.md)",
             after="magic-vlm-validate --manifest <your_manifest.jsonl>",
         ),
         HumanInputItem(
@@ -1448,7 +1448,7 @@ def build_human_input(
             priority="later",
             what="Human preference judgments (A/B explanations)",
             where="data/annotations/ or preference JSONL",
-            format="PreferencePair schema (magic_vlm.preferences / docs/WALKTHROUGH.md)",
+            format="PreferencePair schema (magic_vlm.preferences / docs/OVERVIEW.md)",
             after="magic-vlm-validate-preferences --input <prefs.jsonl>",
         ),
         HumanInputItem(
@@ -1482,7 +1482,7 @@ def build_human_input(
                         f"Source {clips_needed} more hidden-state clip(s) for a 5-clip pilot. "
                         "Do not gold-label Wikimedia clips."
                     ),
-                    where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+                    where="reports/hidden_state_candidates/index.html and docs/OPEN_ITEMS.md",
                     format="Human decision on pending proposals only; no unverified ground_truth",
                     after=(
                         "magic-vlm-baseline --config configs/baseline_qwen25vl_3b.yaml "
@@ -1498,11 +1498,11 @@ def build_human_input(
                 HumanInputItem(
                     priority="now",
                     what=(
-                        "Record an explicit S6 decision in HUMAN_INPUT_REQUIRED.md: "
+                        "Record an explicit S6 decision in docs/OPEN_ITEMS.md: "
                         "replace `APPROVE / EDIT / REJECT` with one word. "
                         "S7 stays pending. Do not gold-label Wikimedia clips."
                     ),
-                    where="reports/hidden_state_candidates/index.html and HUMAN_INPUT_REQUIRED.md",
+                    where="reports/hidden_state_candidates/index.html and docs/OPEN_ITEMS.md",
                     format="Human decision on pending proposals only; no unverified ground_truth",
                     after="Open reports/hidden_state_candidates/index.html",
                 ),
@@ -1558,7 +1558,7 @@ def render_markdown(audit: dict[str, Any]) -> str:
     for comp in audit["components"]:
         lines.append(
             f"- `{comp['status']}` **{comp['name']}** "
-            f"(evidence {comp['evidence_level']}) — {comp['notes']}"
+            f"(evidence {comp['evidence_level']}) - {comp['notes']}"
         )
     lines.extend(["", "## What Works", ""])
     for comp in audit["components"]:
@@ -1658,7 +1658,7 @@ def render_markdown(audit: dict[str, Any]) -> str:
     lines.append(f"- clips_needed_for_pilot: `{gold.get('clips_needed_for_pilot', 5)}`")
     lines.append("")
     lines.extend(["## First Research Experiment Readiness", ""])
-    lines.append(f"`{overall['first_baseline_ready']}` — {overall['reason']}")
+    lines.append(f"`{overall['first_baseline_ready']}` - {overall['reason']}")
     lines.extend(["", "## Next Actions", ""])
     for i, action in enumerate(audit.get("next_actions") or [], 1):
         lines.append(f"{i}. {action}")
@@ -1714,7 +1714,7 @@ def render_html(audit: dict[str, Any]) -> str:
             f"<td style='color:{_status_color(comp['status'])};font-weight:600'>"
             f"{html.escape(comp['status'])}</td>"
             f"<td>{html.escape(comp.get('evidence_label') or str(comp['evidence_level']))}</td>"
-            f"<td>{html.escape(comp.get('last_test') or '—')}</td>"
+            f"<td>{html.escape(comp.get('last_test') or '-')}</td>"
             f"<td>{html.escape(comp['notes'])}</td>"
             "</tr>"
         )
@@ -1736,7 +1736,7 @@ def render_html(audit: dict[str, Any]) -> str:
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Project Status — Magic VLM</title>
+<title>Project Status - Magic VLM</title>
 <style>
 body {{ font-family: Georgia, "Times New Roman", serif; margin: 0; background: #f6f3ee; color: #222; }}
 header {{ background: {banner_color}; color: #fff; padding: 1.5rem 2rem; }}
@@ -1771,10 +1771,10 @@ th {{ background: #efeae2; }}
   · REAL_VIDEO_INFERENCE={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_VIDEO_INFERENCE')))}
   · FIRST_BASELINE_READY={html.escape(str((overall.get('runtime_checks') or {}).get('FIRST_BASELINE_READY')))}
   · REAL_BASELINE_COMPLETED={html.escape(str((overall.get('runtime_checks') or {}).get('REAL_BASELINE_COMPLETED')))}</p>
-  <p>real_baseline_run_id: {html.escape(str(audit.get('environment', {}).get('real_baseline_run_id') or '—'))}
-  · model: {html.escape(str(audit.get('environment', {}).get('real_baseline_model_id') or '—'))}
+  <p>real_baseline_run_id: {html.escape(str(audit.get('environment', {}).get('real_baseline_run_id') or '-'))}
+  · model: {html.escape(str(audit.get('environment', {}).get('real_baseline_model_id') or '-'))}
   · examples_evaluated: {html.escape(str(audit.get('environment', {}).get('real_baseline_examples_evaluated') or 0))}
-  · accuracy: {html.escape(str(audit.get('environment', {}).get('real_baseline_accuracy') or '—'))}</p>
+  · accuracy: {html.escape(str(audit.get('environment', {}).get('real_baseline_accuracy') or '-'))}</p>
 
   <h2>Pipeline</h2>
   <div class="pipeline">{pipeline_html}</div>

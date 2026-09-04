@@ -122,7 +122,7 @@ def test_valid_dataset_passes_without_opencv_decode(media_root: Path) -> None:
     manifest = write_jsonl(media_root / "valid.jsonl", _valid_rows(media_root))
     # OpenCV will likely mark placeholder bytes unreadable; disable decode path
     # for the "structurally valid + files exist" case by patching: we use
-    # check_media True but accept unreadable as failure — so for valid pass we
+    # check_media True but accept unreadable as failure - so for valid pass we
     # need either real videos or no media check.
     report = validate_dataset(
         manifest,

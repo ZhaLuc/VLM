@@ -25,7 +25,7 @@
     "notes": "The 2011 article states it is open-access under a non-exclusive license between the authors and Frontiers Media SA, permitting use, distribution and reproduction in other forums if the original authors and source are credited and other Frontiers conditions are complied with. That is not the same as a confirmed Creative Commons deed on the supplementary MP4s. Do not record CC BY unless a human confirms it for these files."
   },
   "access": {
-    "retrieved_as": "Supplementary Movies 1–7 downloaded by the researcher (local filenames Movie1.MP4–Movie7.MP4)",
+    "retrieved_as": "Supplementary Movies 1-7 downloaded by the researcher (local filenames Movie1.MP4-Movie7.MP4)",
     "date_accessed": "2026-09-03",
     "source_filenames_on_disk": [
       "Movie1.MP4",
@@ -52,7 +52,7 @@
   },
   "paper_condition_map": {
     "S1": "Magic trick (fake toss, retain in right; includes Reveal of empty left hand)",
-    "S2": "Real toss (coin thrown right to left; includes Reveal). Sampled end frames show a coin on the open left palm — not an empty-hand vanish.",
+    "S2": "Real toss (coin thrown right to left; includes Reveal). Sampled end frames show a coin on the open left palm - not an empty-hand vanish.",
     "S3": "Two-coin fake toss (retain tossed coin in right; Reveal shows a second coin that had been hidden in the left)",
     "S4": "Final coin fake toss (no coin in right; tossing gesture; Reveal shows a coin that had been hidden in the left)",
     "S5": "No-coin fake toss (no coin; tossing gesture; Reveal of empty left)",

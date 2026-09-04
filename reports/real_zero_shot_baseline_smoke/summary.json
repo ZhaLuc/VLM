@@ -27,7 +27,7 @@
     "sampling_mode": "greedy"
   },
   "preprocessing": {
-    "source_path": "C:\\Users\\Lucas\\Downloads\\VLM\\data\\videos\\Movie6.MP4",
+    "source_path": "data\\videos\\Movie6.MP4",
     "ordered_indices": [
       0,
       31,
@@ -73,7 +73,7 @@
     "device_names": [
       "NVIDIA GeForce RTX 3060"
     ],
-    "python_executable": "C:\\Users\\Lucas\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "python_executable": "python",
     "platform": {
       "system": "Windows",
       "release": "10",

@@ -831,7 +831,7 @@ def _normalize_question(text: str) -> str:
 
 
 def _check_suspicious_patterns(records: Sequence[ExampleRecord]) -> list[Finding]:
-    """Heuristics only — never reported as definitive leakage."""
+    """Heuristics only - never reported as definitive leakage."""
     findings: list[Finding] = []
 
     # Same content_hash under different clip_ids
@@ -887,7 +887,7 @@ def _check_suspicious_patterns(records: Sequence[ExampleRecord]) -> list[Finding
                     )
                 )
 
-    # Repeated (trick, performer) pairs across many clips — annotation density review
+    # Repeated (trick, performer) pairs across many clips - annotation density review
     pair_clips: dict[tuple[str, str], set[str]] = defaultdict(set)
     for record in records:
         pair_clips[(record.trick_id, record.performer_id)].add(record.clip_id)

@@ -1,8 +1,8 @@
 {
   "schema": "magic_vlm.hidden_state_candidate_inventory.v1",
   "inspected_at": "2026-09-03",
-  "rubric": "docs/WALKTHROUGH.md",
-  "sourcing_guide": "docs/WALKTHROUGH.md",
+  "rubric": "docs/OVERVIEW.md",
+  "sourcing_guide": "docs/OVERVIEW.md",
   "gold_labels_written": true,
   "notes": "Wikimedia cups remain controls. Mac King S6 is human-approved gold. S7 remains PENDING. S1\u2013S5 are reveal/no-object controls.",
   "readiness": {

@@ -1,4 +1,4 @@
-"""Tests for reward-hacking / reward–quality divergence diagnostics."""
+"""Tests for reward-hacking / reward-quality divergence diagnostics."""
 
 from __future__ import annotations
 

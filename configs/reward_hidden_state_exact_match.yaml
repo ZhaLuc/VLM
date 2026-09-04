@@ -1,5 +1,5 @@
 # Objective reward for future GRPO (trainer not implemented here).
-# This is a binary label-correctness signal — not a reasoning metric.
+# This is a binary label-correctness signal - not a reasoning metric.
 
 reward:
   reward_id: hidden_state_exact_match

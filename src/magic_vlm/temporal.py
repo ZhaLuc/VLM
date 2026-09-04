@@ -111,7 +111,7 @@ def assert_shuffle_permutes(ordered: SampledClip, shuffled: SampledClip, *, seed
             f"shuffle_seed={seed} left presentation order unchanged "
             f"(identity permutation of {list(ordered.ordered_indices)}). "
             "Choose a seed that permutes the sampled frames; seed 0 is identity "
-            "for some short sample sets with this LCG Fisher–Yates shuffle."
+            "for some short sample sets with this LCG Fisher-Yates shuffle."
         )
 
 

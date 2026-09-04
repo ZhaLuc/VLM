@@ -8,7 +8,7 @@ captions name the experimental condition; they are not questions or answers.
 Final `question` / `ground_truth` stay `HUMAN_FILL_REQUIRED`. Do not fill
 those sentinels as hidden-state gold.
 
-See `docs/WALKTHROUGH.md` for the project summary and gold-label rules.
+See `docs/OVERVIEW.md` for the project summary and gold-label rules.
 Also see `reports/hidden_state_candidates/index.html`.
 
 Shared facts from the local MP4s (all five):
@@ -25,9 +25,9 @@ Paper: Rieiro, Martinez-Conde, Macknik (2013), PeerJ 1:e19, CC BY 3.0.
 | ---- | ----------------- | --------------- | -------- | ---------- | -------------- |
 | peerj_01_19_s003 Standard | Where is the ball that started on top of the right-hand cup immediately after it leaves the cup? | in the magician's hand | Video ~5.51s (ball in open palm) + paper Standard | HIGH for that visible event; not hidden-state | PENDING |
 | peerj_01_19_s004 No ball | At the start of the clip, is there a ball on top of the right-hand cup? | no | Opening frame empty right cup + paper No ball | HIGH for start state; not hidden-state | PENDING |
-| peerj_01_19_s005 Lift | During the third-cup action, does the magician lift the former top ball to about head/shoulder height? | yes | Video ~5.9–6.1s + paper Lift | HIGH for the lift; pocket destination not verified | PENDING |
+| peerj_01_19_s005 Lift | During the third-cup action, does the magician lift the former top ball to about head/shoulder height? | yes | Video ~5.9-6.1s + paper Lift | HIGH for the lift; pocket destination not verified | PENDING |
 | peerj_01_19_s006 Table | After the magician handles the right-hand cup, is there a ball sitting on the table beside the cups (not only under them)? | yes | Video ~6.2s and ~6.7s (fourth ball on table) + paper Table | HIGH for on-table ball; not hidden-state | PENDING |
-| peerj_01_19_s007 Drop | During the third-cup action, does the former top ball remain on the table next to the cups? | AMBIGUOUS | Paper: dropped off-screen/floor. Video: downward/off-table blur at ~6.0s; landing not clear | LOW–MEDIUM | PENDING |
+| peerj_01_19_s007 Drop | During the third-cup action, does the former top ball remain on the table next to the cups? | AMBIGUOUS | Paper: dropped off-screen/floor. Video: downward/off-table blur at ~6.0s; landing not clear | LOW-MEDIUM | PENDING |
 
 All five remain in the repository as controls. Hidden-state class:
 `NOT_SUITABLE_FOR_HIDDEN_STATE`. Control roles:

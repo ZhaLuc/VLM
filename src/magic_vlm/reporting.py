@@ -532,7 +532,7 @@ def build_experiment_report(config: ReportConfig) -> dict[str, Any]:
             "reward": "Programmatic or training reward statistics",
             "generalization": "Unseen-identity / wording slices when compared",
             "temporal": "Ordered vs shuffled diagnostic (not causal proof)",
-            "reward_hacking": "Possible reward–quality divergence (observational)",
+            "reward_hacking": "Possible reward-quality divergence (observational)",
             "reasoning_improvement": "NOT inferred automatically from any metric",
         },
     }

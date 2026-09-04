@@ -74,7 +74,7 @@ def test_deterministic_write(tmp_path: Path) -> None:
     b = generate_experiment_report(ReportConfig.from_dict(raw))
     md_a = Path(a.markdown_path).read_text(encoding="utf-8")
     md_b = Path(b.markdown_path).read_text(encoding="utf-8")
-    # Same content aside from paths inside artifact index — compare JSON core sections
+    # Same content aside from paths inside artifact index - compare JSON core sections
     ja = json.loads(Path(a.json_path).read_text(encoding="utf-8"))
     jb = json.loads(Path(b.json_path).read_text(encoding="utf-8"))
     for key in (

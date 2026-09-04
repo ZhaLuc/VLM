@@ -109,7 +109,7 @@ def main() -> int:
     inv["gold_labels_written"] = gold_eligible > 0
     inv["notes"] = (
         "Wikimedia cups remain controls. Mac King S6 is human-approved gold. "
-        "S7 remains PENDING. S1–S5 are reveal/no-object controls."
+        "S7 remains PENDING. S1-S5 are reveal/no-object controls."
     )
     inv["readiness"] = {
         "first_baseline_dataset": "DATA READY" if gold_eligible else "NOT READY",

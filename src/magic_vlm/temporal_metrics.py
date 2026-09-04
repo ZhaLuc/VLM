@@ -10,7 +10,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from typing import Any, Sequence
 
-# Matches ``magic_vlm.video._shuffle_indices`` (LCG Fisher–Yates).
+# Matches ``magic_vlm.video._shuffle_indices`` (LCG Fisher-Yates).
 SHUFFLE_METHOD = "lcg_fisher_yates_permutation_of_sampled_indices"
 
 INTEGRITY_NOTE = (

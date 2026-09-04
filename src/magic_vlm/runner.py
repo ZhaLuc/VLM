@@ -93,7 +93,7 @@ def list_supported_experiments() -> dict[str, str]:
         "grpo": "GRPO post-training on objective reward (GRPOConfigSpec)",
         "reward_model": "Bradley-Terry text reward model (RewardModelConfig)",
         "comparison": "Cross-method locked held-out comparative evaluation",
-        "reward_hacking": "Reward–quality divergence diagnostics (observational)",
+        "reward_hacking": "Reward-quality divergence diagnostics (observational)",
     }
 
 

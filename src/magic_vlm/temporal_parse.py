@@ -116,11 +116,11 @@ _SECONDS_PATTERNS = (
         re.IGNORECASE,
     ),
     re.compile(
-        r"interval\s*[=:]\s*\[?\s*([+-]?(?:\d+\.?\d*|\.\d+))\s*[,–-]\s*([+-]?(?:\d+\.?\d*|\.\d+))\s*\]?\s*(?:s|sec|seconds)?",
+        r"interval\s*[=:]\s*\[?\s*([+-]?(?:\d+\.?\d*|\.\d+))\s*[,--]\s*([+-]?(?:\d+\.?\d*|\.\d+))\s*\]?\s*(?:s|sec|seconds)?",
         re.IGNORECASE,
     ),
     re.compile(
-        r"(?:from\s+)?([+-]?(?:\d+\.?\d*|\.\d+))\s*(?:s|sec|seconds)\s*(?:-|–|to)\s*"
+        r"(?:from\s+)?([+-]?(?:\d+\.?\d*|\.\d+))\s*(?:s|sec|seconds)\s*(?:-|-|to)\s*"
         r"([+-]?(?:\d+\.?\d*|\.\d+))\s*(?:s|sec|seconds)?",
         re.IGNORECASE,
     ),
@@ -132,7 +132,7 @@ _FRAMES_PATTERNS = (
         re.IGNORECASE,
     ),
     re.compile(
-        r"frames?\s*[=:]?\s*(\d+)\s*(?:-|–|to)\s*(\d+)",
+        r"frames?\s*[=:]?\s*(\d+)\s*(?:-|-|to)\s*(\d+)",
         re.IGNORECASE,
     ),
 )

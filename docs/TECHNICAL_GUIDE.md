@@ -1,34 +1,32 @@
-# Full Study Guide (for you, before the meeting)
+# Technical guide
 
-This document is **for your own preparation**. It is not the meeting slides.
+Professional reference for this repository: research scope, system design, methods, verified results, and limitations.
 
-For the meeting itself, open [`WALKTHROUGH.md`](WALKTHROUGH.md) and scroll the diagrams while you talk.
+Companion visual page: [OVERVIEW.md](OVERVIEW.md).
 
-Here, the goal is different: after reading this, you should be able to explain **what the project is**, **what you built**, **what actually worked**, **what did not happen**, and **what every important technical word means** - in plain language, but with enough depth that follow-up questions do not surprise you.
-
-**Honesty first:** this is a **paused research prototype**. The real completed experiment is a **zero-shot** run on **one** approved example (`n = 1`). Post-training was prepared in code but **not** completed on real preference/reward data.
+**Status:** paused research prototype. The completed real experiment is a **zero-shot** evaluation on **one** human-approved example (`n = 1`). Preference collection and DPO / GRPO post-training on the real VLM were **not** completed.
 
 ---
 
-## How to use this guide
+## How to read this guide
 
-1. Read sections 1-4 once for the big picture.
-2. Read section 5 (glossary) and keep it open while you study later sections.
-3. Read sections 6-11 carefully - that is "what the system actually does."
-4. Read sections 12-16 - that is "what learning would have meant."
-5. Read section 17 - that is your result and how to talk about it without overclaiming.
-6. Drill section 18 (Q&A) out loud.
-7. The night before: skim [`WALKTHROUGH.md`](WALKTHROUGH.md), then re-read section 17 and 18 here.
+1. Sections 1-4: scope and mental model.
+2. Section 5: glossary.
+3. Sections 6-11: data, preprocessing, inference, evaluation.
+4. Sections 12-16: process history and learning methods.
+5. Section 17: scientific interpretation of the n = 1 result.
+6. Section 18: anticipated technical questions.
+7. Sections 19-20: file map and checklist.
 
 ---
 
-## 1. The project in one honest paragraph
+## 1. Project summary
 
-You built a research codebase that can take a short magic video, sample frames, ask an open vision-language model a question about a **hidden state** (for example, which hand still holds a coin after an apparent transfer), record the model's raw text answer, and score it against a human-approved answer key.
+This repository is a research codebase that can take a short magic video, sample frames, ask an open vision-language model a question about a **hidden state** (for example, which hand still holds a coin after an apparent transfer), record the model's raw text answer, and score it against a human-approved answer key.
 
-You successfully ran that full path on real hardware with a real model (**Qwen2.5-VL-3B-Instruct**) on one human-approved Mac King clip (**S6**). The model answered `right`, which matched the ground truth. That proves the **pipeline** works.
+The project successfully ran that full path on real hardware with a real model (**Qwen2.5-VL-3B-Instruct**) on one human-approved Mac King clip (**S6**). The model answered `right`, which matched the ground truth. That proves the **pipeline** works.
 
-You did **not** finish the intended scientific study: collecting a larger gold set, collecting human preferences, training with DPO or GRPO, and measuring whether post-training actually improves hidden-state reasoning without shortcut learning.
+The intended scientific study was **not** finished: collecting a larger gold set, collecting human preferences, training with DPO or GRPO, and measuring whether post-training actually improves hidden-state reasoning without shortcut learning.
 
 ---
 
@@ -42,7 +40,7 @@ Break that into pieces:
 
 | Phrase | Meaning |
 |--------|---------|
-| open VLM | A model whose weights you can load yourself (here, Qwen), not a closed API black box |
+| open VLM | A publicly loadable model (here, Qwen), not a closed API black box |
 | hidden states | The true situation is not fully visible at the end (coin still in a hand, but not shown) |
 | explain mechanisms | Not only "left/right," but eventually "what method happened" |
 | post-training | Extra training **after** the public pretrained checkpoint |
@@ -56,8 +54,6 @@ This is scientific because the hard part is not "make a chatbot that watches vid
 ---
 
 ## 3. What this project is not
-
-Say these out loud so you do not accidentally mis-describe it:
 
 - Not robotics
 - Not physically performing magic
@@ -87,9 +83,7 @@ Layer C - Learning methods (code exists; real study not done)
   preferences, reward model, DPO, GRPO, temporal shuffle diagnostics
 ```
 
-When someone asks "what did you build?", answer with **Layer B**.  
-When someone asks "what was the research goal?", answer with **Layer A**.  
-When someone asks "did training help?", answer: **Layer C was not completed.**
+Layer B is the implemented engineering spine. Layer A is the research goal. Layer C (learning methods) was not completed as a real study.
 
 ---
 
@@ -107,22 +101,22 @@ A model that turns images into numerical features.
 A model that combines more than one kind of input (here: vision + language).
 
 **VLM (vision-language model)**  
-A multimodal model that takes images/video frames and text, and usually outputs text. Your model is a VLM.
+A multimodal model that takes images/video frames and text, and usually outputs text. The model is a VLM.
 
 **Checkpoint / weights / parameters**  
 The saved numbers that define the model's behavior. "Loading Qwen" means loading those numbers into memory.
 
 **Base / Instruct**  
-"Base" often means pretrained for next-token prediction. "Instruct" means further tuned to follow instructions / answer questions. You used **Qwen2.5-VL-3B-Instruct**.
+"Base" often means pretrained for next-token prediction. "Instruct" means further tuned to follow instructions / answer questions. The runs used **Qwen2.5-VL-3B-Instruct**.
 
 **Zero-shot**  
-Ask the model to do the task **without** task-specific fine-tuning for your magic dataset. Your real run was zero-shot.
+Ask the model to do the task **without** task-specific fine-tuning for this magic dataset. The real run was zero-shot.
 
 **Fine-tuning / post-training**  
 Updating the checkpoint further on your task data or preference/reward signals.
 
 **LoRA / PEFT**  
-Parameter-efficient fine-tuning: train small adapter weights instead of all model weights. Your DPO/GRPO scaffolds are built around this idea for memory reasons. You did not complete real VLM post-training.
+Parameter-efficient fine-tuning: train small adapter weights instead of all model weights. Your DPO/GRPO scaffolds are built around this idea for memory reasons. The project did not complete real VLM post-training.
 
 ### Tokens and generation
 
@@ -139,13 +133,13 @@ Normalized chance of each next token (often via softmax).
 Repeatedly choosing next tokens until the answer is complete.
 
 **Greedy decoding**  
-Always pick the highest-probability next token. Your formal baseline used this (`temperature: 0.0`, `do_sample: false`).
+Always pick the highest-probability next token. The formal baseline used this (`temperature: 0.0`, `do_sample: false`).
 
 **Temperature / sampling**  
 Higher temperature / sampling makes answers more random. Your baseline avoided that for reproducibility.
 
 **Raw text vs parsed answer**  
-Raw text is exactly what the model emitted. Parsing extracts a comparable label (for example `right`). Your pipeline stores both so you can audit mistakes.
+Raw text is exactly what the model emitted. Parsing extracts a comparable label (for example `right`). The pipeline stores both so mistakes remain auditable.
 
 ### Data and evaluation
 
@@ -242,9 +236,9 @@ Magic demonstrations are not chosen because the project is "about entertainment.
 4. **Apparent vs true cause:** the visible "toss" may not be the real transfer.
 5. **Explanation:** beyond a one-word label, one may ask what method occurred.
 
-That is why transparent cups and late reveals were rejected as gold: if the answer is already visible, you are no longer testing hidden-state inference.
+That is why transparent cups and late reveals were rejected as gold: if the answer is already visible, the task is no longer hidden-state inference.
 
-Source material you actually used includes Mac King supplementary videos from Cui et al. 2011 (Frontiers in Human Neuroscience), locally `Movie1.MP4` ... `Movie7.MP4`. PeerJ / Wikimedia cups-and-balls clips were inspected and kept as controls.
+Source material used in this repository includes Mac King supplementary videos from Cui et al. 2011 (Frontiers in Human Neuroscience), locally `Movie1.MP4` ... `Movie7.MP4`. PeerJ / Wikimedia cups-and-balls clips were inspected and kept as controls.
 
 ---
 
@@ -263,9 +257,9 @@ At a high level:
 
 ### Why this is not "classify the last frame"
 
-If you only looked at the ending pose / gaze, you might guess left. The correct answer depends on understanding the earlier fake transfer. That is why video (ordered frames) matters more than a single still.
+Looking only at the ending pose / gaze can suggest left. The correct answer depends on understanding the earlier fake transfer. That is why video (ordered frames) matters more than a single still.
 
-### Related clips (so you can discuss the set)
+### Related clips
 
 | Clip | Role |
 |------|------|
@@ -275,7 +269,7 @@ If you only looked at the ending pose / gaze, you might guess left. The correct 
 | **S6** | No-reveal fake toss - **only approved gold** |
 | S7 | No-reveal real toss candidate - still **PENDING** |
 
-You did not lower standards just to get five gold clips. That is a feature, not a bug.
+The project did not lower standards just to get five gold clips. That is a feature, not a bug.
 
 ---
 
@@ -289,7 +283,7 @@ Each scored example is basically:
 - split: usually `held_out` for final eval
 - provenance: where it came from, license notes, who approved it
 
-Why so much metadata? Because without trick/performer/camera tags, you cannot detect leakage or claim generalization.
+Why so much metadata? Because without trick/performer/camera tags, leakage detection and generalization claims become unreliable.
 
 Gold file:
 
@@ -301,7 +295,7 @@ Human decisions / reviews live under `data/examples/` (for example `human_review
 
 ## 9. Preprocessing: what happens to the video
 
-The model does not "watch" the MP4 as a continuous movie in your pipeline the way a human does. Your project:
+The model does not "watch" the MP4 as a continuous movie in the pipeline the way a human does. Your project:
 
 1. Opens the video.
 2. Chooses a small set of frame indices.
@@ -405,13 +399,11 @@ Evidence folders:
 
 ---
 
-## 12. What you actually did (process timeline)
-
-Use this as your "process" story.
+## 12. Process chronology
 
 ### A. Define the research scope
 
-You framed a post-training study on hidden-state / explanation reasoning with anti-shortcut evaluation, not a generic captioning app.
+The work framed a post-training study on hidden-state / explanation reasoning with anti-shortcut evaluation, not a generic captioning app.
 
 ### B. Build repository architecture
 
@@ -454,7 +446,7 @@ Not because the code collapsed. Because the dataset was too small and time ran o
 
 ### 13.1 Pretraining (already done by others)
 
-Before you touched anything, Qwen was trained on huge multimodal data to predict tokens and follow instructions. You start from that public Instruct checkpoint.
+Before this project, Qwen was trained on huge multimodal data to predict tokens and follow instructions. Training starts from that public Instruct checkpoint.
 
 ### 13.2 SFT (optional, not your main completed path)
 
@@ -470,7 +462,7 @@ Example:
 - Answer B: "It moved to the left hand."
 - Human: A is better.
 
-That pair is supervision for explanation quality. **You did not collect a real preference dataset.**
+That pair is supervision for explanation quality. **The project did not collect a real preference dataset.**
 
 ### 13.4 Reward models and Bradley-Terry
 
@@ -535,11 +527,11 @@ Better-than-average answers get positive advantage; worse ones get negative. Rel
 
 Same frames, different order. If accuracy collapses, the model was sensitive to order (or at least to that presentation). If nothing changes, maybe it ignored order or used non-temporal shortcuts.
 
-Your formal baseline did **not** shuffle. Shuffle tooling exists for later diagnostics.
+The formal baseline did **not** shuffle. Shuffle tooling exists for later diagnostics.
 
 ### Causal reasoning
 
-Do not casually claim your project "tests causation" as a completed result. Magic makes causal labels hard because apparent cause and true mechanism disagree by design. The repo has hooks for richer temporal/causal annotations, but that study was not completed.
+Do not casually claim this project "tests causation" as a completed result. Magic makes causal labels hard because apparent cause and true mechanism disagree by design. The repo has hooks for richer temporal/causal annotations, but that study was not completed.
 
 Safe sentence:
 
@@ -590,9 +582,10 @@ This is why gold standards, held-out splits, and metrics that are not identical 
 - reward-hacking before/after analysis on real post-training
 - 5-clip pilot and 15-25 clip benchmark
 
-If asked "so you implemented DPO?", answer precisely:
+If asked whether DPO was completed:
 
-> "I implemented the training path and tested it on smoke/toy setups. I did not run DPO on the real VLM with real magic preference data."
+> The repository implements the training path and includes smoke/toy tests. Real DPO on the VLM with magic preference data was not completed.
+
 
 ---
 
@@ -616,19 +609,17 @@ If asked "so you implemented DPO?", answer precisely:
 
 ### Why sample size matters
 
-With one example, you cannot estimate a stable success rate. You cannot separate luck, short-answer priors (`left`/`right`), or genuine multi-frame inference. You need more approved clips before any learning claim.
+With one example, a stable success rate cannot be estimated. Luck, short-answer priors (`left`/`right`), and genuine multi-frame inference cannot be separated. More approved clips are required before any learning claim.
 
 ### Best one-sentence interpretation
 
 > The repository successfully demonstrated a real zero-shot multimodal inference pipeline on one human-approved hidden-state example, but the planned post-training research experiment was not completed.
 
-Memorize that sentence.
-
 ---
 
-## 18. Professor Q&A drill (practice out loud)
+## 18. Anticipated questions
 
-**Q: What did you build?**  
+**Q: What does the repository contain?**  
 A: A gated evaluation pipeline for hidden-state VLM questions on magic clips, plus unfinished DPO/GRPO scaffolds.
 
 **Q: What actually worked?**  
@@ -672,19 +663,19 @@ A: `reports/real_zero_shot_baseline/`, config `configs/baseline_qwen25vl_3b.yaml
 
 ---
 
-## 19. File map (so you can point in the repo)
+## 19. File map
 
 | Need | Path |
 |------|------|
-| Meeting talk track + images | `docs/WALKTHROUGH.md` |
-| This deep study guide | `docs/STUDY_GUIDE.md` |
+| Visual overview | `docs/OVERVIEW.md` |
+| Technical guide | `docs/TECHNICAL_GUIDE.md` |
+| Open items | `docs/OPEN_ITEMS.md` |
 | Status banner | `PROJECT_STATUS.md` |
 | Gold example | `data/examples/hidden_state_pilot.jsonl` |
 | Formal result | `reports/real_zero_shot_baseline/` |
 | Baseline config | `configs/baseline_qwen25vl_3b.yaml` |
 | Package code | `src/magic_vlm/` |
-| Tests | `tests/` (230 passed at last cleanup) |
-| Original long research plan notes | `magic-vlm-research-plan-v2.md` (design intent; not completed results) |
+| Tests | `tests/` |
 
 ### Important modules
 
@@ -705,24 +696,19 @@ A: `reports/real_zero_shot_baseline/`, config `configs/baseline_qwen25vl_3b.yaml
 
 ---
 
-## 20. A study checklist for the day before
+## 20. Review checklist
 
-- [ ] I can state the research question in one breath.
-- [ ] I can explain VLM vs LLM without notes.
-- [ ] I can walk S6: visible right -> fake toss -> hidden -> question -> `right`.
-- [ ] I can explain preprocessing: 8 uniform frames, no shuffle in the formal run.
-- [ ] I can explain zero-shot greedy decoding.
-- [ ] I can say what n = 1 does and does not mean.
-- [ ] I can explain DPO vs GRPO in one sentence each.
-- [ ] I can explain why Wikimedia clips were rejected.
-- [ ] I can explain why the project paused without sounding defensive.
-- [ ] I can point to the evidence folder.
-- [ ] I can open `WALKTHROUGH.md` and talk while scrolling.
+- [ ] Research question stated precisely
+- [ ] VLM vs LLM distinction clear
+- [ ] S6 task narrative clear (visible right -> fake toss -> hidden -> question -> `right`)
+- [ ] Preprocessing known (8 uniform frames; no shuffle in the formal run)
+- [ ] Zero-shot greedy decoding settings known
+- [ ] Limits of n = 1 understood
+- [ ] DPO vs GRPO each summarized in one sentence
+- [ ] Wikimedia rejection rationale clear
+- [ ] Pause framed as scope/time, not software failure
+- [ ] Evidence paths known (`reports/real_zero_shot_baseline/`)
+
 
 ---
 
-## 21. Final rehearsal script (2 minutes)
-
-> I'm studying whether post-training can improve an open VLM on hidden-state reasoning in magic videos without shortcut learning. I built a full evaluation spine: validated examples, frame sampling, Qwen2.5-VL inference, exact-match scoring, and artifact logging. I rejected leaky Wikimedia clips as gold and human-approved one Mac King no-reveal clip, S6. On that clip, untouched Qwen2.5-VL-3B answered "right," matching ground truth. That is n equals one: it shows the pipeline is real, not that the model has general reasoning or that training helped. DPO and GRPO code is scaffolded, but I paused before real post-training because I still needed more gold clips and preference labels. Next step would be expand the gold set, collect preferences, then train and evaluate under held-out and anti-shortcut checks.
-
-If you can say that cleanly, you are ready for the meeting. Use [`WALKTHROUGH.md`](WALKTHROUGH.md) as the visual companion while you speak.

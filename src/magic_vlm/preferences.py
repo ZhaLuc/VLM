@@ -100,7 +100,7 @@ def compute_content_pair_id(
     """Stable content identity for duplicate detection.
 
     Hashes exact clip / instruction / raw responses / task. Does not include
-    annotator, winner, or generation knobs — those identify judgments, not pairs.
+    annotator, winner, or generation knobs - those identify judgments, not pairs.
     """
     task_value = task.value if isinstance(task, TaskType) else str(task)
     payload = {
@@ -325,7 +325,7 @@ def validate_preference_pairs(
                     severity=PreferenceSeverity.REVIEW,
                     code="held_out_preference",
                     message=(
-                        "Preference on held_out split — confirm this is intentional "
+                        "Preference on held_out split - confirm this is intentional "
                         "and not used for reward-model / DPO training"
                     ),
                     judgment_id=pair.judgment_id,

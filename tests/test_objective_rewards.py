@@ -166,7 +166,7 @@ def test_evaluate_batch() -> None:
         _art(raw="Answer: left", parsed="left"),
         _art(raw="Answer: right", parsed="right"),
     ]
-    # second artifact needs matching example id for batch helper — adjust
+    # second artifact needs matching example id for batch helper - adjust
     arts[1] = InferenceArtifact(
         example_id="e2",
         model_id="stub",

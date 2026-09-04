@@ -300,7 +300,7 @@ class ExactMatchReward:
 
 @dataclass(frozen=True)
 class LengthPenaltyReward:
-    """Diagnostic reward-hacking probe only — **not** for GRPO composition.
+    """Diagnostic reward-hacking probe only - **not** for GRPO composition.
 
     Intentionally multiplies a base score by a length factor. Do not register
     this as a production GRPO objective; the modular interface forbids combining
